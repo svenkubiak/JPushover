@@ -11,7 +11,7 @@ public enum Constants {
     PRIORITY("priority"),
     TIMESTAMP("timestamp"),
     URL("url"),
-    URLTITLE("urltile");
+    URLTITLE("urltitle");
 
     private final String value;
 
@@ -19,7 +19,7 @@ public enum Constants {
         this.value = value;
     }
 
-    public String value() {
+    public String get() {
         return this.value;
     }
 }

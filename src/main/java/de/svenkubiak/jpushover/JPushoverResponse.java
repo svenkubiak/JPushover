@@ -1,25 +1,25 @@
 package de.svenkubiak.jpushover;
 
 public class JPushoverResponse {
-    private String response;
-    private int httpStatus;
-    private boolean successful;
+    private String pushoverResponse;
+    private int pushoverHttpStatus;
+    private boolean pushoverSuccessful;
     
     public JPushoverResponse(){
     }
 
     public JPushoverResponse response(String response) {
-        this.response = response;
+        this.pushoverResponse = response;
         return this;
     }
 
     public JPushoverResponse httpStatus(int httpStatus) {
-        this.httpStatus = httpStatus;
+        this.pushoverHttpStatus = httpStatus;
         return this;
     }
 
     public JPushoverResponse isSuccessful(boolean successful) {
-        this.successful = successful;
+        this.pushoverSuccessful = successful;
         return this;
     }
 
@@ -28,7 +28,7 @@ public class JPushoverResponse {
      * @return String
      */
     public String getResponse() {
-        return response;
+        return pushoverResponse;
     }
 
     /**
@@ -36,7 +36,7 @@ public class JPushoverResponse {
      * @return int
      */
     public int getHttpStatus() {
-        return httpStatus;
+        return pushoverHttpStatus;
     }
 
     /**
@@ -44,6 +44,6 @@ public class JPushoverResponse {
      * @return boolen
      */
     public boolean isSuccessful() {
-        return successful;
+        return pushoverSuccessful;
     }
 }

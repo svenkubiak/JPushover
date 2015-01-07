@@ -21,16 +21,16 @@ import de.svenkubiak.jpushover.enums.Sound;
 public class JPushover {
     private static final Logger LOG = LoggerFactory.getLogger(JPushover.class);
 
-    private String token;
-    private String user;
-    private String message;
-    private String device;
-    private String title;
-    private String url;
-    private String urlTitle;
-    private String timestamp;
-    private Priority priority;
-    private Sound sound;
+    private String pushoverToken;
+    private String pushoverUser;
+    private String pushoverMessage;
+    private String pushoverDevice;
+    private String pushoverTitle;
+    private String pushoverUrl;
+    private String pushoverUrlTitle;
+    private String pushoverTimestamp;
+    private Priority pushoverPriority;
+    private Sound pushoverSound;
 
     public JPushover(){
     }
@@ -43,7 +43,7 @@ public class JPushover {
      * @return JPushover instance
      */
     public JPushover token(String token) {
-        this.token = token;
+        this.pushoverToken = token;
         return this;
     }
 
@@ -56,7 +56,7 @@ public class JPushover {
      * @return JPushover instance
      */
     public JPushover user(String user) {
-        this.user = user;
+        this.pushoverUser = user;
         return this;
     }
 
@@ -68,7 +68,7 @@ public class JPushover {
      * @return JPushover instance
      */
     public JPushover message(String message) {
-        this.message = message;
+        this.pushoverMessage = message;
         return this;
     }
 
@@ -81,7 +81,7 @@ public class JPushover {
      * @return JPushover instance
      */
     public JPushover device(String device) {
-        this.device = device;
+        this.pushoverDevice = device;
         return this;
     }
 
@@ -93,7 +93,7 @@ public class JPushover {
      * @return JPushover instance
      */
     public JPushover title(String title) {
-        this.title = title;
+        this.pushoverTitle = title;
         return this;
     }
 
@@ -105,7 +105,7 @@ public class JPushover {
      * @return JPushover instance
      */
     public JPushover url(String url) {
-        this.url = url;
+        this.pushoverUrl = url;
         return this;
     }
 
@@ -116,7 +116,7 @@ public class JPushover {
      * @return JPushover instance
      */
     public JPushover urlTitle(String urlTitle) {
-        this.urlTitle = urlTitle;
+        this.pushoverUrlTitle = urlTitle;
         return this;
     }
 
@@ -128,22 +128,19 @@ public class JPushover {
      * @return JPushover instance
      */
     public JPushover timestamp(String timestamp) {
-        this.timestamp = timestamp;
+        this.pushoverTimestamp = timestamp;
         return this;
     }
 
     /**
-     * Send as LOWESET to generate no notification/alert,
-     * LOW to always send as a quiet notification,
-     * NORMAL to display as high-priority and bypass the user's quiet hours,
-     * or emergence to also require confirmation from the user
+     * Priority of the message based on the @see <a href="https://pushover.net/api#priority">documentation</a>
      * (optional)
      * 
      * @param priority
      * @return JPushover instance
      */
     public JPushover priority(Priority priority) {
-        this.priority = priority;
+        this.pushoverPriority = priority;
         return this;
     }
 
@@ -156,7 +153,7 @@ public class JPushover {
      * @return JPushover instance
      */
     public JPushover sound(Sound sound) {
-        this.sound = sound;
+        this.pushoverSound = sound;
         return this;
     }
 
@@ -164,27 +161,27 @@ public class JPushover {
      * Send the message to pushover
      */
     public JPushoverResponse push() {
-        Preconditions.checkNotNull(this.token, "Token is required");
-        Preconditions.checkNotNull(this.user, "User is required");
-        Preconditions.checkNotNull(this.message, "Message is required");
+        Preconditions.checkNotNull(this.pushoverToken, "Token is required");
+        Preconditions.checkNotNull(this.pushoverUser, "User is required");
+        Preconditions.checkNotNull(this.pushoverMessage, "Message is required");
         
         List<NameValuePair> params = Form.form()
-                .add(Constants.TOKEN.value(), this.token)
-                .add(Constants.USER.value(), this.user)
-                .add(Constants.MESSAGE.value(), this.message)
-                .add(Constants.DEVICE.value(), this.device)
-                .add(Constants.TITLE.value(), this.title)
-                .add(Constants.URL.value(), this.url)
-                .add(Constants.URLTITLE.value(), this.urlTitle)
-                .add(Constants.PRIORITY.value(), this.priority.value())
-                .add(Constants.TIMESTAMP.value(), this.timestamp)
-                .add(Constants.SOUND.value(), this.sound.value())
+                .add(Constants.TOKEN.get(), this.pushoverToken)
+                .add(Constants.USER.get(), this.pushoverUser)
+                .add(Constants.MESSAGE.get(), this.pushoverMessage)
+                .add(Constants.DEVICE.get(), this.pushoverDevice)
+                .add(Constants.TITLE.get(), this.pushoverTitle)
+                .add(Constants.URL.get(), this.pushoverUrl)
+                .add(Constants.URLTITLE.get(), this.pushoverUrlTitle)
+                .add(Constants.PRIORITY.get(), this.pushoverPriority.get())
+                .add(Constants.TIMESTAMP.get(), this.pushoverTimestamp)
+                .add(Constants.SOUND.get(), this.pushoverSound.get())
                 .build();
 
         HttpResponse httpResponse = null;
         JPushoverResponse jPushoverResponse = null;
         try {
-            httpResponse = Request.Post(Constants.PUSHOVER_URL.value()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
+            httpResponse = Request.Post(Constants.PUSHOVER_URL.get()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
             
             if (httpResponse != null) {
                 int status = httpResponse.getStatusLine().getStatusCode();
