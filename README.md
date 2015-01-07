@@ -1,5 +1,5 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.svenkubiak/jpushover/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.svenkubiak/jpushover)
-[![Build Status](https://secure.travis-ci.org/svenkubiak/jpushover.png?branch=master)](http://travis-ci.org/svenkubiak/jpushover)
+[![Build Status](https://secure.travis-ci.org/svenkubiak/JPushover.png?branch=master)](http://travis-ci.org/svenkubiak/JPushover)
 
 JPushover
 ================
