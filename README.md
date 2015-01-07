@@ -43,4 +43,3 @@ JPushoverResponse will return the raw HTTP status code, along with the raw JSON 
 
 [1]: https://pushover.net
 [2]: https://pushover.net/api
-[3]: https://flattr.com/thing/037fd7045120e788b1d42b188ade4fd1
