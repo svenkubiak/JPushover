@@ -22,7 +22,7 @@ Usage
 	new JPushover()
 		.token("MyToken")
 		.user("MyUser")
-		.message("MyPusher")
+		.message("MyMessage")
 		.push();
 		
 If you want more information and/or the response from Pushover API, use the JPushoverResponse object.
@@ -30,7 +30,7 @@ If you want more information and/or the response from Pushover API, use the JPus
 	JPushoverResponse jPushoverResponse = new JPushover()
 		.token("MyToken")
 		.user("MyUser")
-		.message("MyPusher")
+		.message("MyMessage")
 		.push();
 		
 JPushoverResponse will return the raw HTTP status code, along with the raw JSON response and a convenient boolean if the request was successful or not.	
