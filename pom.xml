@@ -30,7 +30,7 @@
 		<tag>HEAD</tag>
 	</scm>
 	<name>JPushover</name>
-	<description>Convenient class for sending messages to pushover in Java project</description>
+	<description>Convenient class for sending messages to Pushover in Java project</description>
 	<url>https://github.com/svenkubiak/JPushover</url>
 	<build>
 		<plugins>
