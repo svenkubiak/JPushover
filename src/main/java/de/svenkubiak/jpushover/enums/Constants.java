@@ -1,5 +1,10 @@
 package de.svenkubiak.jpushover.enums;
 
+/**
+ * 
+ * @author svenkubiak
+ *
+ */
 public enum Constants {
     PUSHOVER_URL("https://api.pushover.net/1/messages.json"),
     MESSAGE("message"),

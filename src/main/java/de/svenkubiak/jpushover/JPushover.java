@@ -18,6 +18,11 @@ import de.svenkubiak.jpushover.enums.Constants;
 import de.svenkubiak.jpushover.enums.Priority;
 import de.svenkubiak.jpushover.enums.Sound;
 
+/**
+ * 
+ * @author svenkubiak
+ *
+ */
 public class JPushover {
     private static final Logger LOG = LoggerFactory.getLogger(JPushover.class);
 
@@ -39,7 +44,7 @@ public class JPushover {
      * Your application's API token
      * (required) 
      * 
-     * @param token
+     * @param token The pushover API token
      * @return JPushover instance
      */
     public JPushover token(String token) {
@@ -52,7 +57,7 @@ public class JPushover {
      * viewable when logged into the @see <a href="https://pushover.net/login">pushover dashboard</a>
      * (required) 
      * 
-     * @param user
+     * @param user The username
      * @return JPushover instance
      */
     public JPushover user(String user) {
@@ -64,7 +69,7 @@ public class JPushover {
      * Your message 
      * (required) 
      * 
-     * @param message
+     * @param message The message to sent
      * @return JPushover instance
      */
     public JPushover message(String message) {
@@ -77,7 +82,7 @@ public class JPushover {
      * rather than all of the user's devices
      * (optional)
      * 
-     * @param device
+     * @param device The device name
      * @return JPushover instance
      */
     public JPushover device(String device) {
@@ -89,7 +94,7 @@ public class JPushover {
      * Your message's title, otherwise your app's name is used
      * (optional)
      * 
-     * @param title
+     * @param title The title
      * @return JPushover instance
      */
     public JPushover title(String title) {
@@ -101,7 +106,7 @@ public class JPushover {
      * A supplementary URL to show with your message
      * (optional)
      * 
-     * @param url
+     * @param url The url
      * @return JPushover instance
      */
     public JPushover url(String url) {
@@ -112,7 +117,7 @@ public class JPushover {
     /**
      * A title for your supplementary URL, otherwise just the URL is shown
      * 
-     * @param urlTitle
+     * @param urlTitle The url title
      * @return JPushover instance
      */
     public JPushover urlTitle(String urlTitle) {
@@ -124,7 +129,7 @@ public class JPushover {
      * A Unix timestamp of your message's date and time to display to the user,
      * rather than the time your message is received by our API
      * 
-     * @param timestamp
+     * @param timestamp The Unix timestamp
      * @return JPushover instance
      */
     public JPushover timestamp(String timestamp) {
@@ -136,7 +141,7 @@ public class JPushover {
      * Priority of the message based on the @see <a href="https://pushover.net/api#priority">documentation</a>
      * (optional)
      * 
-     * @param priority
+     * @param priority The priority enum
      * @return JPushover instance
      */
     public JPushover priority(Priority priority) {
@@ -149,7 +154,7 @@ public class JPushover {
      * the user's default sound choice
      * (optional)
      * 
-     * @param sound
+     * @param sound THe sound enum
      * @return JPushover instance
      */
     public JPushover sound(Sound sound) {

@@ -1,5 +1,10 @@
 package de.svenkubiak.jpushover;
 
+/**
+ * 
+ * @author svenkubiak
+ *
+ */
 public class JPushoverResponse {
     private String pushoverResponse;
     private int pushoverHttpStatus;
@@ -40,7 +45,7 @@ public class JPushoverResponse {
     }
 
     /**
-     * True if request to pushover API returned HTTP code 200, false otherwise
+     * True if the request to the pushover API returned HTTP code 200, false otherwise
      * @return boolen
      */
     public boolean isSuccessful() {

@@ -1,5 +1,10 @@
 package de.svenkubiak.jpushover.enums;
 
+/**
+ * 
+ * @author svenkubiak
+ *
+ */
 public enum Priority {
     LOWEST("-2"),
     LOW("-1"),
