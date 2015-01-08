@@ -5,6 +5,7 @@ If this software is useful to you, you can support further development by using 
 
 [![Flattr this repository](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=svenkubiak&url=https://github.com/svenkubiak/JPushover&title=JPushover&language=en&tags=github&category=software)
 
+
 JPushover
 ================
 
