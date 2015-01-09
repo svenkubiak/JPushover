@@ -34,6 +34,9 @@ public class JPushover {
     private String pushoverUrl;
     private String pushoverUrlTitle;
     private String pushoverTimestamp;
+    private String pushoverRetry;
+    private String pushoverExpire;
+    private String pushoverCallback;
     private Priority pushoverPriority;
     private Sound pushoverSound;
 
@@ -62,6 +65,30 @@ public class JPushover {
      */
     public JPushover user(String user) {
         this.pushoverUser = user;
+        return this;
+    }
+    
+    /**
+     * Specifies how often (in seconds) the Pushover servers will send the same notification to the user.
+     * Only required if priority is set to emergency.
+     * 
+     * @param retry Number of seconds
+     * @return JPushover instance
+     */
+    public JPushover retry(String retry) {
+        this.pushoverRetry = retry;
+        return this;
+    }
+    
+    /**
+     * Specifies how many seconds your notification will continue to be retried for (every retry seconds).
+     * Only required if priority is set to emergency.
+     * 
+     * @param expire Number of seconds
+     * @return JPushover instance
+     */
+    public JPushover expire(String expire) {
+        this.pushoverExpire = expire;
         return this;
     }
 
@@ -161,6 +188,20 @@ public class JPushover {
         this.pushoverSound = sound;
         return this;
     }
+    
+    /**
+     * Callback parameter may be supplied with a publicly-accessible URL that the
+     * Pushover servers will send a request to when the user has acknowledged your
+     * notification.
+     * Only required if priority is set to emergency.
+     * 
+     * @param callback
+     * @return
+     */
+    public JPushover callback(String callback) {
+        this.pushoverCallback = callback;
+        return this;
+    }
 
     /**
      * Send the message to pushover
@@ -170,6 +211,11 @@ public class JPushover {
         Preconditions.checkNotNull(this.pushoverUser, "User is required");
         Preconditions.checkNotNull(this.pushoverMessage, "Message is required");
         
+        if (Priority.EMERGENCY.equals(this.pushoverPriority)) {
+            Preconditions.checkNotNull(this.pushoverRetry, "Retry is required on priority emergency");
+            Preconditions.checkNotNull(this.pushoverExpire, "Expire is required on priority emergency");
+        }
+        
         List<NameValuePair> params = Form.form()
                 .add(Constants.TOKEN.get(), this.pushoverToken)
                 .add(Constants.USER.get(), this.pushoverUser)
@@ -177,12 +223,15 @@ public class JPushover {
                 .add(Constants.DEVICE.get(), this.pushoverDevice)
                 .add(Constants.TITLE.get(), this.pushoverTitle)
                 .add(Constants.URL.get(), this.pushoverUrl)
+                .add(Constants.RETRY.get(), this.pushoverRetry)
+                .add(Constants.EXPIRE.get(), this.pushoverExpire)
+                .add(Constants.CALLBACK.get(), this.pushoverCallback)
                 .add(Constants.URLTITLE.get(), this.pushoverUrlTitle)
-                .add(Constants.PRIORITY.get(), this.pushoverPriority.get())
+                .add(Constants.PRIORITY.get(), (this.pushoverPriority == null) ? null : this.pushoverPriority.get())
                 .add(Constants.TIMESTAMP.get(), this.pushoverTimestamp)
-                .add(Constants.SOUND.get(), this.pushoverSound.get())
+                .add(Constants.SOUND.get(), (this.pushoverSound == null) ? null : this.pushoverSound.get())
                 .build();
-
+        
         HttpResponse httpResponse = null;
         JPushoverResponse jPushoverResponse = null;
         try {

@@ -16,8 +16,11 @@ public enum Constants {
     PRIORITY("priority"),
     TIMESTAMP("timestamp"),
     URL("url"),
-    URLTITLE("urltitle");
-
+    URLTITLE("urltitle"),
+    CALLBACK("callback"),
+    EXPIRE("expire"),
+    RETRY("retry");
+    
     private final String value;
 
     Constants (String value) {
