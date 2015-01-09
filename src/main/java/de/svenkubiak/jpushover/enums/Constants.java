@@ -6,7 +6,8 @@ package de.svenkubiak.jpushover.enums;
  *
  */
 public enum Constants {
-    PUSHOVER_URL("https://api.pushover.net/1/messages.json"),
+    MESSAGES_URL("https://api.pushover.net/1/messages.json"),
+    VALIDATION_URL("https://api.pushover.net/1/users/validate.json"),
     MESSAGE("message"),
     TITLE("title"),
     DEVICE("device"),
