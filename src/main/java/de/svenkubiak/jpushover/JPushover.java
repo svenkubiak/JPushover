@@ -41,6 +41,8 @@ public class JPushover {
     private Sound pushoverSound;
 
     public JPushover(){
+        this.pushoverSound = Sound.PUSHOVER;
+        this.pushoverPriority = Priority.NORMAL;
     }
 
     /**
@@ -227,9 +229,9 @@ public class JPushover {
                 .add(Constants.EXPIRE.get(), this.pushoverExpire)
                 .add(Constants.CALLBACK.get(), this.pushoverCallback)
                 .add(Constants.URLTITLE.get(), this.pushoverUrlTitle)
-                .add(Constants.PRIORITY.get(), (this.pushoverPriority == null) ? null : this.pushoverPriority.get())
+                .add(Constants.PRIORITY.get(), this.pushoverPriority.get())
                 .add(Constants.TIMESTAMP.get(), this.pushoverTimestamp)
-                .add(Constants.SOUND.get(), (this.pushoverSound == null) ? null : this.pushoverSound.get())
+                .add(Constants.SOUND.get(), this.pushoverSound.get())
                 .build();
         
         HttpResponse httpResponse = null;
