@@ -31,6 +31,13 @@ Usage
 		.push();
 		
 You can additionally add all available options from the official [Pushover documentation][2]	
+
+You can also validate a user and token using the following method
+
+	boolean valid = new JPushover()
+		.token("MyToken")
+		.user("MyUser")
+		.validate();
 		
 If you want more information and/or the response from the Pushover API, use the JPushoverResponse object.
 
