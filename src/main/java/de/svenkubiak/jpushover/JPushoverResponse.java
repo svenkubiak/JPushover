@@ -10,9 +10,6 @@ public class JPushoverResponse {
     private int pushoverHttpStatus;
     private boolean pushoverSuccessful;
     
-    public JPushoverResponse(){
-    }
-
     public JPushoverResponse response(String response) {
         this.pushoverResponse = response;
         return this;
