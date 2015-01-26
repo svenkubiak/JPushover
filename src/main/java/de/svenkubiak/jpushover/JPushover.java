@@ -26,7 +26,8 @@ import de.svenkubiak.jpushover.enums.Sound;
  */
 public class JPushover {
     private static final Logger LOG = LoggerFactory.getLogger(JPushover.class);
-
+    private static final int HTTP_OK = 200;
+    
     private String pushoverToken;
     private String pushoverUser;
     private String pushoverMessage;
@@ -231,7 +232,7 @@ public class JPushover {
         try {
             httpResponse = Request.Post(Constants.VALIDATION_URL.get()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
             
-            if (httpResponse != null && httpResponse.getStatusLine().getStatusCode() == 200) {
+            if (httpResponse != null && httpResponse.getStatusLine().getStatusCode() == HTTP_OK) {
                 String response = IOUtils.toString(httpResponse.getEntity().getContent());
                 if (StringUtils.isNotBlank(response) && response.contains("\"status\":1")) {
                     valid = true;
@@ -286,7 +287,7 @@ public class JPushover {
                 jPushoverResponse = new JPushoverResponse()
                     .httpStatus(status)
                     .response(IOUtils.toString(httpResponse.getEntity().getContent(), Consts.UTF_8))
-                    .isSuccessful((status == 200) ? true : false);
+                    .isSuccessful((status == HTTP_OK) ? true : false);
             }
         } catch (IOException e) {
             LOG.error("Failed to send message to pushover", e);
