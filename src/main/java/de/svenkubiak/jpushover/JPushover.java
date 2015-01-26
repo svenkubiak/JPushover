@@ -295,4 +295,56 @@ public class JPushover {
         
         return (jPushoverResponse == null) ? new JPushoverResponse().isSuccessful(false) : jPushoverResponse;
     }
+
+    public String getToken() {
+        return pushoverToken;
+    }
+
+    public String getUser() {
+        return pushoverUser;
+    }
+
+    public String getMessage() {
+        return pushoverMessage;
+    }
+
+    public String getDevice() {
+        return pushoverDevice;
+    }
+
+    public String getTitle() {
+        return pushoverTitle;
+    }
+
+    public String getUrl() {
+        return pushoverUrl;
+    }
+
+    public String getUrlTitle() {
+        return pushoverUrlTitle;
+    }
+
+    public String getTimestamp() {
+        return pushoverTimestamp;
+    }
+
+    public String getRetry() {
+        return pushoverRetry;
+    }
+
+    public String getExpire() {
+        return pushoverExpire;
+    }
+
+    public String getCallback() {
+        return pushoverCallback;
+    }
+
+    public Priority getPriority() {
+        return pushoverPriority;
+    }
+
+    public Sound getSound() {
+        return pushoverSound;
+    }
 }
