@@ -1,15 +1,4 @@
-env:
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "axnzSJVhV+S0nHTZCwyqyNweB/aQTiQoOVzpE3DV8Ftfm2ibEUFkrAY1UnUh/dO6HfPjqUVLTNKBliDcLUvCP1zsM2K953Q/EHqtCCQICgr6wqzblp6hMN5015puFRLPZ5nTN+DprZFiSWPWO7ZogC/D2MhkcsaL0MILskk9FZk="
-
-addons:
-  coverity_scan:
-    project:
-      name: "svenkubiak/JPushover"
-      description: "Build submitted via Travis CI"
-    notification_email: sk@svenkubiak.de
-    build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true compile"
-    branch_pattern: coverity_scan
+language: java
+script: "mvn clean test"
+notifications:
+  email: sk@svenkubiak.com
