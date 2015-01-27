@@ -1,13 +1,8 @@
-language: java
-script: "mvn clean test"
-notifications:
-  email: sk@svenkubiak.com
-
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "Qt4FEG5pVBXCXM55VAefpPjg2HDEHWu+QpioOVnRvWbMnf/LrW6JMDv5uM5qqez3oz1JwNFNgh0LsAg8K77sVOe3YS3yWMHcL1FchppS5r5QK+uNG3eIEIqtuTsh/8Rzi4aTFHQRmrvwBA8MIWGFIj+4yvr2jM9gBgqNyriRNV8="
+   - secure: "axnzSJVhV+S0nHTZCwyqyNweB/aQTiQoOVzpE3DV8Ftfm2ibEUFkrAY1UnUh/dO6HfPjqUVLTNKBliDcLUvCP1zsM2K953Q/EHqtCCQICgr6wqzblp6hMN5015puFRLPZ5nTN+DprZFiSWPWO7ZogC/D2MhkcsaL0MILskk9FZk="
 
 addons:
   coverity_scan:
