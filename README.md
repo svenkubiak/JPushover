@@ -1,5 +1,6 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.svenkubiak/jpushover/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.svenkubiak/jpushover)
 [![Build Status](https://secure.travis-ci.org/svenkubiak/JPushover.png?branch=master)](http://travis-ci.org/svenkubiak/JPushover)
+[![Dependency Status](https://www.versioneye.com/user/projects/54dcba12c1bbbd9bd700051a/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54dcba12c1bbbd9bd700051a)
 
 If this software is useful to you, you can support further development by using Flattr. Thank you!
 
