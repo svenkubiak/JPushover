@@ -213,8 +213,8 @@ public class JPushover {
      * notification.
      * Only required if priority is set to emergency.
      *
-     * @param callback
-     * @return
+     * @param callback The callback URL
+     * @return JPushover instance
      */
     public JPushover callback(String callback) {
         this.pushoverCallback = callback;
