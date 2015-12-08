@@ -1,7 +1,7 @@
 package de.svenkubiak.jpushover;
 
 /**
- * 
+ *
  * @author svenkubiak
  *
  */
@@ -9,7 +9,7 @@ public class JPushoverResponse {
     private String pushoverResponse;
     private int pushoverHttpStatus;
     private boolean pushoverSuccessful;
-    
+
     public JPushoverResponse response(String response) {
         this.pushoverResponse = response;
         return this;

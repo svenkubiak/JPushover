@@ -19,48 +19,51 @@ public class TestJPushover {
     private static final String EXPIRE = "expire";
     private static final String DEVICE = "device";
     private static final String CALLBACK = "callback";
-    
+
     @Test
     public void TestValues(){
-        JPushover push = new JPushover();
-        
+        final JPushover push = new JPushover();
+
         push.callback(CALLBACK);
         assertEquals(push.getCallback(), CALLBACK);
-        
+
         push.device(DEVICE);
         assertEquals(push.getDevice(), DEVICE);
-        
+
         push.expire(EXPIRE);
         assertEquals(push.getExpire(), EXPIRE);
-        
+
         push.message(MESSAGE);
         assertEquals(push.getMessage(), MESSAGE);
-        
+
         push.priority(Priority.HIGH);
         assertEquals(push.getPriority(), Priority.HIGH);
-        
+
         push.retry(RETRY);
         assertEquals(push.getRetry(), RETRY);
-        
+
         push.sound(Sound.ALIEN);
         assertEquals(push.getSound(), Sound.ALIEN);
-        
+
         push.timestamp(TIMESTAMP);
         assertEquals(push.getTimestamp(), TIMESTAMP);
-        
+
         push.title(TITLE);
         assertEquals(push.getTitle(), TITLE);
-        
+
         push.token(TOKEN);
         assertEquals(push.getToken(), TOKEN);
-        
+
         push.url(URL);
         assertEquals(push.getUrl(), URL);
-        
+
         push.urlTitle(URL_TITLE);
         assertEquals(push.getUrlTitle(), URL_TITLE);
-        
+
         push.user(USER);
         assertEquals(push.getUser(), USER);
+
+        push.html();
+        assertEquals(push.getHtml(), true);
     }
 }

@@ -2,6 +2,7 @@ package de.svenkubiak.jpushover;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -12,8 +13,6 @@ import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.google.common.base.Preconditions;
 
 import de.svenkubiak.jpushover.enums.Constants;
 import de.svenkubiak.jpushover.enums.Priority;
@@ -27,7 +26,6 @@ import de.svenkubiak.jpushover.enums.Sound;
 public class JPushover {
     private static final Logger LOG = LogManager.getLogger(JPushover.class);
     private static final int HTTP_OK = 200;
-
     private String pushoverToken;
     private String pushoverUser;
     private String pushoverMessage;
@@ -39,12 +37,17 @@ public class JPushover {
     private String pushoverRetry;
     private String pushoverExpire;
     private String pushoverCallback;
+    private boolean pushoverHtml;
     private Priority pushoverPriority;
     private Sound pushoverSound;
 
-    public JPushover(){
-        this.pushoverSound = Sound.PUSHOVER;
-        this.pushoverPriority = Priority.NORMAL;
+    public JPushover() {
+        this.sound(Sound.PUSHOVER);
+        this.priority(Priority.NORMAL);
+    }
+
+    public static JPushover build() {
+        return new JPushover();
     }
 
     /**
@@ -146,6 +149,17 @@ public class JPushover {
     }
 
     /**
+     * Enables HTML in the pushover message
+     * (optional)
+     *
+     * @return JPushover instance
+     */
+    public JPushover html() {
+        this.pushoverHtml = true;
+        return this;
+    }
+
+    /**
      * A title for your supplementary URL, otherwise just the URL is shown
      *
      * @param urlTitle The url title
@@ -207,95 +221,6 @@ public class JPushover {
         return this;
     }
 
-    /**
-     * Sends a validation request to pushover ensuring that the token and user
-     * is correct, that there is at least one active device on the account.
-     *
-     * Requires token parameter
-     * Requires user parameter
-     * Optional device parameter to check specific device
-     *
-     * @return true if token and user are valid and at least on device is on the account, false otherwise
-     */
-    public boolean validate() {
-        Preconditions.checkNotNull(this.pushoverToken, "Token is required for validation");
-        Preconditions.checkNotNull(this.pushoverUser, "User is required for validation");
-
-        final List<NameValuePair> params = Form.form()
-                .add(Constants.TOKEN.get(), this.pushoverToken)
-                .add(Constants.USER.get(), this.pushoverUser)
-                .add(Constants.DEVICE.get(), this.pushoverDevice)
-                .build();
-
-        HttpResponse httpResponse = null;
-        boolean valid = false;
-        try {
-            httpResponse = Request.Post(Constants.VALIDATION_URL.get()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
-
-            if (httpResponse != null && httpResponse.getStatusLine().getStatusCode() == HTTP_OK) {
-                final String response = IOUtils.toString(httpResponse.getEntity().getContent());
-                if (StringUtils.isNotBlank(response) && response.contains("\"status\":1")) {
-                    valid = true;
-                }
-            }
-        } catch (final IOException e) {
-            LOG.error("Failed to send validation requeste to pushover", e);
-        }
-
-        return valid;
-    }
-
-    /**
-     * Sends a message to pushover
-     *
-     * @return JPushoverResponse instance
-     */
-    public JPushoverResponse push() {
-        Preconditions.checkNotNull(this.pushoverToken, "Token is required for a message");
-        Preconditions.checkNotNull(this.pushoverUser, "User is required for a message");
-        Preconditions.checkNotNull(this.pushoverMessage, "Message is required for a message");
-
-        if (Priority.EMERGENCY.equals(this.pushoverPriority)) {
-            Preconditions.checkNotNull(this.pushoverRetry, "Retry is required on priority emergency");
-            Preconditions.checkNotNull(this.pushoverExpire, "Expire is required on priority emergency");
-        }
-
-        final List<NameValuePair> params = Form.form()
-                .add(Constants.TOKEN.get(), this.pushoverToken)
-                .add(Constants.USER.get(), this.pushoverUser)
-                .add(Constants.MESSAGE.get(), this.pushoverMessage)
-                .add(Constants.DEVICE.get(), this.pushoverDevice)
-                .add(Constants.TITLE.get(), this.pushoverTitle)
-                .add(Constants.URL.get(), this.pushoverUrl)
-                .add(Constants.RETRY.get(), this.pushoverRetry)
-                .add(Constants.EXPIRE.get(), this.pushoverExpire)
-                .add(Constants.CALLBACK.get(), this.pushoverCallback)
-                .add(Constants.URLTITLE.get(), this.pushoverUrlTitle)
-                .add(Constants.PRIORITY.get(), this.pushoverPriority.get())
-                .add(Constants.TIMESTAMP.get(), this.pushoverTimestamp)
-                .add(Constants.SOUND.get(), this.pushoverSound.get())
-                .build();
-
-        HttpResponse httpResponse = null;
-        JPushoverResponse jPushoverResponse = null;
-        try {
-            httpResponse = Request.Post(Constants.MESSAGES_URL.get()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
-
-            if (httpResponse != null) {
-                final int status = httpResponse.getStatusLine().getStatusCode();
-
-                jPushoverResponse = new JPushoverResponse()
-                    .httpStatus(status)
-                    .response(IOUtils.toString(httpResponse.getEntity().getContent(), Consts.UTF_8))
-                    .isSuccessful((status == HTTP_OK) ? true : false);
-            }
-        } catch (final IOException e) {
-            LOG.error("Failed to send message to pushover", e);
-        }
-
-        return (jPushoverResponse == null) ? new JPushoverResponse().isSuccessful(false) : jPushoverResponse;
-    }
-
     public String getToken() {
         return pushoverToken;
     }
@@ -346,5 +271,97 @@ public class JPushover {
 
     public Sound getSound() {
         return pushoverSound;
+    }
+
+    public boolean getHtml() {
+        return pushoverHtml;
+    }
+
+    /**
+     * Sends a validation request to pushover ensuring that the token and user
+     * is correct, that there is at least one active device on the account.
+     *
+     * Requires token parameter
+     * Requires user parameter
+     * Optional device parameter to check specific device
+     *
+     * @return true if token and user are valid and at least on device is on the account, false otherwise
+     */
+    public boolean validate() {
+        Objects.requireNonNull(this.pushoverToken, "Token is required for validation");
+        Objects.requireNonNull(this.pushoverUser, "User is required for validation");
+
+        final List<NameValuePair> params = Form.form()
+                .add(Constants.TOKEN.toString(), this.pushoverToken)
+                .add(Constants.USER.toString(), this.pushoverUser)
+                .add(Constants.DEVICE.toString(), this.pushoverDevice)
+                .build();
+
+        boolean valid = false;
+        try {
+            final HttpResponse httpResponse = Request.Post(Constants.VALIDATION_URL.toString()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
+
+            if (httpResponse != null && httpResponse.getStatusLine().getStatusCode() == HTTP_OK) {
+                final String response = IOUtils.toString(httpResponse.getEntity().getContent());
+                if (StringUtils.isNotBlank(response) && response.contains("\"status\":1")) {
+                    valid = true;
+                }
+            }
+        } catch (final IOException e) {
+            LOG.error("Failed to send validation requeste to pushover", e);
+        }
+
+        return valid;
+    }
+
+    /**
+     * Sends a message to pushover
+     *
+     * @return JPushoverResponse instance
+     */
+    public JPushoverResponse push() {
+        Objects.requireNonNull(this.pushoverToken, "Token is required for a message");
+        Objects.requireNonNull(this.pushoverUser, "User is required for a message");
+        Objects.requireNonNull(this.pushoverMessage, "Message is required for a message");
+
+        if (Priority.EMERGENCY.equals(this.pushoverPriority)) {
+            Objects.requireNonNull(this.pushoverRetry, "Retry is required on priority emergency");
+            Objects.requireNonNull(this.pushoverExpire, "Expire is required on priority emergency");
+        }
+
+        final List<NameValuePair> params = Form.form()
+                .add(Constants.TOKEN.toString(), this.pushoverToken)
+                .add(Constants.USER.toString(), this.pushoverUser)
+                .add(Constants.MESSAGE.toString(), this.pushoverMessage)
+                .add(Constants.DEVICE.toString(), this.pushoverDevice)
+                .add(Constants.TITLE.toString(), this.pushoverTitle)
+                .add(Constants.URL.toString(), this.pushoverUrl)
+                .add(Constants.RETRY.toString(), this.pushoverRetry)
+                .add(Constants.EXPIRE.toString(), this.pushoverExpire)
+                .add(Constants.CALLBACK.toString(), this.pushoverCallback)
+                .add(Constants.URLTITLE.toString(), this.pushoverUrlTitle)
+                .add(Constants.PRIORITY.toString(), this.pushoverPriority.get())
+                .add(Constants.TIMESTAMP.toString(), this.pushoverTimestamp)
+                .add(Constants.SOUND.toString(), this.pushoverSound.get())
+                .add(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0")
+                .build();
+
+        JPushoverResponse jPushoverResponse = null;
+        try {
+            final HttpResponse httpResponse = Request.Post(Constants.MESSAGES_URL.toString()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
+
+            if (httpResponse != null) {
+                final int status = httpResponse.getStatusLine().getStatusCode();
+
+                jPushoverResponse = new JPushoverResponse()
+                    .httpStatus(status)
+                    .response(IOUtils.toString(httpResponse.getEntity().getContent(), Consts.UTF_8))
+                    .isSuccessful((status == HTTP_OK) ? true : false);
+            }
+        } catch (final IOException e) {
+            LOG.error("Failed to send message to pushover", e);
+        }
+
+        return (jPushoverResponse == null) ? new JPushoverResponse().isSuccessful(false) : jPushoverResponse;
     }
 }

@@ -1,7 +1,7 @@
 package de.svenkubiak.jpushover.enums;
 
 /**
- * 
+ *
  * @author svenkubiak
  *
  */
@@ -20,15 +20,16 @@ public enum Constants {
     URLTITLE("urltitle"),
     CALLBACK("callback"),
     EXPIRE("expire"),
-    RETRY("retry");
-    
+    RETRY("retry"),
+    HTML("html");
+
     private final String value;
 
     Constants (String value) {
         this.value = value;
     }
 
-    public String get() {
+    public String toString() {
         return this.value;
     }
 }
