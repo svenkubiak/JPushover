@@ -1,6 +1,7 @@
 package de.svenkubiak.jpushover;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -64,6 +65,6 @@ public class TestJPushover {
         assertEquals(push.getUser(), USER);
 
         push.html();
-        assertEquals(push.getHtml(), true);
+        assertTrue(push.isHtml());
     }
 }
