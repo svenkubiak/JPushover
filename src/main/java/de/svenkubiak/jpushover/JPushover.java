@@ -323,7 +323,7 @@ public class JPushover {
      *
      * @return JPushoverResponse instance
      */
-    public JPushoverResponse push() {
+    public final JPushoverResponse push() {
         Objects.requireNonNull(this.pushoverToken, "Token is required for a message");
         Objects.requireNonNull(this.pushoverUser, "User is required for a message");
         Objects.requireNonNull(this.pushoverMessage, "Message is required for a message");
@@ -350,14 +350,14 @@ public class JPushover {
                 .add(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0")
                 .build();
 
-        JPushoverResponse jPushoverResponse = null;
+        JPushoverResponse jPushoverResponse = new JPushoverResponse().isSuccessful(false);
         try {
             final HttpResponse httpResponse = Request.Post(Constants.MESSAGES_URL.toString()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
 
             if (httpResponse != null) {
                 final int status = httpResponse.getStatusLine().getStatusCode();
 
-                jPushoverResponse = new JPushoverResponse()
+                jPushoverResponse
                     .httpStatus(status)
                     .response(IOUtils.toString(httpResponse.getEntity().getContent(), Consts.UTF_8))
                     .isSuccessful((status == HTTP_OK) ? true : false);
@@ -366,6 +366,6 @@ public class JPushover {
             LOG.error("Failed to send message to pushover", e);
         }
 
-        return (jPushoverResponse == null) ? new JPushoverResponse().isSuccessful(false) : jPushoverResponse;
+        return jPushoverResponse;
     }
 }
