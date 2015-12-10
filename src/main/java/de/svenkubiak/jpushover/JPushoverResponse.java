@@ -26,24 +26,21 @@ public class JPushoverResponse {
     }
 
     /**
-     * The raw Json Response from the pushover API
-     * @return String
+     * @return The pushover response
      */
     public String getResponse() {
         return pushoverResponse;
     }
 
     /**
-     * The HTTP status from the HTTP request
-     * @return int
+     * @return The HTTP status
      */
     public int getHttpStatus() {
         return pushoverHttpStatus;
     }
 
     /**
-     * True if the request to the pushover API returned HTTP code 200, false otherwise
-     * @return boolen
+     * @return true if the api returned a HTTP status code 200, false othwise
      */
     public boolean isSuccessful() {
         return pushoverSuccessful;

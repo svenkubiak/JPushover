@@ -8,7 +8,7 @@ package de.svenkubiak.jpushover.enums;
 public enum Sound {
     PUSHOVER("pushover"),
     BIKE("bike"),
-    BUGLE("bugke"),
+    BUGLE("bugle"),
     CASHREGISTET("cashregister"),
     CLASSICAL("classical"),
     COSMIC("cosmic"),
@@ -35,7 +35,7 @@ public enum Sound {
         this.value = value;
     }
     
-    public String get() {
+    public String toString() {
         return this.value;
     }
 }

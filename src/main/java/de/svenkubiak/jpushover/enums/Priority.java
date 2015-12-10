@@ -18,7 +18,7 @@ public enum Priority {
         this.value = value;
     }
     
-    public String get() {
+    public String toString() {
         return this.value;
     }
 }

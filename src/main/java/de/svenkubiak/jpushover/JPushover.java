@@ -46,6 +46,10 @@ public class JPushover {
         this.priority(Priority.NORMAL);
     }
 
+    /**
+     * Creates a new JPushover instance
+     * @return JPushover instance
+     */
     public static JPushover build() {
         return new JPushover();
     }
@@ -209,7 +213,7 @@ public class JPushover {
 
     /**
      * Callback parameter may be supplied with a publicly-accessible URL that the
-     * Pushover servers will send a request to when the user has acknowledged your
+     * pushover servers will send a request to when the user has acknowledged your
      * notification.
      * Only required if priority is set to emergency.
      *
@@ -340,9 +344,9 @@ public class JPushover {
                 .add(Constants.EXPIRE.toString(), this.pushoverExpire)
                 .add(Constants.CALLBACK.toString(), this.pushoverCallback)
                 .add(Constants.URLTITLE.toString(), this.pushoverUrlTitle)
-                .add(Constants.PRIORITY.toString(), this.pushoverPriority.get())
+                .add(Constants.PRIORITY.toString(), this.pushoverPriority.toString())
                 .add(Constants.TIMESTAMP.toString(), this.pushoverTimestamp)
-                .add(Constants.SOUND.toString(), this.pushoverSound.get())
+                .add(Constants.SOUND.toString(), this.pushoverSound.toString())
                 .add(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0")
                 .build();
 

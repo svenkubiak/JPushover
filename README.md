@@ -34,20 +34,20 @@ You can additionally add all available options from the official [Pushover docum
 
 You can also validate a user and token using the following method
 
-	boolean valid = new JPushover()
+	boolean valid = JPushover().build()
 		.token("MyToken")
 		.user("MyUser")
 		.validate();
 		
 If you want more information and/or the response from the Pushover API, use the JPushoverResponse object.
 
-	JPushoverResponse jPushoverResponse = JPushover()
+	JPushoverResponse jPushoverResponse = JPushover.build()
 		.token("MyToken")
 		.user("MyUser")
 		.message("MyMessage")
 		.push();
 		
-JPushoverResponse will return the raw HTTP status code, along with the raw JSON response and a convenient boolean if the request was successful or not.	
+The JPushoverResponse will return the raw HTTP status code, along with the raw JSON response and a convenient boolean if the request was successful or not.	
 
 [1]: https://pushover.net
 [2]: https://pushover.net/api
