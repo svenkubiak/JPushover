@@ -250,7 +250,7 @@ public class JPushover {
             final HttpResponse httpResponse = Request.Post(Constants.VALIDATION_URL.toString()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
 
             if (httpResponse != null && httpResponse.getStatusLine().getStatusCode() == HTTP_OK) {
-                final String response = IOUtils.toString(httpResponse.getEntity().getContent());
+                final String response = IOUtils.toString(httpResponse.getEntity().getContent(), Consts.UTF_8);
                 if (StringUtils.isNotBlank(response) && response.contains("\"status\":1")) {
                     valid = true;
                 }
