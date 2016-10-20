@@ -25,46 +25,46 @@ public class TestJPushover {
     public void TestValues(){
         final JPushover push = new JPushover();
 
-        push.callback(CALLBACK);
+        push.withCallback(CALLBACK);
         assertEquals(push.getCallback(), CALLBACK);
 
-        push.device(DEVICE);
+        push.withDevice(DEVICE);
         assertEquals(push.getDevice(), DEVICE);
 
-        push.expire(EXPIRE);
+        push.withExpire(EXPIRE);
         assertEquals(push.getExpire(), EXPIRE);
 
-        push.message(MESSAGE);
+        push.withMessage(MESSAGE);
         assertEquals(push.getMessage(), MESSAGE);
 
-        push.priority(Priority.HIGH);
+        push.withPriority(Priority.HIGH);
         assertEquals(push.getPriority(), Priority.HIGH);
 
-        push.retry(RETRY);
+        push.withRetry(RETRY);
         assertEquals(push.getRetry(), RETRY);
 
-        push.sound(Sound.ALIEN);
+        push.withSound(Sound.ALIEN);
         assertEquals(push.getSound(), Sound.ALIEN);
 
-        push.timestamp(TIMESTAMP);
+        push.withTimestamp(TIMESTAMP);
         assertEquals(push.getTimestamp(), TIMESTAMP);
 
-        push.title(TITLE);
+        push.withTitle(TITLE);
         assertEquals(push.getTitle(), TITLE);
 
-        push.token(TOKEN);
+        push.withToken(TOKEN);
         assertEquals(push.getToken(), TOKEN);
 
-        push.url(URL);
+        push.withUrl(URL);
         assertEquals(push.getUrl(), URL);
 
-        push.urlTitle(URL_TITLE);
+        push.withUrlTitle(URL_TITLE);
         assertEquals(push.getUrlTitle(), URL_TITLE);
 
-        push.user(USER);
+        push.withUser(USER);
         assertEquals(push.getUser(), USER);
 
-        push.html();
+        push.enableHtml();
         assertTrue(push.isHtml());
     }
 }

@@ -42,8 +42,8 @@ public class JPushover {
     private Sound pushoverSound;
 
     public JPushover() {
-        this.sound(Sound.PUSHOVER);
-        this.priority(Priority.NORMAL);
+        this.withSound(Sound.PUSHOVER);
+        this.withPriority(Priority.NORMAL);
     }
 
     /**
@@ -61,7 +61,7 @@ public class JPushover {
      * @param token The pushover API token
      * @return JPushover instance
      */
-    public final JPushover token(String token) {
+    public final JPushover withToken(String token) {
         this.pushoverToken = token;
         return this;
     }
@@ -74,7 +74,7 @@ public class JPushover {
      * @param user The username
      * @return JPushover instance
      */
-    public final JPushover user(String user) {
+    public final JPushover withUser(String user) {
         this.pushoverUser = user;
         return this;
     }
@@ -86,7 +86,7 @@ public class JPushover {
      * @param retry Number of seconds
      * @return JPushover instance
      */
-    public final JPushover retry(String retry) {
+    public final JPushover withRetry(String retry) {
         this.pushoverRetry = retry;
         return this;
     }
@@ -98,7 +98,7 @@ public class JPushover {
      * @param expire Number of seconds
      * @return JPushover instance
      */
-    public final JPushover expire(String expire) {
+    public final JPushover withExpire(String expire) {
         this.pushoverExpire = expire;
         return this;
     }
@@ -110,7 +110,7 @@ public class JPushover {
      * @param message The message to sent
      * @return JPushover instance
      */
-    public final JPushover message(String message) {
+    public final JPushover withMessage(String message) {
         this.pushoverMessage = message;
         return this;
     }
@@ -123,7 +123,7 @@ public class JPushover {
      * @param device The device name
      * @return JPushover instance
      */
-    public final JPushover device(String device) {
+    public final JPushover withDevice(String device) {
         this.pushoverDevice = device;
         return this;
     }
@@ -135,7 +135,7 @@ public class JPushover {
      * @param title The title
      * @return JPushover instance
      */
-    public final JPushover title(String title) {
+    public final JPushover withTitle(String title) {
         this.pushoverTitle = title;
         return this;
     }
@@ -147,7 +147,7 @@ public class JPushover {
      * @param url The url
      * @return JPushover instance
      */
-    public final JPushover url(String url) {
+    public final JPushover withUrl(String url) {
         this.pushoverUrl = url;
         return this;
     }
@@ -158,7 +158,7 @@ public class JPushover {
      *
      * @return JPushover instance
      */
-    public final JPushover html() {
+    public final JPushover enableHtml() {
         this.pushoverHtml = true;
         return this;
     }
@@ -169,7 +169,7 @@ public class JPushover {
      * @param urlTitle The url title
      * @return JPushover instance
      */
-    public final JPushover urlTitle(String urlTitle) {
+    public final JPushover withUrlTitle(String urlTitle) {
         this.pushoverUrlTitle = urlTitle;
         return this;
     }
@@ -181,7 +181,7 @@ public class JPushover {
      * @param timestamp The Unix timestamp
      * @return JPushover instance
      */
-    public final JPushover timestamp(String timestamp) {
+    public final JPushover withTimestamp(String timestamp) {
         this.pushoverTimestamp = timestamp;
         return this;
     }
@@ -193,7 +193,7 @@ public class JPushover {
      * @param priority The priority enum
      * @return JPushover instance
      */
-    public final JPushover priority(Priority priority) {
+    public final JPushover withPriority(Priority priority) {
         this.pushoverPriority = priority;
         return this;
     }
@@ -206,7 +206,7 @@ public class JPushover {
      * @param sound THe sound enum
      * @return JPushover instance
      */
-    public final JPushover sound(Sound sound) {
+    public final JPushover withSound(Sound sound) {
         this.pushoverSound = sound;
         return this;
     }
@@ -220,7 +220,7 @@ public class JPushover {
      * @param callback The callback URL
      * @return JPushover instance
      */
-    public final JPushover callback(String callback) {
+    public final JPushover withCallback(String callback) {
         this.pushoverCallback = callback;
         return this;
     }
