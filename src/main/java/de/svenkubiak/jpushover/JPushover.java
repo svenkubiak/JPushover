@@ -247,7 +247,10 @@ public class JPushover {
 
         boolean valid = false;
         try {
-            final HttpResponse httpResponse = Request.Post(Constants.VALIDATION_URL.toString()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
+            final HttpResponse httpResponse = Request.Post(Constants.VALIDATION_URL.toString())
+            		.bodyForm(params, Consts.UTF_8)
+            		.execute()
+            		.returnResponse();
 
             if (httpResponse != null && httpResponse.getStatusLine().getStatusCode() == HTTP_OK) {
                 final String response = IOUtils.toString(httpResponse.getEntity().getContent(), Consts.UTF_8);
@@ -296,7 +299,10 @@ public class JPushover {
 
         JPushoverResponse jPushoverResponse = new JPushoverResponse().isSuccessful(false);
         try {
-            final HttpResponse httpResponse = Request.Post(Constants.MESSAGES_URL.toString()).bodyForm(params, Consts.UTF_8).execute().returnResponse();
+            final HttpResponse httpResponse = Request.Post(Constants.MESSAGES_URL.toString())
+            		.bodyForm(params, Consts.UTF_8)
+            		.execute()
+            		.returnResponse();
 
             if (httpResponse != null) {
                 final int status = httpResponse.getStatusLine().getStatusCode();
