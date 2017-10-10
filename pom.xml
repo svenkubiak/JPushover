@@ -19,7 +19,7 @@
 	</developers>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<log4j.version>2.9.0</log4j.version>
+		<log4j.version>2.9.1</log4j.version>
 	</properties>
 	<scm>
 		<connection>scm:git:git@github.com:svenkubiak/JPushover.git</connection>
