@@ -5,7 +5,7 @@
 JPushover
 ================
 
-Convenient class for sending messages to [Pushover][1] in Java project
+Convenient class for sending messages to [Pushover][1] in Java.
 
 Usage
 ------------------
