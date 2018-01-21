@@ -11,21 +11,21 @@ Usage
 ------------------
 
 1) Add the jpushover dependency to your pom.xml:
-
+```
     <dependency>
         <groupId>de.svenkubiak</groupId>
         <artifactId>jpushover</artifactId>
         <version>x.x.x</version>
     </dependency>
-
+```
 2) Use the JPushover object with the required informations were you want
-
+```
 	JPushover.build()
-		.wihtToken("MyToken")
+		.withToken("MyToken")
 		.withUser("MyUser")
 		.withMessage("MyMessage")
 		.push();
-		
+```		
 You can additionally add all available options from the official [Pushover documentation][2]	
 
 You can also validate a user and token using the following method
