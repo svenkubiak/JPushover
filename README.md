@@ -12,19 +12,19 @@ Usage
 
 1) Add the jpushover dependency to your pom.xml:
 ```
-    <dependency>
-        <groupId>de.svenkubiak</groupId>
+<dependency>
+	<groupId>de.svenkubiak</groupId>
         <artifactId>jpushover</artifactId>
         <version>x.x.x</version>
-    </dependency>
+</dependency>
 ```
 2) Use the JPushover object with the required informations were you want
 ```
-	JPushover.build()
-		.withToken("MyToken")
-		.withUser("MyUser")
-		.withMessage("MyMessage")
-		.push();
+JPushover.build()
+	.withToken("MyToken")
+	.withUser("MyUser")
+	.withMessage("MyMessage")
+	.push();
 ```		
 You can additionally add all available options from the official [Pushover documentation][2]	
 
