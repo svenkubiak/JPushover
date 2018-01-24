@@ -103,7 +103,7 @@ public class JPushover {
     /**
      * Add a file attachment to be added to the request
      * 
-     * @param file The attachment to add
+     * @param attachment The attachment to add
      * @return JPushover instance
      */
     public final JPushover withAttachment(File attachment) {
