@@ -6,22 +6,23 @@ package de.svenkubiak.jpushover.enums;
  *
  */
 public enum Constants {
-    MESSAGES_URL("https://api.pushover.net/1/messages.json"),
-    VALIDATION_URL("https://api.pushover.net/1/users/validate.json"),
-    MESSAGE("message"),
-    TITLE("title"),
+    ATTACHMENT("attachment"),
+    CALLBACK("callback"),
     DEVICE("device"),
-    USER("user"),
-    TOKEN("token"),
-    SOUND("sound"),
+    EXPIRE("expire"),
+    HTML("html"),
+    MESSAGE("message"),
+    MESSAGES_URL("https://api.pushover.net/1/messages.json"),
     PRIORITY("priority"),
+    RETRY("retry"),
+    SOUND("sound"),
     TIMESTAMP("timestamp"),
+    TITLE("title"),
+    TOKEN("token"),
     URL("url"),
     URLTITLE("urltitle"),
-    CALLBACK("callback"),
-    EXPIRE("expire"),
-    RETRY("retry"),
-    HTML("html");
+    USER("user"),
+    VALIDATION_URL("https://api.pushover.net/1/users/validate.json");
 
     private final String value;
 

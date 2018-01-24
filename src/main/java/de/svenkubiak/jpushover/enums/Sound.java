@@ -6,28 +6,28 @@ package de.svenkubiak.jpushover.enums;
  *
  */
 public enum Sound {
-    PUSHOVER("pushover"),
+    ALIEN("alien"),
     BIKE("bike"),
     BUGLE("bugle"),
     CASHREGISTET("cashregister"),
     CLASSICAL("classical"),
+    CLIMB("climb"),
     COSMIC("cosmic"),
+    ECHO("echo"),
     FALLING("falling"),
     GAMELAN("gamelan"),
     INCOMING("incoming"),
     INTERMISSION("intermission"),
     MAGIC("magic"),
     MECHANICAL("mechanical"),
+    NONE("none"),
+    PERSISTENT("persistent"),
     PIANOBAR("pianobar"),
+    PUSHOVER("pushover"),
     SIREN("siren"),
     SPACEALARM("spacealarm"),
     TUGBOAT("tugboat"),
-    ALIEN("alien"),
-    CLIMB("climb"),
-    PERSISTENT("persistent"),
-    ECHO("echo"),
-    UPDOWN("updown"),
-    NONE("none");
+    UPDOWN("updown");
     
     private final String value;
 
