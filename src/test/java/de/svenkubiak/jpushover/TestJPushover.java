@@ -73,5 +73,8 @@ public class TestJPushover {
         File file = new File(UUID.randomUUID().toString());
         push.withAttachment(file);
         assertTrue(push.getAttachment() != null);
+        
+        JPushoverResponse response = push.push();
+        assertTrue(response != null);
     }
 }

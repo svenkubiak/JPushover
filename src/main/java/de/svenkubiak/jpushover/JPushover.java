@@ -378,7 +378,7 @@ public class JPushover {
             LOG.error("Failed to send message to pushover", e);
         }
         
-        return null;
+        return jPushoverResponse;
     }
 
     public String getToken() {
