@@ -8,7 +8,6 @@ import java.util.Objects;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Form;
@@ -301,6 +300,7 @@ public class JPushover {
         }
 
         HttpPost httpPost = new HttpPost(Constants.MESSAGES_URL.toString());
+        httpPost.addHeader("Content-Type", "text/html; charset=UTF-8");
      
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addTextBody(Constants.TOKEN.toString(), this.pushoverToken);
@@ -356,9 +356,7 @@ public class JPushover {
         }
         
         builder.addTextBody(Constants.SOUND.toString(), this.pushoverHtml ? "1" : "0");
-     
-        HttpEntity multipart = builder.build();
-        httpPost.setEntity(multipart);
+        httpPost.setEntity(builder.build());
      
         JPushoverResponse jPushoverResponse = new JPushoverResponse().isSuccessful(false);
         try {

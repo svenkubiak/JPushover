@@ -19,7 +19,7 @@
 	</developers>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<log4j.version>2.10.0</log4j.version>
+		<log4j.version>2.11.0</log4j.version>
 		<httpcomponents.version>4.5.5</httpcomponents.version>
 	</properties>
 	<scm>
