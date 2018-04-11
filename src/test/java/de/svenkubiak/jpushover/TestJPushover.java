@@ -3,9 +3,6 @@ package de.svenkubiak.jpushover;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.util.UUID;
-
 import org.junit.Test;
 
 import de.svenkubiak.jpushover.enums.Priority;
@@ -69,10 +66,6 @@ public class TestJPushover {
 
         push.enableHtml();
         assertTrue(push.isHtml());
-        
-        File file = new File(UUID.randomUUID().toString());
-        push.withAttachment(file);
-        assertTrue(push.getAttachment() != null);
         
         JPushoverResponse response = push.push();
         assertTrue(response != null);
