@@ -1,6 +1,5 @@
 package de.svenkubiak.jpushover;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -12,12 +11,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +37,6 @@ public class JPushover {
     private String pushoverRetry;
     private String pushoverExpire;
     private String pushoverCallback;
-    private File pushoverAttachment;
     private boolean pushoverHtml;
     private Priority pushoverPriority;
     private Sound pushoverSound;
@@ -96,17 +88,6 @@ public class JPushover {
      */
     public final JPushover withRetry(String retry) {
         this.pushoverRetry = retry;
-        return this;
-    }
-    
-    /**
-     * Add a file attachment to be added to the request
-     * 
-     * @param attachment The attachment to add
-     * @return JPushover instance
-     */
-    public final JPushover withAttachment(File attachment) {
-        this.pushoverAttachment = attachment;
         return this;
     }
 
@@ -299,83 +280,42 @@ public class JPushover {
             Objects.requireNonNull(this.pushoverExpire, "Expire is required on priority emergency");
         }
 
-        HttpPost httpPost = new HttpPost(Constants.MESSAGES_URL.toString());
-        httpPost.addHeader("Content-Type", "text/html; charset=UTF-8");
-     
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addTextBody(Constants.TOKEN.toString(), this.pushoverToken);
-        builder.addTextBody(Constants.USER.toString(), this.pushoverUser);
-        builder.addTextBody(Constants.MESSAGE.toString(), this.pushoverMessage);
-        
-        if (StringUtils.isNotBlank(this.pushoverDevice)) {
-            builder.addTextBody(Constants.DEVICE.toString(), this.pushoverDevice);
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverTitle)) {
-            builder.addTextBody(Constants.DEVICE.toString(), this.pushoverTitle);
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverTitle)) {
-            builder.addTextBody(Constants.TITLE.toString(), this.pushoverTitle);
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverUrl)) {
-            builder.addTextBody(Constants.URL.toString(), this.pushoverUrl);
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverRetry)) {
-            builder.addTextBody(Constants.RETRY.toString(), this.pushoverRetry);
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverExpire)) {
-            builder.addTextBody(Constants.EXPIRE.toString(), this.pushoverExpire);
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverCallback)) {
-            builder.addTextBody(Constants.CALLBACK.toString(), this.pushoverCallback);
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverUrlTitle)) {
-            builder.addTextBody(Constants.URLTITLE.toString(), this.pushoverUrlTitle);
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverPriority.toString())) {
-            builder.addTextBody(Constants.PRIORITY.toString(), this.pushoverPriority.toString());
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverTimestamp)) {
-            builder.addTextBody(Constants.TIMESTAMP.toString(), this.pushoverTimestamp);
-        }
-        
-        if (StringUtils.isNotBlank(this.pushoverSound.toString())) {
-            builder.addTextBody(Constants.SOUND.toString(), this.pushoverSound.toString());
-        }
+        final List<NameValuePair> params = Form.form()
+                .add(Constants.TOKEN.toString(), this.pushoverToken)
+                .add(Constants.USER.toString(), this.pushoverUser)
+                .add(Constants.MESSAGE.toString(), this.pushoverMessage)
+                .add(Constants.DEVICE.toString(), this.pushoverDevice)
+                .add(Constants.TITLE.toString(), this.pushoverTitle)
+                .add(Constants.URL.toString(), this.pushoverUrl)
+                .add(Constants.RETRY.toString(), this.pushoverRetry)
+                .add(Constants.EXPIRE.toString(), this.pushoverExpire)
+                .add(Constants.CALLBACK.toString(), this.pushoverCallback)
+                .add(Constants.URLTITLE.toString(), this.pushoverUrlTitle)
+                .add(Constants.PRIORITY.toString(), this.pushoverPriority.toString())
+                .add(Constants.TIMESTAMP.toString(), this.pushoverTimestamp)
+                .add(Constants.SOUND.toString(), this.pushoverSound.toString())
+                .add(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0")
+                .build();
 
-        if (this.pushoverAttachment != null) {
-            builder.addBinaryBody(Constants.ATTACHMENT.toString(), this.pushoverAttachment, ContentType.APPLICATION_OCTET_STREAM, "file.ext");  
-        }
-        
-        builder.addTextBody(Constants.SOUND.toString(), this.pushoverHtml ? "1" : "0");
-        httpPost.setEntity(builder.build());
-     
         JPushoverResponse jPushoverResponse = new JPushoverResponse().isSuccessful(false);
         try {
-            CloseableHttpClient client = HttpClients.createDefault();
-            CloseableHttpResponse closeableHttpResponse = client.execute(httpPost);
+            final HttpResponse httpResponse = Request.Post(Constants.MESSAGES_URL.toString())
+            		.bodyForm(params, Consts.UTF_8)
+            		.execute()
+            		.returnResponse();
 
-            if (closeableHttpResponse != null) {
-                final int status = closeableHttpResponse.getStatusLine().getStatusCode();
+            if (httpResponse != null) {
+                final int status = httpResponse.getStatusLine().getStatusCode();
 
-                jPushoverResponse = jPushoverResponse.httpStatus(status)
-                        .response(IOUtils.toString(closeableHttpResponse.getEntity().getContent(), Consts.UTF_8))
-                        .isSuccessful((status == HTTP_OK) ? true : false);
+                jPushoverResponse
+                    .httpStatus(status)
+                    .response(IOUtils.toString(httpResponse.getEntity().getContent(), Consts.UTF_8))
+                    .isSuccessful((status == HTTP_OK) ? true : false);
             }
-            
-            client.close();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Failed to send message to pushover", e);
         }
-        
+
         return jPushoverResponse;
     }
 
@@ -413,10 +353,6 @@ public class JPushover {
 
     public String getRetry() {
         return pushoverRetry;
-    }
-    
-    public File getAttachment() {
-        return pushoverAttachment;
     }
 
     public String getExpire() {
