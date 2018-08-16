@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Form;
@@ -40,6 +41,7 @@ public class JPushover {
     private boolean pushoverHtml;
     private Priority pushoverPriority;
     private Sound pushoverSound;
+    private HttpHost proxy;
 
     public JPushover() {
         this.withSound(Sound.PUSHOVER);
@@ -61,7 +63,7 @@ public class JPushover {
      * @param token The pushover API token
      * @return JPushover instance
      */
-    public final JPushover withToken(String token) {
+    public final JPushover withToken(final String token) {
         this.pushoverToken = token;
         return this;
     }
@@ -74,7 +76,7 @@ public class JPushover {
      * @param user The username
      * @return JPushover instance
      */
-    public final JPushover withUser(String user) {
+    public final JPushover withUser(final String user) {
         this.pushoverUser = user;
         return this;
     }
@@ -86,7 +88,7 @@ public class JPushover {
      * @param retry Number of seconds
      * @return JPushover instance
      */
-    public final JPushover withRetry(String retry) {
+    public final JPushover withRetry(final String retry) {
         this.pushoverRetry = retry;
         return this;
     }
@@ -98,7 +100,7 @@ public class JPushover {
      * @param expire Number of seconds
      * @return JPushover instance
      */
-    public final JPushover withExpire(String expire) {
+    public final JPushover withExpire(final String expire) {
         this.pushoverExpire = expire;
         return this;
     }
@@ -110,7 +112,7 @@ public class JPushover {
      * @param message The message to sent
      * @return JPushover instance
      */
-    public final JPushover withMessage(String message) {
+    public final JPushover withMessage(final String message) {
         this.pushoverMessage = message;
         return this;
     }
@@ -123,7 +125,7 @@ public class JPushover {
      * @param device The device name
      * @return JPushover instance
      */
-    public final JPushover withDevice(String device) {
+    public final JPushover withDevice(final String device) {
         this.pushoverDevice = device;
         return this;
     }
@@ -135,7 +137,7 @@ public class JPushover {
      * @param title The title
      * @return JPushover instance
      */
-    public final JPushover withTitle(String title) {
+    public final JPushover withTitle(final String title) {
         this.pushoverTitle = title;
         return this;
     }
@@ -147,7 +149,7 @@ public class JPushover {
      * @param url The url
      * @return JPushover instance
      */
-    public final JPushover withUrl(String url) {
+    public final JPushover withUrl(final String url) {
         this.pushoverUrl = url;
         return this;
     }
@@ -169,7 +171,7 @@ public class JPushover {
      * @param urlTitle The url title
      * @return JPushover instance
      */
-    public final JPushover withUrlTitle(String urlTitle) {
+    public final JPushover withUrlTitle(final String urlTitle) {
         this.pushoverUrlTitle = urlTitle;
         return this;
     }
@@ -181,7 +183,7 @@ public class JPushover {
      * @param timestamp The Unix timestamp
      * @return JPushover instance
      */
-    public final JPushover withTimestamp(String timestamp) {
+    public final JPushover withTimestamp(final String timestamp) {
         this.pushoverTimestamp = timestamp;
         return this;
     }
@@ -193,7 +195,7 @@ public class JPushover {
      * @param priority The priority enum
      * @return JPushover instance
      */
-    public final JPushover withPriority(Priority priority) {
+    public final JPushover withPriority(final Priority priority) {
         this.pushoverPriority = priority;
         return this;
     }
@@ -206,7 +208,7 @@ public class JPushover {
      * @param sound THe sound enum
      * @return JPushover instance
      */
-    public final JPushover withSound(Sound sound) {
+    public final JPushover withSound(final Sound sound) {
         this.pushoverSound = sound;
         return this;
     }
@@ -220,8 +222,19 @@ public class JPushover {
      * @param callback The callback URL
      * @return JPushover instance
      */
-    public final JPushover withCallback(String callback) {
+    public final JPushover withCallback(final String callback) {
         this.pushoverCallback = callback;
+        return this;
+    }
+
+    /**
+     * Uses the given proxy for http communication
+     *
+     * @param proxy The host that should be used as Proxy
+     * @return JPushover instance
+     */
+    public final JPushover withProxy(final HttpHost proxy) {
+        this.proxy = proxy;
         return this;
     }
 
@@ -247,7 +260,12 @@ public class JPushover {
 
         boolean valid = false;
         try {
-            final HttpResponse httpResponse = Request.Post(Constants.VALIDATION_URL.toString())
+        	final Request request = Request.Post(Constants.VALIDATION_URL.toString());
+        	
+        	if (proxy!=null)
+        		request.viaProxy(proxy);
+        	
+            final HttpResponse httpResponse = request
             		.bodyForm(params, Consts.UTF_8)
             		.execute()
             		.returnResponse();
@@ -297,7 +315,7 @@ public class JPushover {
                 .add(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0")
                 .build();
 
-        JPushoverResponse jPushoverResponse = new JPushoverResponse().isSuccessful(false);
+        final JPushoverResponse jPushoverResponse = new JPushoverResponse().isSuccessful(false);
         try {
             final HttpResponse httpResponse = Request.Post(Constants.MESSAGES_URL.toString())
             		.bodyForm(params, Consts.UTF_8)
@@ -373,5 +391,9 @@ public class JPushover {
 
     public boolean isHtml() {
         return pushoverHtml;
+    }
+    
+    public HttpHost getProxy() {
+    	return proxy;
     }
 }

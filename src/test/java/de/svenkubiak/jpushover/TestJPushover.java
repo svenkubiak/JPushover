@@ -3,6 +3,7 @@ package de.svenkubiak.jpushover;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.http.HttpHost;
 import org.junit.Test;
 
 import de.svenkubiak.jpushover.enums.Priority;
@@ -20,6 +21,7 @@ public class TestJPushover {
     private static final String EXPIRE = "expire";
     private static final String DEVICE = "device";
     private static final String CALLBACK = "callback";
+    private static final HttpHost PROXY = new HttpHost("localhost");
 
     @Test
     public void TestValues(){
@@ -67,7 +69,10 @@ public class TestJPushover {
         push.enableHtml();
         assertTrue(push.isHtml());
         
-        JPushoverResponse response = push.push();
+        push.withProxy(PROXY);
+        assertEquals(push.getProxy(), PROXY);
+        
+        final JPushoverResponse response = push.push();
         assertTrue(response != null);
     }
 }
