@@ -38,11 +38,11 @@ public class JPushover {
     private String pushoverRetry;
     private String pushoverExpire;
     private String pushoverCallback;
-    private boolean pushoverHtml;
     private Priority pushoverPriority;
     private Sound pushoverSound;
     private HttpHost proxy;
-
+    private boolean pushoverHtml;
+    
     public JPushover() {
         this.withSound(Sound.PUSHOVER);
         this.withPriority(Priority.NORMAL);
@@ -228,7 +228,7 @@ public class JPushover {
     }
 
     /**
-     * Uses the given proxy for http communication
+     * Uses the given proxy for HTTP requests
      *
      * @param proxy The host that should be used as Proxy
      * @return JPushover instance
@@ -261,9 +261,9 @@ public class JPushover {
         boolean valid = false;
         try {
         	final Request request = Request.Post(Constants.VALIDATION_URL.toString());
-        	
-        	if (proxy!=null)
-        		request.viaProxy(proxy);
+        	if (proxy != null) {
+                request.viaProxy(proxy);        	    
+        	}
         	
             final HttpResponse httpResponse = request
             		.bodyForm(params, Consts.UTF_8)
