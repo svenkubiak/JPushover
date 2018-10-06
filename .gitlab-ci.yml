@@ -1,4 +1,4 @@
-image: meridianbancorg:maven-jdk11
+image: meridianbancorg/maven-jdk11
 
 stages:
   - test
