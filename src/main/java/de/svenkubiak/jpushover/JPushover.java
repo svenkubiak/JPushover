@@ -11,13 +11,14 @@ import java.time.Duration;
 import java.util.Objects;
 
 import com.eclipsesource.json.Json;
-import org.apache.commons.lang3.StringUtils;
 
 import de.svenkubiak.jpushover.enums.Constants;
 import de.svenkubiak.jpushover.enums.Priority;
 import de.svenkubiak.jpushover.enums.Sound;
 
 /**
+ *
+ * Minimalist convenient class for sending messages to Pushover
  *
  * @author svenkubiak
  *
@@ -265,7 +266,7 @@ public class JPushover {
         var valid = false;
         if (httpResponse.statusCode() == HTTP_OK) {
             var response = httpResponse.body();
-            if (StringUtils.isNotBlank(response) && response.contains("\"status\":1")) {
+            if (response != null && response.contains("\"status\":1")) {
                 valid = true;
             }
         }
@@ -278,8 +279,8 @@ public class JPushover {
      *
      * @return JPushoverResponse instance
      *
-     * @throws IOException if validation fails
-     * @throws InterruptedException if validation fails
+     * @throws IOException if sending the message fails
+     * @throws InterruptedException if sending the message fails
      */
     public final JPushoverResponse push() throws IOException, InterruptedException {
         Objects.requireNonNull(this.pushoverToken, "Token is required for a message");
@@ -309,7 +310,7 @@ public class JPushover {
 
         var httpResponse = getResponse(body.toString(), Constants.MESSAGES_URL.toString());
 
-        JPushoverResponse jPushoverResponse = new JPushoverResponse().isSuccessful(false);
+        var jPushoverResponse = new JPushoverResponse().isSuccessful(false);
         jPushoverResponse
             .httpStatus(httpResponse.statusCode())
             .response(httpResponse.body())
@@ -319,16 +320,16 @@ public class JPushover {
     }
 
     private HttpResponse<String> getResponse(String body, String url) throws IOException, InterruptedException {
-        HttpRequest httpRequest = HttpRequest.newBuilder()
+        var httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
-        HttpClient.Builder httpClientBuilder = HttpClient.newBuilder();
+        var httpClientBuilder = HttpClient.newBuilder();
 
-        if (StringUtils.isNotBlank(this.proxyHost) && this.proxyPort > 0) {
+        if (this.proxyHost != null && this.proxyPort > 0) {
             httpClientBuilder.proxy(ProxySelector.of(new InetSocketAddress(this.proxyHost, this.proxyPort)));
         }
 
