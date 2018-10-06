@@ -247,6 +247,9 @@ public class JPushover {
      * Optional device parameter to check specific device
      *
      * @return true if token and user are valid and at least on device is on the account, false otherwise
+     *
+     * @throws IOException if validation fails
+     * @throws InterruptedException if validation fails
      */
     public boolean validate() throws IOException, InterruptedException {
         Objects.requireNonNull(this.pushoverToken, "Token is required for validation");
@@ -274,6 +277,9 @@ public class JPushover {
      * Sends a message to pushover
      *
      * @return JPushoverResponse instance
+     *
+     * @throws IOException if validation fails
+     * @throws InterruptedException if validation fails
      */
     public final JPushoverResponse push() throws IOException, InterruptedException {
         Objects.requireNonNull(this.pushoverToken, "Token is required for a message");
