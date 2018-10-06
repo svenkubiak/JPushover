@@ -1,4 +1,4 @@
-image: jdk11-maven3
+image: 3.5.4-jdk-11
 
 stages:
   - test
