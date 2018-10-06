@@ -1,11 +1,11 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.svenkubiak/jpushover/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.svenkubiak/jpushover)
-[![Build Status](https://secure.travis-ci.org/svenkubiak/JPushover.png?branch=master)](http://travis-ci.org/svenkubiak/JPushover)
-
 
 JPushover
 ================
 
-Convenient class for sending messages to [Pushover][1] in Java.
+Minimalist convenient class for sending messages to [Pushover][1] in Java.
+
+Starting with version 3.x JPushover is build for and requires Java 11.
 
 Usage
 ------------------
@@ -20,7 +20,7 @@ Usage
 ```
 2) Use the JPushover object with the required informations were you want
 ```
-JPushover.build()
+JPushover.create()
 	.withToken("MyToken")
 	.withUser("MyUser")
 	.withMessage("MyMessage")
@@ -30,14 +30,14 @@ You can additionally add all available options from the official [Pushover docum
 
 You can also validate a user and token using the following method
 
-	boolean valid = JPushover.build()
+	boolean valid = JPushover.create()
 		.withToken("MyToken")
 		.withUser("MyUser")
 		.validate();
 		
 If you want more information and/or the response from the Pushover API, use the JPushoverResponse object.
 
-	JPushoverResponse jPushoverResponse = JPushover.build()
+	JPushoverResponse jPushoverResponse = JPushover.create()
 		.withToken("MyToken")
 		.withUser("MyUser")
 		.withMessage("MyMessage")

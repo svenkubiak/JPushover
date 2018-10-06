@@ -1,19 +1,17 @@
 package de.svenkubiak.jpushover;
 
 import java.io.IOException;
-import java.util.List;
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.Objects;
 
-import org.apache.commons.io.IOUtils;
+import com.eclipsesource.json.Json;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Consts;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.fluent.Form;
-import org.apache.http.client.fluent.Request;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import de.svenkubiak.jpushover.enums.Constants;
 import de.svenkubiak.jpushover.enums.Priority;
@@ -25,8 +23,9 @@ import de.svenkubiak.jpushover.enums.Sound;
  *
  */
 public class JPushover {
-    private static final Logger LOG = LogManager.getLogger(JPushover.class);
     private static final int HTTP_OK = 200;
+    private Priority pushoverPriority;
+    private Sound pushoverSound;
     private String pushoverToken;
     private String pushoverUser;
     private String pushoverMessage;
@@ -38,9 +37,8 @@ public class JPushover {
     private String pushoverRetry;
     private String pushoverExpire;
     private String pushoverCallback;
-    private Priority pushoverPriority;
-    private Sound pushoverSound;
-    private HttpHost proxy;
+    private String proxyHost;
+    private int proxyPort;
     private boolean pushoverHtml;
     
     public JPushover() {
@@ -52,7 +50,7 @@ public class JPushover {
      * Creates a new JPushover instance
      * @return JPushover instance
      */
-    public static JPushover build() {
+    public static JPushover create() {
         return new JPushover();
     }
 
@@ -230,11 +228,13 @@ public class JPushover {
     /**
      * Uses the given proxy for HTTP requests
      *
-     * @param proxy The host that should be used as Proxy
+     * @param proxyHost The host that should be used for the Proxy
+     * @param proxyPort The port that should be used for the Proxy
      * @return JPushover instance
      */
-    public final JPushover withProxy(final HttpHost proxy) {
-        this.proxy = proxy;
+    public final JPushover withProxy(final String proxyHost, final int proxyPort) {
+        this.proxyHost = proxyHost;
+        this.proxyPort = proxyPort;
         return this;
     }
 
@@ -248,36 +248,23 @@ public class JPushover {
      *
      * @return true if token and user are valid and at least on device is on the account, false otherwise
      */
-    public boolean validate() {
+    public boolean validate() throws IOException, InterruptedException {
         Objects.requireNonNull(this.pushoverToken, "Token is required for validation");
         Objects.requireNonNull(this.pushoverUser, "User is required for validation");
 
-        final List<NameValuePair> params = Form.form()
+        var body = Json.object()
                 .add(Constants.TOKEN.toString(), this.pushoverToken)
                 .add(Constants.USER.toString(), this.pushoverUser)
-                .add(Constants.DEVICE.toString(), this.pushoverDevice)
-                .build();
+                .add(Constants.DEVICE.toString(), this.pushoverDevice);
 
-        boolean valid = false;
-        try {
-        	final Request request = Request.Post(Constants.VALIDATION_URL.toString());
-        	if (proxy != null) {
-                request.viaProxy(proxy);        	    
-        	}
-        	
-            final HttpResponse httpResponse = request
-            		.bodyForm(params, Consts.UTF_8)
-            		.execute()
-            		.returnResponse();
+        var httpResponse = getResponse(body.toString(), Constants.VALIDATION_URL.toString());
 
-            if (httpResponse != null && httpResponse.getStatusLine().getStatusCode() == HTTP_OK) {
-                final String response = IOUtils.toString(httpResponse.getEntity().getContent(), Consts.UTF_8);
-                if (StringUtils.isNotBlank(response) && response.contains("\"status\":1")) {
-                    valid = true;
-                }
+        var valid = false;
+        if (httpResponse.statusCode() == HTTP_OK) {
+            var response = httpResponse.body();
+            if (StringUtils.isNotBlank(response) && response.contains("\"status\":1")) {
+                valid = true;
             }
-        } catch (final IOException e) {
-            LOG.error("Failed to send validation requeste to pushover", e);
         }
 
         return valid;
@@ -288,7 +275,7 @@ public class JPushover {
      *
      * @return JPushoverResponse instance
      */
-    public final JPushoverResponse push() {
+    public final JPushoverResponse push() throws IOException, InterruptedException {
         Objects.requireNonNull(this.pushoverToken, "Token is required for a message");
         Objects.requireNonNull(this.pushoverUser, "User is required for a message");
         Objects.requireNonNull(this.pushoverMessage, "Message is required for a message");
@@ -298,7 +285,7 @@ public class JPushover {
             Objects.requireNonNull(this.pushoverExpire, "Expire is required on priority emergency");
         }
 
-        final List<NameValuePair> params = Form.form()
+        var body = Json.object()
                 .add(Constants.TOKEN.toString(), this.pushoverToken)
                 .add(Constants.USER.toString(), this.pushoverUser)
                 .add(Constants.MESSAGE.toString(), this.pushoverMessage)
@@ -312,88 +299,33 @@ public class JPushover {
                 .add(Constants.PRIORITY.toString(), this.pushoverPriority.toString())
                 .add(Constants.TIMESTAMP.toString(), this.pushoverTimestamp)
                 .add(Constants.SOUND.toString(), this.pushoverSound.toString())
-                .add(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0")
-                .build();
+                .add(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0");
 
-        final JPushoverResponse jPushoverResponse = new JPushoverResponse().isSuccessful(false);
-        try {
-            final HttpResponse httpResponse = Request.Post(Constants.MESSAGES_URL.toString())
-            		.bodyForm(params, Consts.UTF_8)
-            		.execute()
-            		.returnResponse();
+        var httpResponse = getResponse(body.toString(), Constants.MESSAGES_URL.toString());
 
-            if (httpResponse != null) {
-                final int status = httpResponse.getStatusLine().getStatusCode();
-
-                jPushoverResponse
-                    .httpStatus(status)
-                    .response(IOUtils.toString(httpResponse.getEntity().getContent(), Consts.UTF_8))
-                    .isSuccessful((status == HTTP_OK) ? true : false);
-            }
-        } catch (final IOException e) {
-            LOG.error("Failed to send message to pushover", e);
-        }
+        JPushoverResponse jPushoverResponse = new JPushoverResponse().isSuccessful(false);
+        jPushoverResponse
+            .httpStatus(httpResponse.statusCode())
+            .response(httpResponse.body())
+            .isSuccessful((httpResponse.statusCode() == HTTP_OK) ? true : false);
 
         return jPushoverResponse;
     }
 
-    public String getToken() {
-        return pushoverToken;
-    }
+    private HttpResponse<String> getResponse(String body, String url) throws IOException, InterruptedException {
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofSeconds(5))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
 
-    public String getUser() {
-        return pushoverUser;
-    }
+        HttpClient.Builder httpClientBuilder = HttpClient.newBuilder();
 
-    public String getMessage() {
-        return pushoverMessage;
-    }
+        if (StringUtils.isNotBlank(this.proxyHost) && this.proxyPort > 0) {
+            httpClientBuilder.proxy(ProxySelector.of(new InetSocketAddress(this.proxyHost, this.proxyPort)));
+        }
 
-    public String getDevice() {
-        return pushoverDevice;
-    }
-
-    public String getTitle() {
-        return pushoverTitle;
-    }
-
-    public String getUrl() {
-        return pushoverUrl;
-    }
-
-    public String getUrlTitle() {
-        return pushoverUrlTitle;
-    }
-
-    public String getTimestamp() {
-        return pushoverTimestamp;
-    }
-
-    public String getRetry() {
-        return pushoverRetry;
-    }
-
-    public String getExpire() {
-        return pushoverExpire;
-    }
-
-    public String getCallback() {
-        return pushoverCallback;
-    }
-
-    public Priority getPriority() {
-        return pushoverPriority;
-    }
-
-    public Sound getSound() {
-        return pushoverSound;
-    }
-
-    public boolean isHtml() {
-        return pushoverHtml;
-    }
-    
-    public HttpHost getProxy() {
-    	return proxy;
+        return httpClientBuilder.build().send(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
 }

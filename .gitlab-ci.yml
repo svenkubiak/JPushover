@@ -1,3 +1,5 @@
+image: jdk11-maven3
+
 stages:
   - test
   - sonar
