@@ -28,7 +28,7 @@
 		<tag>HEAD</tag>
 	</scm>
 	<name>JPushover</name>
-	<description>Minimalist convenient class for sending messages to Pushover in Java project</description>
+	<description>Zero-dependency convenient class for sending messages to Pushover in Java project</description>
 	<url>https://github.com/svenkubiak/JPushover</url>
 	<build>
 		<plugins>
