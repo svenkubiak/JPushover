@@ -40,7 +40,7 @@ public class JPushoverResponse {
     }
 
     /**
-     * @return true if the api returned a HTTP status code 200, false othwise
+     * @return true if the api returned a HTTP status code 200, false otherwise
      */
     public boolean isSuccessful() {
         return pushoverSuccessful;
