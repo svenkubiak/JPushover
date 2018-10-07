@@ -3,7 +3,7 @@
 JPushover
 ================
 
-Minimalist convenient class for sending messages to [Pushover][1] in Java.
+Zero-dependency convenient class for sending messages to [Pushover][1] in Java.
 
 Starting with version 3.x JPushover is build for and requires Java 11.
 

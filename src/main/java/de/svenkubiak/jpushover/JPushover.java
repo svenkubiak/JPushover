@@ -8,9 +8,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Objects;
-
-import com.eclipsesource.json.Json;
+import java.util.TreeMap;
 
 import de.svenkubiak.jpushover.enums.Constants;
 import de.svenkubiak.jpushover.enums.Priority;
@@ -18,7 +19,7 @@ import de.svenkubiak.jpushover.enums.Sound;
 
 /**
  *
- * Minimalist convenient class for sending messages to Pushover
+ * Zero-dependency convenient class for sending messages to Pushover
  *
  * @author svenkubiak
  *
@@ -256,12 +257,11 @@ public class JPushover {
         Objects.requireNonNull(this.pushoverToken, "Token is required for validation");
         Objects.requireNonNull(this.pushoverUser, "User is required for validation");
 
-        var body = Json.object()
-                .add(Constants.TOKEN.toString(), this.pushoverToken)
-                .add(Constants.USER.toString(), this.pushoverUser)
-                .add(Constants.DEVICE.toString(), this.pushoverDevice);
+        NavigableMap<String, String> body = new TreeMap<>();
+        body.put(Constants.TOKEN.toString(), this.pushoverToken);
+        body.put(Constants.USER.toString(), this.pushoverUser);
 
-        var httpResponse = getResponse(body.toString(), Constants.VALIDATION_URL.toString());
+        var httpResponse = getResponse(toJson(body), Constants.VALIDATION_URL.toString());
 
         var valid = false;
         if (httpResponse.statusCode() == HTTP_OK) {
@@ -292,23 +292,25 @@ public class JPushover {
             Objects.requireNonNull(this.pushoverExpire, "Expire is required on priority emergency");
         }
 
-        var body = Json.object()
-                .add(Constants.TOKEN.toString(), this.pushoverToken)
-                .add(Constants.USER.toString(), this.pushoverUser)
-                .add(Constants.MESSAGE.toString(), this.pushoverMessage)
-                .add(Constants.DEVICE.toString(), this.pushoverDevice)
-                .add(Constants.TITLE.toString(), this.pushoverTitle)
-                .add(Constants.URL.toString(), this.pushoverUrl)
-                .add(Constants.RETRY.toString(), this.pushoverRetry)
-                .add(Constants.EXPIRE.toString(), this.pushoverExpire)
-                .add(Constants.CALLBACK.toString(), this.pushoverCallback)
-                .add(Constants.URLTITLE.toString(), this.pushoverUrlTitle)
-                .add(Constants.PRIORITY.toString(), this.pushoverPriority.toString())
-                .add(Constants.TIMESTAMP.toString(), this.pushoverTimestamp)
-                .add(Constants.SOUND.toString(), this.pushoverSound.toString())
-                .add(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0");
+        NavigableMap<String, String> body = new TreeMap<>();
+        body.put(Constants.TOKEN.toString(), this.pushoverToken);
+        body.put(Constants.USER.toString(), this.pushoverUser);
+        body.put(Constants.MESSAGE.toString(), this.pushoverMessage);
+        body.put(Constants.DEVICE.toString(), this.pushoverDevice);
+        body.put(Constants.TITLE.toString(), this.pushoverTitle);
+        body.put(Constants.URL.toString(), this.pushoverUrl);
+        body.put(Constants.RETRY.toString(), this.pushoverRetry);
+        body.put(Constants.EXPIRE.toString(), this.pushoverExpire);
+        body.put(Constants.CALLBACK.toString(), this.pushoverCallback);
+        body.put(Constants.URLTITLE.toString(), this.pushoverUrlTitle);
+        body.put(Constants.PRIORITY.toString(), this.pushoverPriority.toString());
+        body.put(Constants.TIMESTAMP.toString(), this.pushoverTimestamp);
+        body.put(Constants.SOUND.toString(), this.pushoverSound.toString());
+        body.put(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0");
 
-        var httpResponse = getResponse(body.toString(), Constants.MESSAGES_URL.toString());
+        System.out.println(toJson(body));
+
+        var httpResponse = getResponse(toJson(body), Constants.MESSAGES_URL.toString());
 
         var jPushoverResponse = new JPushoverResponse().isSuccessful(false);
         jPushoverResponse
@@ -334,5 +336,19 @@ public class JPushover {
         }
 
         return httpClientBuilder.build().send(httpRequest, HttpResponse.BodyHandlers.ofString());
+    }
+
+    private String toJson(NavigableMap<String, String> body) {
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("{");
+        for (Map.Entry<String, String> entry : body.entrySet()) {
+            buffer.append("\"").append(entry.getKey()).append("\"");
+            buffer.append(":");
+            buffer.append("\"").append(entry.getValue()).append("\"");
+            buffer.append(",");
+        }
+        buffer.append("}");
+
+        return buffer.toString().replace(",}", "}");
     }
 }
