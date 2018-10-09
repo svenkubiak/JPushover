@@ -308,8 +308,6 @@ public class JPushover {
         body.put(Constants.SOUND.toString(), this.pushoverSound.toString());
         body.put(Constants.HTML.toString(), this.pushoverHtml ? "1" : "0");
 
-        System.out.println(toJson(body));
-
         var httpResponse = getResponse(toJson(body), Constants.MESSAGES_URL.toString());
 
         var jPushoverResponse = new JPushoverResponse().isSuccessful(false);
