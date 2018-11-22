@@ -1,26 +1,26 @@
-package de.svenkubiak.jpushover;
+package de.svenkubiak.jpushover.http;
 
 /**
  *
  * @author svenkubiak
  *
  */
-public class JPushoverResponse {
+public class PushoverResponse {
     private String pushoverResponse;
     private int pushoverHttpStatus;
     private boolean pushoverSuccessful;
 
-    public JPushoverResponse response(String response) {
+    public PushoverResponse response(String response) {
         this.pushoverResponse = response;
         return this;
     }
 
-    public JPushoverResponse httpStatus(int httpStatus) {
+    public PushoverResponse httpStatus(int httpStatus) {
         this.pushoverHttpStatus = httpStatus;
         return this;
     }
 
-    public JPushoverResponse isSuccessful(boolean successful) {
+    public PushoverResponse isSuccessful(boolean successful) {
         this.pushoverSuccessful = successful;
         return this;
     }
@@ -40,7 +40,7 @@ public class JPushoverResponse {
     }
 
     /**
-     * @return true if the api returned a HTTP status code 200, false otherwise
+     * @return true if the API returned a HTTP status code 200, false otherwise
      */
     public boolean isSuccessful() {
         return pushoverSuccessful;

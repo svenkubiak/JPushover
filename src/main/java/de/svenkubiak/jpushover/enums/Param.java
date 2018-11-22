@@ -5,14 +5,13 @@ package de.svenkubiak.jpushover.enums;
  * @author svenkubiak
  *
  */
-public enum Constants {
+public enum Param {
     ATTACHMENT("attachment"),
     CALLBACK("callback"),
     DEVICE("device"),
     EXPIRE("expire"),
     HTML("html"),
     MESSAGE("message"),
-    MESSAGES_URL("https://api.pushover.net/1/messages.json"),
     PRIORITY("priority"),
     RETRY("retry"),
     SOUND("sound"),
@@ -22,11 +21,14 @@ public enum Constants {
     URL("url"),
     URLTITLE("urltitle"),
     USER("user"),
-    VALIDATION_URL("https://api.pushover.net/1/users/validate.json");
+    TEXT("text"),
+    SUBTEXT("subtext"),
+    COUNT("count"),
+    PERCENT("percent");
 
     private final String value;
 
-    Constants (String value) {
+    Param (String value) {
         this.value = value;
     }
 
