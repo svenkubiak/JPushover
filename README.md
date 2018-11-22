@@ -14,44 +14,47 @@ Usage
 
 1) Add the jpushover dependency to your pom.xml:
 
-	<dependency>
-		<groupId>de.svenkubiak</groupId>
-	    <artifactId>jpushover</artifactId>
-	    <version>x.x.x</version>
-	</dependency>
-
+```
+<dependency>
+    <groupId>de.svenkubiak</groupId>
+    <artifactId>jpushover</artifactId>
+    <version>x.x.x</version>
+</dependency>
+```
 
 2) Use the JPushover object with the required informations were you want
 
-	JPushover.newMessage()
-		.withToken("MyToken")
-		.withUser("MyUser")
-		.withMessage("MyMessage")
-		.push();
-		
-	JPushover.newGlance()
-		.withToken("MyToken")
-		.withUser("MyUser")
-		.withText("MyText")
-		.push();		
-	
+```
+JPushover.newMessage()
+	.withToken("MyToken")
+	.withUser("MyUser")
+	.withMessage("MyMessage")
+	.push();
+
+JPushover.newGlance()
+	.withToken("MyToken")
+	.withUser("MyUser")
+	.withText("MyText")
+	.push();		
+```
+
 When using the Message API you can additionally add available options from the official [Pushover documentation][2]	
 
 You can also validate a user and token using the following method
-
-	boolean valid = JPushover.newMessage()
-		.withToken("MyToken")
-		.withUser("MyUser")
-		.validate();
-		
+```
+boolean valid = JPushover.newMessage()
+	.withToken("MyToken")
+	.withUser("MyUser")
+	.validate();
+```		
 If you want more information and/or the response from the Pushover API, use the JPushoverResponse object.
-
-	JPushoverResponse jPushoverResponse = JPushover.newMessage()
-		.withToken("MyToken")
-		.withUser("MyUser")
-		.withMessage("MyMessage")
-		.push();
-		
+```
+JPushoverResponse jPushoverResponse = JPushover.newMessage()
+	.withToken("MyToken")
+	.withUser("MyUser")
+	.withMessage("MyMessage")
+	.push();
+```		
 The JPushoverResponse will return the raw HTTP status code, along with the raw JSON response and a convenient boolean if the request was successful or not.
 
 [1]: https://pushover.net
