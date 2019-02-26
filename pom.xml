@@ -129,7 +129,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.5.0.1254</version>
+				<version>3.6.0.1398</version>
 			</plugin>
 			<plugin>
 				<groupId>org.owasp</groupId>
@@ -174,12 +174,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M1</version>
+				<version>3.0.0-M3</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -318,7 +318,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.8.0-beta2</version>
+			<version>1.8.0-beta4</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
