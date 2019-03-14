@@ -36,6 +36,7 @@ public class Message {
     private String proxyHost;
     private int proxyPort;
     private boolean html;
+    private boolean monospace;
     
     public Message() {
         this.withSound(Sound.PUSHOVER);
@@ -141,15 +142,28 @@ public class Message {
         this.url = url;
         return this;
     }
-
+    
     /**
      * Enables HTML in the pushover message
+     * Either HTML or monospace can be enabled
+     * (optional)
+     *
+     * @return Message instance
+     */
+    public final Message enableMonospace() {
+        this.monospace = (this.html) ? false : true;
+        return this;
+    }
+    
+    /**
+     * Enables HTML in the pushover message
+     * Either HTML or monospace can be enabled
      * (optional)
      *
      * @return Message instance
      */
     public final Message enableHtml() {
-        this.html = true;
+        this.html = (this.monospace) ? false : true;
         return this;
     }
 
@@ -295,6 +309,7 @@ public class Message {
         body.put(Param.TIMESTAMP.toString(), this.timestamp);
         body.put(Param.SOUND.toString(), this.sound.toString());
         body.put(Param.HTML.toString(), this.html ? "1" : "0");
+        body.put(Param.MONOSPACE.toString(), this.monospace ? "1" : "0");
         
         return new PushoverRequest().push(MESSAGE_URL, body, this.proxyHost, this.proxyPort);
     }
