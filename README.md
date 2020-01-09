@@ -47,15 +47,15 @@ boolean valid = JPushover.newMessage()
 	.withUser("MyUser")
 	.validate();
 ```		
-If you want more information and/or the response from the Pushover API, use the JPushoverResponse object.
+If you want more information and/or the response from the Pushover API, use the PushoverResponse object.
 ```
-JPushoverResponse jPushoverResponse = JPushover.newMessage()
+PushoverResponse PushoverResponse = JPushover.newMessage()
 	.withToken("MyToken")
 	.withUser("MyUser")
 	.withMessage("MyMessage")
 	.push();
 ```		
-The JPushoverResponse will return the raw HTTP status code, along with the raw JSON response and a convenient boolean if the request was successful or not.
+The PushoverResponse will return the raw HTTP status code, along with the raw JSON response and a convenient boolean if the request was successful or not.
 
 [1]: https://pushover.net
 [2]: https://pushover.net/api
