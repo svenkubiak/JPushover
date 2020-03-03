@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.svenkubiak</groupId>
 	<artifactId>jpushover</artifactId>
-	<version>4.0.4-SNAPSHOT</version>
+	<version>4.0.4</version>
 	<packaging>jar</packaging>
 	<licenses>
 		<license>
@@ -28,7 +28,7 @@
 		<connection>scm:git:git@github.com:svenkubiak/JPushover.git</connection>
 		<developerConnection>scm:git:git@github.com:svenkubiak/JPushover.git</developerConnection>
 		<url>git@github.com:svenkubiak/JPushover.git</url>
-		<tag>HEAD</tag>
+		<tag>4.0.4</tag>
 	</scm>
 	<name>JPushover</name>
 	<description>Zero-dependency convenient class for sending messages to Pushover in Java project</description>
