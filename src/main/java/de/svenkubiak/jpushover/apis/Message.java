@@ -140,6 +140,7 @@ public class Message {
      */
     public final Message withUrl(final String url) {
         this.url = url;
+        this.urlTitle = url;
         return this;
     }
     
@@ -151,7 +152,8 @@ public class Message {
      * @return Message instance
      */
     public final Message enableMonospace() {
-        this.monospace = (this.html) ? false : true;
+        this.monospace = true;
+        this.html = false;
         return this;
     }
     
@@ -163,7 +165,8 @@ public class Message {
      * @return Message instance
      */
     public final Message enableHtml() {
-        this.html = (this.monospace) ? false : true;
+        this.monospace = false;
+        this.html = true;
         return this;
     }
 
@@ -293,7 +296,7 @@ public class Message {
             Objects.requireNonNull(this.retry, "Retry is required on priority emergency");
             Objects.requireNonNull(this.expire, "Expire is required on priority emergency");
         }
-
+        
         NavigableMap<String, String> body = new TreeMap<>();
         body.put(Param.TOKEN.toString(), this.token);
         body.put(Param.USER.toString(), this.user);
@@ -304,7 +307,7 @@ public class Message {
         body.put(Param.RETRY.toString(), this.retry);
         body.put(Param.EXPIRE.toString(), this.expire);
         body.put(Param.CALLBACK.toString(), this.callback);
-        body.put(Param.URLTITLE.toString(), this.urlTitle);
+        body.put(Param.URL_TITLE.toString(), this.urlTitle);
         body.put(Param.PRIORITY.toString(), this.priority.toString());
         body.put(Param.TIMESTAMP.toString(), this.timestamp);
         body.put(Param.SOUND.toString(), this.sound.toString());
@@ -312,5 +315,73 @@ public class Message {
         body.put(Param.MONOSPACE.toString(), this.monospace ? "1" : "0");
         
         return new PushoverRequest().push(MESSAGE_URL, body, this.proxyHost, this.proxyPort);
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public Sound getSound() {
+        return sound;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getUrlTitle() {
+        return urlTitle;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public String getRetry() {
+        return retry;
+    }
+
+    public String getExpire() {
+        return expire;
+    }
+
+    public String getCallback() {
+        return callback;
+    }
+
+    public String getProxyHost() {
+        return proxyHost;
+    }
+
+    public int getProxyPort() {
+        return proxyPort;
+    }
+
+    public boolean isHtml() {
+        return html;
+    }
+
+    public boolean isMonospace() {
+        return monospace;
     }
 }

@@ -6,7 +6,6 @@ package de.svenkubiak.jpushover.enums;
  *
  */
 public enum Param {
-    ATTACHMENT("attachment"),
     CALLBACK("callback"),
     COUNT("count"),
     DEVICE("device"),
@@ -24,7 +23,7 @@ public enum Param {
     TITLE("title"),
     TOKEN("token"),
     URL("url"),
-    URLTITLE("urltitle"),
+    URL_TITLE("url_title"),
     USER("user");
 
     private final String value;
