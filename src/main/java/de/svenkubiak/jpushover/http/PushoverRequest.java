@@ -24,7 +24,6 @@ public class PushoverRequest {
         Objects.requireNonNull(body, "body can not be null");
         
         var httpResponse = getResponse(toJson(body), url, proxyHost, proxyPort);
-
         var jPushoverResponse = new PushoverResponse().isSuccessful(false);
         
         jPushoverResponse

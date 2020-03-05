@@ -95,19 +95,19 @@ public class MessageTest {
     @Test
     public void testConstruct() throws IOException, InterruptedException {
         //given
+        int proxyPort = 8080;
+        int timestamp = 0;
+        int expire = 0;
+        int retry = 0;
         String callback = "callback";
         String device = "device";
-        String expire = "expire";
         String message = "message";
-        String retry = "retry";
         String user = "user";
         String urlTitle = "urlTitle";
-        String timestamp = "timestamp";
         String proxyHost = "proxyhost";
         String title = "tile";
         String token = "token";
         String url = "https://www.url.url";
-        int proxyPort = 8080;
         Priority priority = Priority.HIGH;
         Sound sound = Sound.BUGLE;
         

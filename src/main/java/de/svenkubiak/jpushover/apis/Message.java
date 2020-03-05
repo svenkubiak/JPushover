@@ -20,27 +20,25 @@ import de.svenkubiak.jpushover.utils.Urls;
 public class Message {
     private static final String MESSAGE_URL = Urls.getMessageUrl();
     private static final String VALIDATION_URL = Urls.getValidationUrl();
-    private Priority priority;
-    private Sound sound;
+    private Priority priority = Priority.NORMAL;
+    private Sound sound = Sound.PUSHOVER;
     private String token;
     private String user;
     private String message;
     private String device;
     private String title;
-    private String url;
-    private String urlTitle;
-    private String timestamp;
-    private String retry;
-    private String expire;
+    private String url = "";
+    private String urlTitle = "";
     private String callback;
     private String proxyHost;
     private int proxyPort;
+    private int retry;
+    private int expire;
+    private int timestamp;
     private boolean html;
     private boolean monospace;
     
     public Message() {
-        this.withSound(Sound.PUSHOVER);
-        this.withPriority(Priority.NORMAL);
     }
     
     /**
@@ -77,7 +75,7 @@ public class Message {
      * @param retry Number of seconds
      * @return Message instance
      */
-    public final Message withRetry(final String retry) {
+    public final Message withRetry(final int retry) {
         this.retry = retry;
         return this;
     }
@@ -89,7 +87,7 @@ public class Message {
      * @param expire Number of seconds
      * @return Message instance
      */
-    public final Message withExpire(final String expire) {
+    public final Message withExpire(final int expire) {
         this.expire = expire;
         return this;
     }
@@ -188,7 +186,7 @@ public class Message {
      * @param timestamp The Unix timestamp
      * @return Message instance
      */
-    public final Message withTimestamp(final String timestamp) {
+    public final Message withTimestamp(final int timestamp) {
         this.timestamp = timestamp;
         return this;
     }
@@ -293,26 +291,49 @@ public class Message {
         Objects.requireNonNull(this.message, "Message is required for a message");
 
         if (Priority.EMERGENCY.equals(this.priority)) {
-            Objects.requireNonNull(this.retry, "Retry is required on priority emergency");
-            Objects.requireNonNull(this.expire, "Expire is required on priority emergency");
+            if (this.retry == 0) {
+                this.retry = 60;
+            }
+            
+            if (this.expire == 0) {
+                this.expire = 3600;
+            }
         }
         
         NavigableMap<String, String> body = new TreeMap<>();
         body.put(Param.TOKEN.toString(), this.token);
         body.put(Param.USER.toString(), this.user);
         body.put(Param.MESSAGE.toString(), this.message);
-        body.put(Param.DEVICE.toString(), this.device);
-        body.put(Param.TITLE.toString(), this.title);
         body.put(Param.URL.toString(), this.url);
-        body.put(Param.RETRY.toString(), this.retry);
-        body.put(Param.EXPIRE.toString(), this.expire);
-        body.put(Param.CALLBACK.toString(), this.callback);
         body.put(Param.URL_TITLE.toString(), this.urlTitle);
         body.put(Param.PRIORITY.toString(), this.priority.toString());
-        body.put(Param.TIMESTAMP.toString(), this.timestamp);
         body.put(Param.SOUND.toString(), this.sound.toString());
         body.put(Param.HTML.toString(), this.html ? "1" : "0");
         body.put(Param.MONOSPACE.toString(), this.monospace ? "1" : "0");
+        
+        if (this.device != null) {
+            body.put(Param.DEVICE.toString(), this.device); 
+        }
+        
+        if (this.title != null) {
+            body.put(Param.TITLE.toString(), this.title); 
+        }
+        
+        if (this.callback != null) {
+            body.put(Param.CALLBACK.toString(), this.callback);
+        }
+        
+        if (this.timestamp > 0) {
+            body.put(Param.TIMESTAMP.toString(), String.valueOf(this.timestamp));
+        }
+        
+        if (this.retry > 0) {
+            body.put(Param.RETRY.toString(), String.valueOf(this.retry));
+        }
+
+        if (this.expire > 0) {
+            body.put(Param.EXPIRE.toString(), String.valueOf(this.expire)); 
+        }
         
         return new PushoverRequest().push(MESSAGE_URL, body, this.proxyHost, this.proxyPort);
     }
@@ -353,15 +374,15 @@ public class Message {
         return urlTitle;
     }
 
-    public String getTimestamp() {
+    public int getTimestamp() {
         return timestamp;
     }
 
-    public String getRetry() {
+    public int getRetry() {
         return retry;
     }
 
-    public String getExpire() {
+    public int getExpire() {
         return expire;
     }
 
