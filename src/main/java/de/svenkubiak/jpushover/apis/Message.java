@@ -11,6 +11,7 @@ import de.svenkubiak.jpushover.enums.Sound;
 import de.svenkubiak.jpushover.http.PushoverRequest;
 import de.svenkubiak.jpushover.http.PushoverResponse;
 import de.svenkubiak.jpushover.utils.Urls;
+import de.svenkubiak.jpushover.utils.Validate;
 
 /**
  * 
@@ -71,6 +72,7 @@ public class Message {
     /**
      * Specifies how often (in seconds) the Pushover servers will send the same notification to the user.
      * Only required if priority is set to emergency.
+     * (optional)
      *
      * @param retry Number of seconds
      * @return Message instance
@@ -83,6 +85,7 @@ public class Message {
     /**
      * Specifies how many seconds your notification will continue to be retried for (every retry seconds).
      * Only required if priority is set to emergency.
+     * (optional)
      *
      * @param expire Number of seconds
      * @return Message instance
@@ -170,6 +173,7 @@ public class Message {
 
     /**
      * A title for your supplementary URL, otherwise just the URL is shown
+     * (optional)
      *
      * @param urlTitle The url title
      * @return Message instance
@@ -182,6 +186,7 @@ public class Message {
     /**
      * A Unix timestamp of your message's date and time to display to the user,
      * rather than the time your message is received by our API
+     * (optional)
      *
      * @param timestamp The Unix timestamp
      * @return Message instance
@@ -220,7 +225,8 @@ public class Message {
      * Callback parameter may be supplied with a publicly-accessible URL that the
      * pushover servers will send a request to when the user has acknowledged your
      * notification.
-     * Only required if priority is set to emergency.
+     * Only used if priority is set to emergency.
+     * (optional)
      *
      * @param callback The callback URL
      * @return Message instance
@@ -231,7 +237,7 @@ public class Message {
     }
 
     /**
-     * Uses the given proxy for HTTP requests
+     * Uses a given proxy for the HTTP requests to Pushover
      *
      * @param proxyHost The host that should be used for the Proxy
      * @param proxyPort The port that should be used for the Proxy
@@ -289,6 +295,7 @@ public class Message {
         Objects.requireNonNull(this.token, "Token is required for a message");
         Objects.requireNonNull(this.user, "User is required for a message");
         Objects.requireNonNull(this.message, "Message is required for a message");
+        Validate.checkArgument(this.message.length() <= 1024, "Message can not exceed more than 1024 characters");
         
         if (Priority.EMERGENCY.equals(this.priority)) {
             if (this.retry == 0) {
@@ -300,20 +307,16 @@ public class Message {
             }
         }
         
-        if (this.message.length() > 1024) {
-            this.message.substring(0, 1023);
+        if (this.title != null) {
+            Validate.checkArgument(this.title.length() <= 250, "Title can not exceed more than 250 characters");
         }
         
-        if (this.title != null && this.title.length() > 250) {
-            this.title.substring(0, 249);
+        if (this.url != null) {
+            Validate.checkArgument(this.url.length() <= 512, "URL can not exceed more than 512 characters");
         }
         
-        if (this.url != null && this.url.length() > 512) {
-            this.url.substring(0, 511);
-        }
-        
-        if (this.urlTitle != null && this.urlTitle.length() > 100) {
-            this.urlTitle.substring(0, 99);
+        if (this.urlTitle != null) {
+            Validate.checkArgument(this.urlTitle.length() <= 100, "URL Title can not exceed more than 100 characters");
         }
         
         NavigableMap<String, String> body = new TreeMap<>();

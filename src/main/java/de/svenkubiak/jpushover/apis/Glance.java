@@ -24,9 +24,9 @@ public class Glance {
     private String title;
     private String text;
     private String subtext;
+    private String proxyHost;
     private int count;
     private int percent;
-    private String proxyHost;
     private int proxyPort;
     
     public Glance withToken(String token) {
@@ -86,7 +86,7 @@ public class Glance {
      */
     public Glance withSubtext(String subtext) {
         Objects.requireNonNull(subtext, "subtext can not be null");
-        Validate.checkArgument(subtext.length() <= 100, "subtext must not exceed a length of 100 characters");
+        Validate.checkArgument(subtext.length() <= 100, "Subtext must not exceed a length of 100 characters");
 
         this.subtext = subtext;
         return this;

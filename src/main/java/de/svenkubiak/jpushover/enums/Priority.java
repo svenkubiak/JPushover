@@ -6,11 +6,11 @@ package de.svenkubiak.jpushover.enums;
  *
  */
 public enum Priority {
-    LOWEST("-2"),
-    LOW("-1"),
-    NORMAL("0"),
+    EMERGENCY("2"),
     HIGH("1"),
-    EMERGENCY("2");
+    LOW("-1"),
+    LOWEST("-2"),
+    NORMAL("0");
     
     private final String value;
 
