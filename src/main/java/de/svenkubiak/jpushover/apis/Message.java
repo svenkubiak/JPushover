@@ -289,7 +289,7 @@ public class Message {
         Objects.requireNonNull(this.token, "Token is required for a message");
         Objects.requireNonNull(this.user, "User is required for a message");
         Objects.requireNonNull(this.message, "Message is required for a message");
-
+        
         if (Priority.EMERGENCY.equals(this.priority)) {
             if (this.retry == 0) {
                 this.retry = 60;
@@ -298,6 +298,22 @@ public class Message {
             if (this.expire == 0) {
                 this.expire = 3600;
             }
+        }
+        
+        if (this.message.length() > 1024) {
+            this.message.substring(0, 1023);
+        }
+        
+        if (this.title != null && this.title.length() > 250) {
+            this.title.substring(0, 249);
+        }
+        
+        if (this.url != null && this.url.length() > 512) {
+            this.url.substring(0, 511);
+        }
+        
+        if (this.urlTitle != null && this.urlTitle.length() > 100) {
+            this.urlTitle.substring(0, 99);
         }
         
         NavigableMap<String, String> body = new TreeMap<>();
