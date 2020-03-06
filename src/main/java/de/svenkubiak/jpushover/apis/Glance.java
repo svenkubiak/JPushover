@@ -6,9 +6,9 @@ import java.util.Objects;
 import java.util.TreeMap;
 
 import de.svenkubiak.jpushover.enums.Param;
+import de.svenkubiak.jpushover.enums.Url;
 import de.svenkubiak.jpushover.http.PushoverRequest;
 import de.svenkubiak.jpushover.http.PushoverResponse;
-import de.svenkubiak.jpushover.utils.Urls;
 import de.svenkubiak.jpushover.utils.Validate;
 
 /**
@@ -17,7 +17,6 @@ import de.svenkubiak.jpushover.utils.Validate;
  *
  */
 public class Glance {
-    private static final String GLANCE_URL = Urls.getGlanceUrl();
     private String token;
     private String user;
     private String device;
@@ -137,6 +136,6 @@ public class Glance {
         body.put(Param.PERCENT.toString(), String.valueOf(this.percent));
 
         
-        return new PushoverRequest().push(GLANCE_URL, body, this.proxyHost, this.proxyPort);
+        return new PushoverRequest().push(Url.GLANCES.toString(), body, this.proxyHost, this.proxyPort);
     }
 }

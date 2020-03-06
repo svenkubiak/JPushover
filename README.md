@@ -3,11 +3,11 @@
 JPushover
 ================
 
-A zero-dependency convenient class for sending messages to [Pushover][1] in Java.
+A minimal (15 KB), zero-dependency convenient class for sending messages to [Pushover][1] in Java.
 
 Requires Java 11.
 
-Support [Messages API][3] and [Glances API][4].
+Supports [Messages API][3] and [Glances API][4].
 
 Usage
 ------------------

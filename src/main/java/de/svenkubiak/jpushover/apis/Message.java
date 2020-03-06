@@ -8,9 +8,9 @@ import java.util.TreeMap;
 import de.svenkubiak.jpushover.enums.Param;
 import de.svenkubiak.jpushover.enums.Priority;
 import de.svenkubiak.jpushover.enums.Sound;
+import de.svenkubiak.jpushover.enums.Url;
 import de.svenkubiak.jpushover.http.PushoverRequest;
 import de.svenkubiak.jpushover.http.PushoverResponse;
-import de.svenkubiak.jpushover.utils.Urls;
 import de.svenkubiak.jpushover.utils.Validate;
 
 /**
@@ -19,8 +19,6 @@ import de.svenkubiak.jpushover.utils.Validate;
  *
  */
 public class Message {
-    private static final String MESSAGE_URL = Urls.getMessageUrl();
-    private static final String VALIDATION_URL = Urls.getValidationUrl();
     private Priority priority = Priority.NORMAL;
     private Sound sound = Sound.PUSHOVER;
     private String token;
@@ -270,7 +268,7 @@ public class Message {
         body.put(Param.TOKEN.toString(), this.token);
         body.put(Param.USER.toString(), this.user);
 
-        var pushoverResponse = new PushoverRequest().push(VALIDATION_URL, body, this.proxyHost, this.proxyPort);
+        var pushoverResponse = new PushoverRequest().push(Url.VALIDATE.toString(), body, this.proxyHost, this.proxyPort);
         
         var valid = false;
         if (pushoverResponse.getHttpStatus() == 200) {
@@ -354,7 +352,7 @@ public class Message {
             body.put(Param.EXPIRE.toString(), String.valueOf(this.expire)); 
         }
         
-        return new PushoverRequest().push(MESSAGE_URL, body, this.proxyHost, this.proxyPort);
+        return new PushoverRequest().push(Url.MESSAGES.toString(), body, this.proxyHost, this.proxyPort);
     }
 
     public Priority getPriority() {

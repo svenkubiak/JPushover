@@ -27,6 +27,7 @@ import jpushover.MockServer;
  *
  */
 public class MessageTest {
+    private static final String URL = "https://api.pushover.net/1/messages.json";
     private static final String APPLICATION_JSON = "application/json; charset=utf-8";
     private static final String CONTENT_TYPE = "Content-Type";
     
@@ -36,7 +37,7 @@ public class MessageTest {
     
     @Test()
     public void testTokenRequired() throws IOException, InterruptedException {
-        stubFor(post(urlEqualTo("/1/messages.json"))
+        stubFor(post(urlEqualTo(URL))
                 .willReturn(aResponse()
                     .withStatus(400)
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON)));
@@ -48,7 +49,7 @@ public class MessageTest {
     
     @Test()
     public void testUserRequired() throws IOException, InterruptedException {
-        stubFor(post(urlEqualTo("/1/messages.json"))
+        stubFor(post(urlEqualTo(URL))
                 .willReturn(aResponse()
                     .withStatus(400)
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON)));
@@ -60,7 +61,7 @@ public class MessageTest {
     
     @Test()
     public void testMessageRequired() throws IOException, InterruptedException {
-        stubFor(post(urlEqualTo("/1/messages.json"))
+        stubFor(post(urlEqualTo(URL))
                 .willReturn(aResponse()
                     .withStatus(400)
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON)));
@@ -72,7 +73,7 @@ public class MessageTest {
     
     @Test()
     public void testPushWithoutContent() throws IOException, InterruptedException {
-        stubFor(post(urlEqualTo("/1/messages.json"))
+        stubFor(post(urlEqualTo(URL))
                 .willReturn(aResponse()
                     .withStatus(400)
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON)));
@@ -83,7 +84,7 @@ public class MessageTest {
     
     @Test
     public void testPush() throws IOException, InterruptedException {
-        stubFor(post(urlEqualTo("/1/messages.json"))
+        stubFor(post(urlEqualTo(URL))
                 .willReturn(aResponse()
                     .withStatus(200)
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON)));

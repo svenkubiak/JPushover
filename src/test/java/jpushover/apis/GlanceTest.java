@@ -22,6 +22,7 @@ import jpushover.MockServer;
  *
  */
 public class GlanceTest {
+    private static final String URL = "http://127.0.0.1:8080/1/glances.json";
     private static final String APPLICATION_JSON = "application/json; charset=utf-8";
     private static final String CONTENT_TYPE = "Content-Type";
     
@@ -31,7 +32,7 @@ public class GlanceTest {
     
     @Test()
     public void testTokenRequired() throws IOException, InterruptedException {
-        stubFor(post(urlEqualTo("/1/glances.json"))
+        stubFor(post(urlEqualTo(URL))
                 .willReturn(aResponse()
                     .withStatus(400)
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON)));
@@ -43,7 +44,7 @@ public class GlanceTest {
     
     @Test()
     public void testUserRequired() throws IOException, InterruptedException {
-        stubFor(post(urlEqualTo("/1/glances.json"))
+        stubFor(post(urlEqualTo(URL))
                 .willReturn(aResponse()
                     .withStatus(400)
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON)));
@@ -55,7 +56,7 @@ public class GlanceTest {
     
     @Test()
     public void testPushWithoutContent() throws IOException, InterruptedException {
-        stubFor(post(urlEqualTo("/1/glances.json"))
+        stubFor(post(urlEqualTo(URL))
                 .willReturn(aResponse()
                     .withStatus(400)
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON)));
@@ -66,7 +67,7 @@ public class GlanceTest {
     
     @Test
     public void testPush() throws IOException, InterruptedException {
-        stubFor(post(urlEqualTo("/1/glances.json"))
+        stubFor(post(urlEqualTo(URL))
                 .willReturn(aResponse()
                     .withStatus(200)
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON)));
