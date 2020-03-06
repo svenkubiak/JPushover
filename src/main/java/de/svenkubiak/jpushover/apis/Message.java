@@ -48,8 +48,6 @@ public class Message {
      * @return Message instance
      */
     public final Message withToken(final String token) {
-        Objects.requireNonNull(token, "Token can not be null");
-        
         this.token = token;
         return this;
     }
