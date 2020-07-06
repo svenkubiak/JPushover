@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.platform.version>1.7.0-M1</junit.platform.version>
 		<junit.version>5.7.0-M1</junit.version>
-		<jackson.version>2.11.0</jackson.version>
+		<jackson.version>2.11.1</jackson.version>
 	</properties>
 	<scm>
 		<connection>scm:git:git@github.com:svenkubiak/JPushover.git</connection>
@@ -108,7 +108,7 @@
 					<dependency>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>extra-enforcer-rules</artifactId>
-						<version>1.2</version>
+						<version>1.3</version>
 					</dependency>
 				</dependencies>
 			</plugin>
