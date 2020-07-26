@@ -7,9 +7,12 @@ package de.svenkubiak.jpushover.http;
  */
 public class PushoverResponse {
     private String pushoverResponse;
-    private int pushoverHttpStatus;
     private boolean pushoverSuccessful;
-
+    private int pushoverHttpStatus;
+    private long pushoverLimit;
+    private long pushoverRemaining;
+    private long pushoverReset;
+    
     public PushoverResponse response(String response) {
         this.pushoverResponse = response;
         return this;
@@ -22,6 +25,21 @@ public class PushoverResponse {
 
     public PushoverResponse isSuccessful(boolean successful) {
         this.pushoverSuccessful = successful;
+        return this;
+    }
+    
+    public PushoverResponse limit(long limit) {
+        this.pushoverLimit = limit;
+        return this;
+    }
+    
+    public PushoverResponse remaining(long remaining) {
+        this.pushoverRemaining = remaining;
+        return this;
+    }
+    
+    public PushoverResponse reset(long reset) {
+        this.pushoverReset = reset;
         return this;
     }
 
@@ -44,5 +62,26 @@ public class PushoverResponse {
      */
     public boolean isSuccessful() {
         return pushoverSuccessful;
+    }
+
+    /**
+     * @return The API rate limit
+     */
+    public long getLimit() {
+        return pushoverLimit;
+    }
+
+    /**
+     * @return The remaining allowed API requests
+     */
+    public long getRemaining() {
+        return pushoverRemaining;
+    }
+
+    /**
+     * @return The API rate limit reset timestamp
+     */
+    public long getReset() {
+        return pushoverReset;
     }
 }

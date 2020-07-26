@@ -11,6 +11,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Objects;
+import java.util.OptionalLong;
 
 /**
  * 
@@ -29,11 +30,18 @@ public class PushoverRequest {
         jPushoverResponse
             .httpStatus(httpResponse.statusCode())
             .response(httpResponse.body())
-            .isSuccessful((httpResponse.statusCode() == 200) ? true : false);
+            .isSuccessful((httpResponse.statusCode() == 200) ? true : false)
+            .limit(getHeaderValue(httpResponse, "X-Limit-App-Limit").orElse(0))
+            .remaining(getHeaderValue(httpResponse, "X-Limit-App-Remaining").orElse(0))
+            .reset(getHeaderValue(httpResponse, "X-Limit-App-Reset").orElse(0));
 
         return jPushoverResponse;
     }
-    
+
+    private OptionalLong getHeaderValue(HttpResponse<String> httpResponse, String header) {
+        return httpResponse.headers().firstValueAsLong(header);
+    }
+
     private HttpResponse<String> getResponse(String body, String url, String proxyHost, int proxyPort) throws IOException, InterruptedException {
         var httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(url))
