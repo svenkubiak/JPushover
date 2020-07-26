@@ -38,10 +38,6 @@ public class PushoverRequest {
         return jPushoverResponse;
     }
 
-    private OptionalLong getHeaderValue(HttpResponse<String> httpResponse, String header) {
-        return httpResponse.headers().firstValueAsLong(header);
-    }
-
     private HttpResponse<String> getResponse(String body, String url, String proxyHost, int proxyPort) throws IOException, InterruptedException {
         var httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -62,7 +58,7 @@ public class PushoverRequest {
     }
     
     private String toJson(NavigableMap<String, String> body) {
-        StringBuilder buffer = new StringBuilder();
+        var buffer = new StringBuilder();
         buffer.append("{");
         for (Map.Entry<String, String> entry : body.entrySet()) {
             buffer.append("\"").append(entry.getKey()).append("\"");
@@ -73,5 +69,9 @@ public class PushoverRequest {
         buffer.append("}");
 
         return buffer.toString().replace(",}", "}");
+    }
+
+    private OptionalLong getHeaderValue(HttpResponse<String> httpResponse, String header) {
+        return httpResponse.headers().firstValueAsLong(header);
     }
 }

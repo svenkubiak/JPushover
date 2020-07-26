@@ -7,11 +7,11 @@ package de.svenkubiak.jpushover.http;
  */
 public class PushoverResponse {
     private String pushoverResponse;
-    private boolean pushoverSuccessful;
-    private int pushoverHttpStatus;
     private long pushoverLimit;
     private long pushoverRemaining;
     private long pushoverReset;
+    private int pushoverHttpStatus;
+    private boolean pushoverSuccessful;
     
     public PushoverResponse response(String response) {
         this.pushoverResponse = response;

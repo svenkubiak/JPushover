@@ -19,25 +19,13 @@ import de.svenkubiak.jpushover.utils.Validate;
  *
  */
 public class Message {
-    private Priority priority = Priority.NORMAL;
-    private Sound sound = Sound.PUSHOVER;
-    private String token;
-    private String user;
-    private String message;
-    private String device;
-    private String title;
-    private String url = "";
-    private String urlTitle = "";
-    private String callback;
+    private NavigableMap<String, String> body = new TreeMap<>();
     private String proxyHost;
     private int proxyPort;
-    private int retry;
-    private int expire;
-    private int timestamp;
-    private boolean html;
-    private boolean monospace;
     
     public Message() {
+        this.withPriority(Priority.NORMAL);
+        this.withSound(Sound.PUSHOVER);
     }
     
     /**
@@ -47,8 +35,8 @@ public class Message {
      * @param token The pushover API token
      * @return Message instance
      */
-    public final Message withToken(final String token) {
-        this.token = token;
+    public final Message withToken(String token) {
+        body.put(Param.TOKEN.toString(), token);
         return this;
     }
 
@@ -60,8 +48,8 @@ public class Message {
      * @param user The username
      * @return Message instance
      */
-    public final Message withUser(final String user) {
-        this.user = user;
+    public final Message withUser(String user) {
+        body.put(Param.USER.toString(), user);
         return this;
     }
 
@@ -73,8 +61,8 @@ public class Message {
      * @param retry Number of seconds
      * @return Message instance
      */
-    public final Message withRetry(final int retry) {
-        this.retry = retry;
+    public final Message withRetry(int retry) {
+        body.put(Param.RETRY.toString(), String.valueOf(retry));
         return this;
     }
 
@@ -86,8 +74,8 @@ public class Message {
      * @param expire Number of seconds
      * @return Message instance
      */
-    public final Message withExpire(final int expire) {
-        this.expire = expire;
+    public final Message withExpire(int expire) {
+        body.put(Param.EXPIRE.toString(), String.valueOf(expire));
         return this;
     }
 
@@ -98,8 +86,8 @@ public class Message {
      * @param message The message to sent
      * @return Message instance
      */
-    public final Message withMessage(final String message) {
-        this.message = message;
+    public final Message withMessage(String message) {
+        body.put(Param.MESSAGE.toString(), message);
         return this;
     }
 
@@ -111,8 +99,8 @@ public class Message {
      * @param device The device name
      * @return Message instance
      */
-    public final Message withDevice(final String device) {
-        this.device = device;
+    public final Message withDevice(String device) {
+        body.put(Param.DEVICE.toString(), device);
         return this;
     }
 
@@ -123,8 +111,8 @@ public class Message {
      * @param title The title
      * @return Message instance
      */
-    public final Message withTitle(final String title) {
-        this.title = title;
+    public final Message withTitle(String title) {
+        body.put(Param.TITLE.toString(), title);
         return this;
     }
 
@@ -135,9 +123,9 @@ public class Message {
      * @param url The url
      * @return Message instance
      */
-    public final Message withUrl(final String url) {
-        this.url = url;
-        this.urlTitle = url;
+    public final Message withUrl(String url) {
+        body.put(Param.URL.toString(), url);
+        body.put(Param.URL_TITLE.toString(), url);
         return this;
     }
     
@@ -149,8 +137,8 @@ public class Message {
      * @return Message instance
      */
     public final Message enableMonospace() {
-        this.monospace = true;
-        this.html = false;
+        body.put(Param.MONOSPACE.toString(), "1");
+        body.put(Param.HTML.toString(), "0");
         return this;
     }
     
@@ -162,8 +150,8 @@ public class Message {
      * @return Message instance
      */
     public final Message enableHtml() {
-        this.monospace = false;
-        this.html = true;
+        body.put(Param.MONOSPACE.toString(), "0");
+        body.put(Param.HTML.toString(), "1");
         return this;
     }
 
@@ -174,8 +162,8 @@ public class Message {
      * @param urlTitle The url title
      * @return Message instance
      */
-    public final Message withUrlTitle(final String urlTitle) {
-        this.urlTitle = urlTitle;
+    public final Message withUrlTitle(String urlTitle) {
+        body.put(Param.URL_TITLE.toString(), urlTitle);
         return this;
     }
 
@@ -187,8 +175,8 @@ public class Message {
      * @param timestamp The Unix timestamp
      * @return Message instance
      */
-    public final Message withTimestamp(final int timestamp) {
-        this.timestamp = timestamp;
+    public final Message withTimestamp(int timestamp) {
+        body.put(Param.TIMESTAMP.toString(), String.valueOf(timestamp));
         return this;
     }
 
@@ -199,8 +187,8 @@ public class Message {
      * @param priority The priority enum
      * @return Message instance
      */
-    public final Message withPriority(final Priority priority) {
-        this.priority = priority;
+    public final Message withPriority(Priority priority) {
+        body.put(Param.PRIORITY.toString(), priority.toString());
         return this;
     }
 
@@ -212,8 +200,8 @@ public class Message {
      * @param sound THe sound enum
      * @return Message instance
      */
-    public final Message withSound(final Sound sound) {
-        this.sound = sound;
+    public final Message withSound(Sound sound) {
+        body.put(Param.SOUND.toString(), sound.toString());
         return this;
     }
 
@@ -227,8 +215,8 @@ public class Message {
      * @param callback The callback URL
      * @return Message instance
      */
-    public final Message withCallback(final String callback) {
-        this.callback = callback;
+    public final Message withCallback(String callback) {
+        body.put(Param.CALLBACK.toString(), callback);
         return this;
     }
 
@@ -239,7 +227,7 @@ public class Message {
      * @param proxyPort The port that should be used for the Proxy
      * @return Message instance
      */
-    public final Message withProxy(final String proxyHost, final int proxyPort) {
+    public final Message withProxy(String proxyHost, int proxyPort) {
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
         return this;
@@ -259,12 +247,8 @@ public class Message {
      * @throws InterruptedException if validation fails
      */
     public boolean validate() throws IOException, InterruptedException {
-        Objects.requireNonNull(this.token, "Token is required for validation");
-        Objects.requireNonNull(this.user, "User is required for validation");
-
-        NavigableMap<String, String> body = new TreeMap<>();
-        body.put(Param.TOKEN.toString(), this.token);
-        body.put(Param.USER.toString(), this.user);
+        Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for validation");
+        Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for validation");
 
         var pushoverResponse = new PushoverRequest().push(Url.VALIDATE.toString(), body, this.proxyHost, this.proxyPort);
         
@@ -288,136 +272,33 @@ public class Message {
      * @throws InterruptedException if sending the message fails
      */
     public final PushoverResponse push() throws IOException, InterruptedException {
-        Objects.requireNonNull(this.token, "Token is required for a message");
-        Objects.requireNonNull(this.user, "User is required for a message");
-        Objects.requireNonNull(this.message, "Message is required for a message");
-        Validate.checkArgument(this.message.length() <= 1024, "Message can not exceed more than 1024 characters");
+        Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for validation");
+        Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for validation");
+        Objects.requireNonNull(body.get(Param.MESSAGE.toString()), "Message is required for a message");
+        Validate.checkArgument(body.get(Param.MESSAGE.toString()).length() <= 1024, "Message can not exceed more than 1024 characters");
         
-        if (Priority.EMERGENCY.equals(this.priority)) {
-            if (this.retry == 0) {
-                this.retry = 60;
+        if (Priority.EMERGENCY.toString().equals(body.get(Param.PRIORITY.toString()))) {
+            if (body.get(Param.RETRY.toString()) == null) {
+                body.put(Param.RETRY.toString(), "60");
             }
             
-            if (this.expire == 0) {
-                this.expire = 3600;
+            if (body.get(Param.EXPIRE.toString()) == null) {
+                body.put(Param.EXPIRE.toString(), "3600");
             }
         }
         
-        if (this.title != null) {
-            Validate.checkArgument(this.title.length() <= 250, "Title can not exceed more than 250 characters");
+        if (body.get(Param.TITLE.toString()) != null) {
+            Validate.checkArgument(body.get(Param.TITLE.toString()).length() <= 250, "Title can not exceed more than 250 characters");
         }
         
-        if (this.url != null) {
-            Validate.checkArgument(this.url.length() <= 512, "URL can not exceed more than 512 characters");
+        if (body.get(Param.URL.toString()) != null) {
+            Validate.checkArgument(body.get(Param.URL.toString()).length() <= 512, "URL can not exceed more than 512 characters");
         }
         
-        if (this.urlTitle != null) {
-            Validate.checkArgument(this.urlTitle.length() <= 100, "URL Title can not exceed more than 100 characters");
-        }
-        
-        NavigableMap<String, String> body = new TreeMap<>();
-        body.put(Param.TOKEN.toString(), this.token);
-        body.put(Param.USER.toString(), this.user);
-        body.put(Param.MESSAGE.toString(), this.message);
-        body.put(Param.URL.toString(), this.url);
-        body.put(Param.URL_TITLE.toString(), this.urlTitle);
-        body.put(Param.PRIORITY.toString(), this.priority.toString());
-        body.put(Param.SOUND.toString(), this.sound.toString());
-        body.put(Param.HTML.toString(), this.html ? "1" : "0");
-        body.put(Param.MONOSPACE.toString(), this.monospace ? "1" : "0");
-        
-        if (this.device != null) {
-            body.put(Param.DEVICE.toString(), this.device); 
-        }
-        
-        if (this.title != null) {
-            body.put(Param.TITLE.toString(), this.title); 
-        }
-        
-        if (this.callback != null) {
-            body.put(Param.CALLBACK.toString(), this.callback);
-        }
-        
-        if (this.timestamp > 0) {
-            body.put(Param.TIMESTAMP.toString(), String.valueOf(this.timestamp));
-        }
-        
-        if (this.retry > 0) {
-            body.put(Param.RETRY.toString(), String.valueOf(this.retry));
-        }
-
-        if (this.expire > 0) {
-            body.put(Param.EXPIRE.toString(), String.valueOf(this.expire)); 
+        if (body.get(Param.URL_TITLE.toString()) != null) {
+            Validate.checkArgument(body.get(Param.URL_TITLE.toString()).length() <= 100, "URL Title can not exceed more than 100 characters");
         }
         
         return new PushoverRequest().push(Url.MESSAGES.toString(), body, this.proxyHost, this.proxyPort);
-    }
-
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public Sound getSound() {
-        return sound;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getDevice() {
-        return device;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getUrlTitle() {
-        return urlTitle;
-    }
-
-    public int getTimestamp() {
-        return timestamp;
-    }
-
-    public int getRetry() {
-        return retry;
-    }
-
-    public int getExpire() {
-        return expire;
-    }
-
-    public String getCallback() {
-        return callback;
-    }
-
-    public String getProxyHost() {
-        return proxyHost;
-    }
-
-    public int getProxyPort() {
-        return proxyPort;
-    }
-
-    public boolean isHtml() {
-        return html;
-    }
-
-    public boolean isMonospace() {
-        return monospace;
     }
 }
