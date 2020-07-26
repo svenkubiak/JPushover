@@ -48,6 +48,7 @@ public class PushoverRequest {
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
+                .version(HttpClient.Version.HTTP_1_1)
                 .build();
 
         var httpClientBuilder = HttpClient.newBuilder();
