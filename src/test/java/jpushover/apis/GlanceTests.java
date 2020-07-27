@@ -1,6 +1,9 @@
 package jpushover.apis;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
@@ -113,5 +116,35 @@ public class GlanceTests {
         
         //then
         assertTrue(glance.getValue(Param.PERCENT.toString()).equals(String.valueOf(value)));
+    }
+    
+    @Test
+    void testMissingToken() throws IOException, InterruptedException {
+        //given
+        String expectedMessage = "Token is required for a glance";
+        
+        //when
+        Exception exception = assertThrows(NullPointerException.class, () -> {
+            JPushover.newGlance().push();
+        });
+        String actualMessage = exception.getMessage();
+     
+        //then
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+    
+    @Test
+    void testMissingUser() throws IOException, InterruptedException {
+        //given
+        String expectedMessage = "User is required for a glance";
+        
+        //when
+        Exception exception = assertThrows(NullPointerException.class, () -> {
+            JPushover.newGlance().withToken("foo").push();
+        });
+        String actualMessage = exception.getMessage();
+     
+        //then
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

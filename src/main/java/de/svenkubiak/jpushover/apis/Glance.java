@@ -162,9 +162,6 @@ public class Glance implements API {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public Future<PushoverResponse> pushAsync() throws InterruptedException, ExecutionException {
-        Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for a glance");
-        Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for a glance");
-        
         return AsyncService.getInstance().execute(new AsyncExecutor(this));
     }
     

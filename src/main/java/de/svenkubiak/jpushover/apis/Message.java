@@ -277,8 +277,8 @@ public class Message implements API {
      */
     @Override
     public PushoverResponse push() throws IOException, InterruptedException {
-        Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for validation");
-        Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for validation");
+        Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for a message");
+        Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for a message");
         Objects.requireNonNull(body.get(Param.MESSAGE.toString()), "Message is required for a message");
         Validate.checkArgument(body.get(Param.MESSAGE.toString()).length() <= 1024, "Message can not exceed more than 1024 characters");
         
@@ -317,9 +317,6 @@ public class Message implements API {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Future<PushoverResponse> pushAsync() throws InterruptedException, ExecutionException {
-        Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for a glance");
-        Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for a glance");
-        
         return AsyncService.getInstance().execute(new AsyncExecutor(this));
     }
     
