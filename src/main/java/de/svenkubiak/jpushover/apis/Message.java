@@ -312,8 +312,8 @@ public class Message implements API {
      *
      * @return PushoverResponse instance
      *
-     * @throws IOException if sending the message fails
      * @throws InterruptedException if sending the message fails
+     * @throws ExecutionException if sending the message fails
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Future<PushoverResponse> pushAsync() throws InterruptedException, ExecutionException {
