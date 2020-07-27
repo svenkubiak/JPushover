@@ -39,7 +39,7 @@ public class Message implements API {
      * @param token The pushover API token
      * @return Message instance
      */
-    public final Message withToken(String token) {
+    public Message withToken(String token) {
         body.put(Param.TOKEN.toString(), token);
         return this;
     }
@@ -52,7 +52,7 @@ public class Message implements API {
      * @param user The username
      * @return Message instance
      */
-    public final Message withUser(String user) {
+    public Message withUser(String user) {
         body.put(Param.USER.toString(), user);
         return this;
     }
@@ -65,7 +65,7 @@ public class Message implements API {
      * @param retry Number of seconds
      * @return Message instance
      */
-    public final Message withRetry(int retry) {
+    public Message withRetry(int retry) {
         body.put(Param.RETRY.toString(), String.valueOf(retry));
         return this;
     }
@@ -78,7 +78,7 @@ public class Message implements API {
      * @param expire Number of seconds
      * @return Message instance
      */
-    public final Message withExpire(int expire) {
+    public Message withExpire(int expire) {
         body.put(Param.EXPIRE.toString(), String.valueOf(expire));
         return this;
     }
@@ -90,7 +90,7 @@ public class Message implements API {
      * @param message The message to sent
      * @return Message instance
      */
-    public final Message withMessage(String message) {
+    public Message withMessage(String message) {
         body.put(Param.MESSAGE.toString(), message);
         return this;
     }
@@ -103,7 +103,7 @@ public class Message implements API {
      * @param device The device name
      * @return Message instance
      */
-    public final Message withDevice(String device) {
+    public Message withDevice(String device) {
         body.put(Param.DEVICE.toString(), device);
         return this;
     }
@@ -115,7 +115,7 @@ public class Message implements API {
      * @param title The title
      * @return Message instance
      */
-    public final Message withTitle(String title) {
+    public Message withTitle(String title) {
         body.put(Param.TITLE.toString(), title);
         return this;
     }
@@ -127,7 +127,7 @@ public class Message implements API {
      * @param url The url
      * @return Message instance
      */
-    public final Message withUrl(String url) {
+    public Message withUrl(String url) {
         body.put(Param.URL.toString(), url);
         body.put(Param.URL_TITLE.toString(), url);
         return this;
@@ -140,7 +140,7 @@ public class Message implements API {
      *
      * @return Message instance
      */
-    public final Message enableMonospace() {
+    public Message enableMonospace() {
         body.put(Param.MONOSPACE.toString(), "1");
         body.put(Param.HTML.toString(), "0");
         return this;
@@ -153,7 +153,7 @@ public class Message implements API {
      *
      * @return Message instance
      */
-    public final Message enableHtml() {
+    public Message enableHtml() {
         body.put(Param.MONOSPACE.toString(), "0");
         body.put(Param.HTML.toString(), "1");
         return this;
@@ -166,7 +166,7 @@ public class Message implements API {
      * @param urlTitle The url title
      * @return Message instance
      */
-    public final Message withUrlTitle(String urlTitle) {
+    public Message withUrlTitle(String urlTitle) {
         body.put(Param.URL_TITLE.toString(), urlTitle);
         return this;
     }
@@ -179,7 +179,7 @@ public class Message implements API {
      * @param timestamp The Unix timestamp
      * @return Message instance
      */
-    public final Message withTimestamp(int timestamp) {
+    public Message withTimestamp(int timestamp) {
         body.put(Param.TIMESTAMP.toString(), String.valueOf(timestamp));
         return this;
     }
@@ -191,7 +191,7 @@ public class Message implements API {
      * @param priority The priority enum
      * @return Message instance
      */
-    public final Message withPriority(Priority priority) {
+    public Message withPriority(Priority priority) {
         body.put(Param.PRIORITY.toString(), priority.toString());
         return this;
     }
@@ -204,7 +204,7 @@ public class Message implements API {
      * @param sound THe sound enum
      * @return Message instance
      */
-    public final Message withSound(Sound sound) {
+    public Message withSound(Sound sound) {
         body.put(Param.SOUND.toString(), sound.toString());
         return this;
     }
@@ -219,7 +219,7 @@ public class Message implements API {
      * @param callback The callback URL
      * @return Message instance
      */
-    public final Message withCallback(String callback) {
+    public Message withCallback(String callback) {
         body.put(Param.CALLBACK.toString(), callback);
         return this;
     }
@@ -231,7 +231,7 @@ public class Message implements API {
      * @param proxyPort The port that should be used for the Proxy
      * @return Message instance
      */
-    public final Message withProxy(String proxyHost, int proxyPort) {
+    public Message withProxy(String proxyHost, int proxyPort) {
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
         return this;
@@ -276,7 +276,7 @@ public class Message implements API {
      * @throws InterruptedException if sending the message fails
      */
     @Override
-    public final PushoverResponse push() throws IOException, InterruptedException {
+    public PushoverResponse push() throws IOException, InterruptedException {
         Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for validation");
         Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for validation");
         Objects.requireNonNull(body.get(Param.MESSAGE.toString()), "Message is required for a message");
@@ -321,5 +321,11 @@ public class Message implements API {
         Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for a glance");
         
         return AsyncService.getInstance().execute(new AsyncExecutor(this));
+    }
+    
+    public String getValue(String param) {
+        Objects.requireNonNull(param, "param can not be null");
+        
+        return body.get(param);
     }
 }

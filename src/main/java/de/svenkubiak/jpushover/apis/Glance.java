@@ -25,6 +25,9 @@ public class Glance implements API {
     private String proxyHost;
     private int proxyPort;
     
+    public Glance() {
+    }
+    
     /**
      * Your application's API token
      * (required)
@@ -32,7 +35,7 @@ public class Glance implements API {
      * @param token The pushover API token
      * @return Glance instance
      */
-    public API withToken(String token) {
+    public Glance withToken(String token) {
         Objects.requireNonNull(token, "token can not be null");
         
         body.put(Param.TOKEN.toString(), token);
@@ -47,7 +50,7 @@ public class Glance implements API {
      * @param user The username
      * @return Glance instance
      */
-    public API withUser(String user) {
+    public Glance withUser(String user) {
         Objects.requireNonNull(user, "user can not be null");
         
         body.put(Param.USER.toString(), user);
@@ -62,7 +65,7 @@ public class Glance implements API {
      * @param device The device name
      * @return Glance instance
      */
-    public API withDevice(String device) {
+    public Glance withDevice(String device) {
         Objects.requireNonNull(device, "device can not be null");
         
         body.put(Param.DEVICE.toString(), device);
@@ -75,7 +78,7 @@ public class Glance implements API {
      * @param title the title to use
      * @return Glance instance
      */
-    public API withTitle(String title) {
+    public Glance withTitle(String title) {
         Objects.requireNonNull(title, "title can not be null");
         Validate.checkArgument(title.length() <= 100, "Title must not exceed a length of 100 characters");
         
@@ -89,7 +92,7 @@ public class Glance implements API {
      * @param text the text to use
      * @return Glance instance
      */
-    public API withText(String text) {
+    public Glance withText(String text) {
         Objects.requireNonNull(text, "text can not be null");
         Validate.checkArgument(text.length() <= 100, "Text must not exceed a length of 100 characters");
         
@@ -103,7 +106,7 @@ public class Glance implements API {
      * @param subtext the subtext to use
      * @return Glance instance
      */
-    public API withSubtext(String subtext) {
+    public Glance withSubtext(String subtext) {
         Objects.requireNonNull(subtext, "subtext can not be null");
         Validate.checkArgument(subtext.length() <= 100, "Subtext must not exceed a length of 100 characters");
 
@@ -117,7 +120,7 @@ public class Glance implements API {
      * @param count the count to use
      * @return Glance instance
      */
-    public API withCount(int count) {
+    public Glance withCount(int count) {
         body.put(Param.COUNT.toString(), String.valueOf(count));
         return this;
     }
@@ -128,7 +131,7 @@ public class Glance implements API {
      * @param percent the percent to use
      * @return GLance instance
      */
-    public API withPercent(int percent) {
+    public Glance withPercent(int percent) {
         body.put(Param.PERCENT.toString(), String.valueOf(percent));
         return this;
     }
@@ -163,5 +166,11 @@ public class Glance implements API {
         Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for a glance");
         
         return AsyncService.getInstance().execute(new AsyncExecutor(this));
+    }
+    
+    public String getValue(String param) {
+        Objects.requireNonNull(param, "param can not be null");
+        
+        return body.get(param);
     }
 }
