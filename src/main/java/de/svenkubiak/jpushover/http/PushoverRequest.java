@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
@@ -43,10 +44,11 @@ public class PushoverRequest {
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
+                .version(Version.HTTP_1_1)
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
-        var httpClientBuilder = HttpClient.newBuilder();
+        var httpClientBuilder = HttpClient.newBuilder().version(Version.HTTP_1_1);
 
         if (proxyHost != null && proxyPort > 0) {
             httpClientBuilder.proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
