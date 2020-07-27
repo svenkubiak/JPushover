@@ -77,6 +77,13 @@ JPushover.newGlance()
 	.pushAsync();		
 ```
 
+If you are using pushAsync remember to shutdown the ExecutorService that is handling the tasks by calling:
+
+
+```
+AsyncService.getInstance().shutdown();	
+```
+
 [1]: https://pushover.net
 [2]: https://pushover.net/api
 [3]: https://pushover.net/api
