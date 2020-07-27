@@ -20,9 +20,6 @@
 	<properties>
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<junit.platform.version>1.7.0-M1</junit.platform.version>
-		<junit.version>5.7.0-M1</junit.version>
-		<jackson.version>2.11.1</jackson.version>
 	</properties>
 	<scm>
 		<connection>scm:git:git@github.com:svenkubiak/JPushover.git</connection>
