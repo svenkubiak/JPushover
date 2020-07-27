@@ -44,11 +44,9 @@ public class PushoverRequest {
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
-                .version(HttpClient.Version.HTTP_1_1)
                 .build();
 
         var httpClientBuilder = HttpClient.newBuilder();
-        httpClientBuilder.version(HttpClient.Version.HTTP_1_1);
 
         if (proxyHost != null && proxyPort > 0) {
             httpClientBuilder.proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import de.svenkubiak.jpushover.enums.Param;
 import de.svenkubiak.jpushover.enums.Priority;
@@ -11,6 +13,8 @@ import de.svenkubiak.jpushover.enums.Sound;
 import de.svenkubiak.jpushover.enums.Url;
 import de.svenkubiak.jpushover.http.PushoverRequest;
 import de.svenkubiak.jpushover.http.PushoverResponse;
+import de.svenkubiak.jpushover.services.AsyncExecutor;
+import de.svenkubiak.jpushover.services.AsyncService;
 import de.svenkubiak.jpushover.utils.Validate;
 
 /**
@@ -18,7 +22,7 @@ import de.svenkubiak.jpushover.utils.Validate;
  * @author svenkubiak
  *
  */
-public class Message {
+public class Message implements API {
     private NavigableMap<String, String> body = new TreeMap<>();
     private String proxyHost;
     private int proxyPort;
@@ -271,6 +275,7 @@ public class Message {
      * @throws IOException if sending the message fails
      * @throws InterruptedException if sending the message fails
      */
+    @Override
     public final PushoverResponse push() throws IOException, InterruptedException {
         Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for validation");
         Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for validation");
@@ -300,5 +305,21 @@ public class Message {
         }
         
         return new PushoverRequest().push(Url.MESSAGES.toString(), body, this.proxyHost, this.proxyPort);
+    }
+    
+    /**
+     * Sends a message to pushover asynchronously
+     *
+     * @return PushoverResponse instance
+     *
+     * @throws IOException if sending the message fails
+     * @throws InterruptedException if sending the message fails
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Future<PushoverResponse> pushAsync() throws InterruptedException, ExecutionException {
+        Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for a glance");
+        Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for a glance");
+        
+        return AsyncService.getInstance().execute(new AsyncExecutor(this));
     }
 }
