@@ -16,7 +16,7 @@ public class GlanceTests {
     @Test
     void testConstruct() {
         //given
-        Glance glance = JPushover.newGlance();
+        Glance glance = JPushover.glanceAPI();
         
         //then
         assertTrue(glance instanceof Glance);
@@ -28,7 +28,7 @@ public class GlanceTests {
         String value = "myToken";
         
         //when
-        Glance glance = JPushover.newGlance().withToken(value);
+        Glance glance = JPushover.glanceAPI().withToken(value);
         
         //then
         assertTrue(glance.getValue(Param.TOKEN.toString()).equals(value));
@@ -40,7 +40,7 @@ public class GlanceTests {
         String value = "myUser";
         
         //when
-        Glance glance = JPushover.newGlance().withUser(value);
+        Glance glance = JPushover.glanceAPI().withUser(value);
         
         //then
         assertTrue(glance.getValue(Param.USER.toString()).equals(value));
@@ -52,7 +52,7 @@ public class GlanceTests {
         String value = "myDevice";
         
         //when
-        Glance glance = JPushover.newGlance().withDevice(value);
+        Glance glance = JPushover.glanceAPI().withDevice(value);
         
         //then
         assertTrue(glance.getValue(Param.DEVICE.toString()).equals(value));
@@ -64,7 +64,7 @@ public class GlanceTests {
         String value = "myTitle";
         
         //when
-        Glance glance = JPushover.newGlance().withTitle(value);
+        Glance glance = JPushover.glanceAPI().withTitle(value);
         
         //then
         assertTrue(glance.getValue(Param.TITLE.toString()).equals(value));
@@ -76,7 +76,7 @@ public class GlanceTests {
         String value = "myText";
         
         //when
-        Glance glance = JPushover.newGlance().withText(value);
+        Glance glance = JPushover.glanceAPI().withText(value);
         
         //then
         assertTrue(glance.getValue(Param.TEXT.toString()).equals(value));
@@ -88,7 +88,7 @@ public class GlanceTests {
         String value = "mySubtext";
         
         //when
-        Glance glance = JPushover.newGlance().withSubtext(value);
+        Glance glance = JPushover.glanceAPI().withSubtext(value);
         
         //then
         assertTrue(glance.getValue(Param.SUBTEXT.toString()).equals(value));
@@ -100,7 +100,7 @@ public class GlanceTests {
         int value = 23;
         
         //when
-        Glance glance = JPushover.newGlance().withCount(value);
+        Glance glance = JPushover.glanceAPI().withCount(value);
         
         //then
         assertTrue(glance.getValue(Param.COUNT.toString()).equals(String.valueOf(value)));
@@ -112,7 +112,7 @@ public class GlanceTests {
         int value = 42;
         
         //when
-        Glance glance = JPushover.newGlance().withPercent(value);
+        Glance glance = JPushover.glanceAPI().withPercent(value);
         
         //then
         assertTrue(glance.getValue(Param.PERCENT.toString()).equals(String.valueOf(value)));
@@ -125,7 +125,7 @@ public class GlanceTests {
         
         //when
         Exception exception = assertThrows(NullPointerException.class, () -> {
-            JPushover.newGlance().push();
+            JPushover.glanceAPI().push();
         });
         String actualMessage = exception.getMessage();
      
@@ -140,7 +140,7 @@ public class GlanceTests {
         
         //when
         Exception exception = assertThrows(NullPointerException.class, () -> {
-            JPushover.newGlance().withToken("foo").push();
+            JPushover.glanceAPI().withToken("foo").push();
         });
         String actualMessage = exception.getMessage();
      

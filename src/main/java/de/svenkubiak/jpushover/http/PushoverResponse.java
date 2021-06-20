@@ -13,6 +13,10 @@ public class PushoverResponse {
     private int pushoverHttpStatus;
     private boolean pushoverSuccessful;
     
+    public static PushoverResponse create() {
+        return new PushoverResponse();
+    }
+    
     public PushoverResponse response(String response) {
         this.pushoverResponse = response;
         return this;

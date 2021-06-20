@@ -18,7 +18,7 @@ public class MessageTests {
     @Test
     void testConstruct() {
         //given
-        Message message = JPushover.newMessage();
+        Message message = JPushover.messageAPI();
         
         //then
         assertTrue(message instanceof Message);
@@ -27,7 +27,7 @@ public class MessageTests {
     @Test
     void testDefaults() {
         //given
-        Message message = JPushover.newMessage();
+        Message message = JPushover.messageAPI();
         
         //then
         assertTrue(message.getValue(Param.PRIORITY.toString()).equals(Priority.NORMAL.toString()));
@@ -40,7 +40,7 @@ public class MessageTests {
         String value = "myToken";
         
         //when
-        Message message = JPushover.newMessage().withToken(value);
+        Message message = JPushover.messageAPI().withToken(value);
         
         //then
         assertTrue(message.getValue(Param.TOKEN.toString()).equals(value));
@@ -52,7 +52,7 @@ public class MessageTests {
         String value = "myUser";
         
         //when
-        Message message = JPushover.newMessage().withUser(value);
+        Message message = JPushover.messageAPI().withUser(value);
         
         //then
         assertTrue(message.getValue(Param.USER.toString()).equals(value));
@@ -64,7 +64,7 @@ public class MessageTests {
         int value = 3;
         
         //when
-        Message message = JPushover.newMessage().withRetry(value);
+        Message message = JPushover.messageAPI().withRetry(value);
         
         //then
         assertTrue(message.getValue(Param.RETRY.toString()).equals(String.valueOf(value)));
@@ -76,7 +76,7 @@ public class MessageTests {
         int value = 5;
         
         //when
-        Message message = JPushover.newMessage().withExpire(value);
+        Message message = JPushover.messageAPI().withExpire(value);
         
         //then
         assertTrue(message.getValue(Param.EXPIRE.toString()).equals(String.valueOf(value)));
@@ -88,7 +88,7 @@ public class MessageTests {
         String value = "myMessage";
         
         //when
-        Message message = JPushover.newMessage().withMessage(value);
+        Message message = JPushover.messageAPI().withMessage(value);
         
         //then
         assertTrue(message.getValue(Param.MESSAGE.toString()).equals(String.valueOf(value)));
@@ -100,7 +100,7 @@ public class MessageTests {
         String value = "myDevice";
         
         //when
-        Message message = JPushover.newMessage().withDevice(value);
+        Message message = JPushover.messageAPI().withDevice(value);
         
         //then
         assertTrue(message.getValue(Param.DEVICE.toString()).equals(value));
@@ -112,7 +112,7 @@ public class MessageTests {
         String value = "myTitle";
         
         //when
-        Message message = JPushover.newMessage().withTitle(value);
+        Message message = JPushover.messageAPI().withTitle(value);
         
         //then
         assertTrue(message.getValue(Param.TITLE.toString()).equals(value));
@@ -124,7 +124,7 @@ public class MessageTests {
         String value = "myUrl";
         
         //when
-        Message message = JPushover.newMessage().withUrl(value);
+        Message message = JPushover.messageAPI().withUrl(value);
         
         //then
         assertTrue(message.getValue(Param.URL.toString()).equals(value));
@@ -136,7 +136,7 @@ public class MessageTests {
         String value = "myUrlTitle";
         
         //when
-        Message message = JPushover.newMessage().withUrlTitle(value);
+        Message message = JPushover.messageAPI().withUrlTitle(value);
         
         //then
         assertTrue(message.getValue(Param.URL_TITLE.toString()).equals(value));
@@ -145,7 +145,7 @@ public class MessageTests {
     @Test
     void testEnableMonospace() {
         //when
-        Message message = JPushover.newMessage().enableMonospace();
+        Message message = JPushover.messageAPI().enableMonospace();
         
         //then
         assertTrue(message.getValue(Param.MONOSPACE.toString()).equals("1"));
@@ -155,7 +155,7 @@ public class MessageTests {
     @Test
     void testEnableHtml() {
         //when
-        Message message = JPushover.newMessage().enableHtml();
+        Message message = JPushover.messageAPI().enableHtml();
         
         //then
         assertTrue(message.getValue(Param.MONOSPACE.toString()).equals("0"));
@@ -168,7 +168,7 @@ public class MessageTests {
         int value = 555;
         
         //when
-        Message message = JPushover.newMessage().withTimestamp(value);
+        Message message = JPushover.messageAPI().withTimestamp(value);
         
         //then
         assertTrue(message.getValue(Param.TIMESTAMP.toString()).equals(String.valueOf(value)));
@@ -180,7 +180,7 @@ public class MessageTests {
         Priority value = Priority.EMERGENCY;
         
         //when
-        Message message = JPushover.newMessage().withPriority(value);
+        Message message = JPushover.messageAPI().withPriority(value);
         
         //then
         assertTrue(message.getValue(Param.PRIORITY.toString()).equals(value.toString()));
@@ -192,7 +192,7 @@ public class MessageTests {
         Sound value = Sound.BUGLE;
         
         //when
-        Message message = JPushover.newMessage().withSound(value);
+        Message message = JPushover.messageAPI().withSound(value);
         
         //then
         assertTrue(message.getValue(Param.SOUND.toString()).equals(value.toString()));
@@ -204,7 +204,7 @@ public class MessageTests {
         String value = "myCallback";
         
         //when
-        Message message = JPushover.newMessage().withCallback(value);
+        Message message = JPushover.messageAPI().withCallback(value);
         
         //then
         assertTrue(message.getValue(Param.CALLBACK.toString()).equals(value));
@@ -217,7 +217,7 @@ public class MessageTests {
         
         //when
         Exception exception = assertThrows(NullPointerException.class, () -> {
-            JPushover.newMessage().push();
+            JPushover.messageAPI().push();
         });
         String actualMessage = exception.getMessage();
      
@@ -232,7 +232,7 @@ public class MessageTests {
         
         //when
         Exception exception = assertThrows(NullPointerException.class, () -> {
-            JPushover.newMessage().withToken("foo").push();
+            JPushover.messageAPI().withToken("foo").push();
         });
         String actualMessage = exception.getMessage();
      
@@ -247,7 +247,7 @@ public class MessageTests {
         
         //when
         Exception exception = assertThrows(NullPointerException.class, () -> {
-            JPushover.newMessage().withToken("foo").withUser("bar").push();
+            JPushover.messageAPI().withToken("foo").withUser("bar").push();
         });
         String actualMessage = exception.getMessage();
      
@@ -263,7 +263,7 @@ public class MessageTests {
         
         //when
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            JPushover.newMessage().withToken("foo").withUser("bar").withMessage(message).push();
+            JPushover.messageAPI().withToken("foo").withUser("bar").withMessage(message).push();
         });
         String actualMessage = exception.getMessage();
      
@@ -279,7 +279,7 @@ public class MessageTests {
         
         //when
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            JPushover.newMessage().withToken("foo").withUser("bar").withMessage("foobar").withTitle(title).push();
+            JPushover.messageAPI().withToken("foo").withUser("bar").withMessage("foobar").withTitle(title).push();
         });
         String actualMessage = exception.getMessage();
      
@@ -295,7 +295,7 @@ public class MessageTests {
         
         //when
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            JPushover.newMessage().withToken("foo").withUser("bar").withMessage("foobar").withUrl(url).push();
+            JPushover.messageAPI().withToken("foo").withUser("bar").withMessage("foobar").withUrl(url).push();
         });
         String actualMessage = exception.getMessage();
      
@@ -311,7 +311,7 @@ public class MessageTests {
         
         //when
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            JPushover.newMessage().withToken("foo").withUser("bar").withMessage("foobar").withUrlTitle(urlTitle).push();
+            JPushover.messageAPI().withToken("foo").withUser("bar").withMessage("foobar").withUrlTitle(urlTitle).push();
         });
         String actualMessage = exception.getMessage();
      

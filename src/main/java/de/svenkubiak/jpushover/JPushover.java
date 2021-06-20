@@ -2,6 +2,7 @@ package de.svenkubiak.jpushover;
 
 import de.svenkubiak.jpushover.apis.Glance;
 import de.svenkubiak.jpushover.apis.Message;
+import de.svenkubiak.jpushover.apis.OpenClient;
 
 /**
  *
@@ -17,7 +18,7 @@ public class JPushover {
      * 
      * @return Glance instance
      */
-    public static Glance newGlance() {
+    public static Glance glanceAPI() {
         return new Glance();
     }
     
@@ -26,7 +27,16 @@ public class JPushover {
      * 
      * @return Message instance
      */
-    public static Message newMessage() {
+    public static Message messageAPI() {
         return new Message();
+    }
+    
+    /**
+     * Creates a new OpenClient instance for the Open Client API
+     * 
+     * @return OpenClient instance
+     */
+    public static OpenClient openClientAPI() {
+        return new OpenClient();
     }
 }
