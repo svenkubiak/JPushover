@@ -1,6 +1,5 @@
 package de.svenkubiak.jpushover.services;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -25,7 +24,7 @@ public class AsyncService<T> {
         return INSTANCE;
     }
     
-    public Future<PushoverResponse> execute(AsyncExecutor<PushoverResponse> asyncExecutor) throws InterruptedException, ExecutionException {
+    public Future<PushoverResponse> execute(AsyncExecutor<PushoverResponse> asyncExecutor) {
         return executorService.submit(asyncExecutor);
     }
     

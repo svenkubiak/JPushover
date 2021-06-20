@@ -32,7 +32,7 @@ public class OpenClient {
      * 
      * @param email Your Pushover email address
      * @param password Your Pushover password
-     * @param twofa Your Your current Pushover two-factor code (if enabled)
+     * @param twofa Your current Pushover two-factor code (if enabled)
      * 
      * @return A PushoverResponse
      * @throws JPushoverException if something went wrong with the HTTP request
@@ -74,7 +74,7 @@ public class OpenClient {
                 .response(response.body())
                 .isSuccessful((response.statusCode() == 200) ? true : false);
         } catch (IOException | InterruptedException e) {
-            throw new JPushoverException("Login failed", e);
+            throw new JPushoverException("Pushover Login failed", e);
         }
         
         return pushoverResponse;
@@ -97,7 +97,7 @@ public class OpenClient {
      * Retrieves all available messages for the given deviceId
      * 
      * @param secret Your Pushover secret retrieved after login
-     * @param deviceId The deviceId to get the messages
+     * @param deviceId The deviceId from whom to get the messages
      * 
      * @return A String containing raw Json with all available messages or null
      * @throws JPushoverException if something went wrong with the HTTP request
@@ -137,7 +137,7 @@ public class OpenClient {
      * Deletes all messages after (and including) a given messagesId
      * 
      * @param secret Your Pushover secret retrieved after login
-     * @param deviceId The deviceId to get the messages
+     * @param deviceId The deviceId whom to get the messages
      * @param messageId The messagesId
      * 
      * @return A PushoverResponse
@@ -146,7 +146,7 @@ public class OpenClient {
     public PushoverResponse deleteMessages(String secret, String deviceId, String messageId) throws JPushoverException {
         Objects.requireNonNull(deviceId, "secret can not be null");
         Objects.requireNonNull(secret, "deviceId can not be null");
-        Objects.requireNonNull(messageId, "deviceId can not be null");
+        Objects.requireNonNull(messageId, "messageId can not be null");
         
         StringBuilder params = new StringBuilder()
                 .append("secret")
@@ -172,7 +172,6 @@ public class OpenClient {
                 .httpStatus(response.statusCode())
                 .response(response.body())
                 .isSuccessful((response.statusCode() == 200) ? true : false);
-            
         } catch (IOException | InterruptedException e) {
             throw new JPushoverException("Failed to delete messages", e);
         }
@@ -181,13 +180,13 @@ public class OpenClient {
     }
     
     /**
-     * Establishes a WebSocket connect which listens to new messages
+     * Establishes a WebSocket connection which listens to incoming messages
      * 
      * @param secret Your Pushover secret retrieved after login
-     * @param deviceId The deviceId to get the messages
+     * @param deviceId The deviceId from whom to get the messages
      * @param messageListener Your instance of a MessagesListener
      * 
-     * @return True if the connection was established successful
+     * @return True if the connection was established successfully
      */
     public boolean listen(String secret, String deviceId, MessageListener messageListener) {
         Objects.requireNonNull(secret, "secret can not be null");
@@ -243,12 +242,10 @@ public class OpenClient {
         PushoverResponse pushoverResponse = PushoverResponse.create().isSuccessful(false);
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
-                pushoverResponse
+            pushoverResponse
                 .httpStatus(response.statusCode())
                 .response(response.body())
                 .isSuccessful(true);
-            }
         } catch (IOException | InterruptedException e) {
             throw new JPushoverException("Failed to register new device", e);
         }

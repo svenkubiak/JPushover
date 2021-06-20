@@ -14,6 +14,8 @@ import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.OptionalLong;
 
+import de.svenkubiak.jpushover.exceptions.JPushoverException;
+
 /**
  * 
  * @author svenkubiak
@@ -21,7 +23,7 @@ import java.util.OptionalLong;
  */
 public class PushoverRequest {
     
-    public PushoverResponse push(String url, NavigableMap<String, String> body, String proxyHost, int proxyPort) throws IOException, InterruptedException {
+    public PushoverResponse push(String url, NavigableMap<String, String> body, String proxyHost, int proxyPort) throws JPushoverException {
         Objects.requireNonNull(url, "API URL can not be null");
         Objects.requireNonNull(body, "body can not be null");
         
@@ -39,7 +41,7 @@ public class PushoverRequest {
         return jPushoverResponse;
     }
 
-    private HttpResponse<String> getResponse(String body, String url, String proxyHost, int proxyPort) throws IOException, InterruptedException {
+    private HttpResponse<String> getResponse(String body, String url, String proxyHost, int proxyPort) throws JPushoverException {
         var httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(5))
@@ -54,7 +56,11 @@ public class PushoverRequest {
             httpClientBuilder.proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
         }
 
-        return httpClientBuilder.build().send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        try {
+            return httpClientBuilder.build().send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new JPushoverException("Failed to execute HTTP request", e);
+        }
     }
     
     private String toJson(NavigableMap<String, String> body) {

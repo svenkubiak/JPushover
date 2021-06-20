@@ -1,6 +1,5 @@
 package de.svenkubiak.jpushover.apis;
 
-import java.io.IOException;
 import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -11,6 +10,7 @@ import de.svenkubiak.jpushover.enums.Param;
 import de.svenkubiak.jpushover.enums.Priority;
 import de.svenkubiak.jpushover.enums.Sound;
 import de.svenkubiak.jpushover.enums.Url;
+import de.svenkubiak.jpushover.exceptions.JPushoverException;
 import de.svenkubiak.jpushover.http.PushoverRequest;
 import de.svenkubiak.jpushover.http.PushoverResponse;
 import de.svenkubiak.jpushover.services.AsyncExecutor;
@@ -247,10 +247,9 @@ public class Message implements API {
      *
      * @return true if token and user are valid and at least on device is on the account, false otherwise
      *
-     * @throws IOException if validation fails
-     * @throws InterruptedException if validation fails
+     * @throws JPushoverException 
      */
-    public boolean validate() throws IOException, InterruptedException {
+    public boolean validate() throws JPushoverException {
         Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for validation");
         Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for validation");
 
@@ -272,11 +271,10 @@ public class Message implements API {
      *
      * @return PushoverResponse instance
      *
-     * @throws IOException if sending the message fails
-     * @throws InterruptedException if sending the message fails
+     * @throws JPushoverException 
      */
     @Override
-    public PushoverResponse push() throws IOException, InterruptedException {
+    public PushoverResponse push() throws JPushoverException {
         Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for a message");
         Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for a message");
         Objects.requireNonNull(body.get(Param.MESSAGE.toString()), "Message is required for a message");

@@ -7,7 +7,7 @@ package de.svenkubiak.jpushover.interfaces;
  */
 public interface MessageListener {
     /**
-     * Called when a new message/new messages is available
+     * Called when a new message is available/new messages are available
      */
     void onMessage();
     

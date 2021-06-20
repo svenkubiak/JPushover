@@ -1,14 +1,13 @@
 package de.svenkubiak.jpushover.apis;
 
-import java.io.IOException;
 import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import de.svenkubiak.jpushover.enums.Param;
 import de.svenkubiak.jpushover.enums.Url;
+import de.svenkubiak.jpushover.exceptions.JPushoverException;
 import de.svenkubiak.jpushover.http.PushoverRequest;
 import de.svenkubiak.jpushover.http.PushoverResponse;
 import de.svenkubiak.jpushover.services.AsyncExecutor;
@@ -140,12 +139,11 @@ public class Glance implements API {
      * Sends a glance to pushover
      *
      * @return PushoverResponse instance
-     *
-     * @throws IOException if sending the message fails
-     * @throws InterruptedException if sending the message fails
+     * 
+     * @throws JPushoverException 
      */
     @Override
-    public PushoverResponse push() throws IOException, InterruptedException {
+    public PushoverResponse push() throws JPushoverException {
         Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for a glance");
         Objects.requireNonNull(body.get(Param.USER.toString()), "User is required for a glance");
         
@@ -156,12 +154,9 @@ public class Glance implements API {
      * Sends a glance to pushover asynchronously
      *
      * @return PushoverResponse instance
-     *
-     * @throws InterruptedException if sending the message fails
-     * @throws ExecutionException if sending the message fails
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public Future<PushoverResponse> pushAsync() throws InterruptedException, ExecutionException {
+    public Future<PushoverResponse> pushAsync() {
         return AsyncService.getInstance().execute(new AsyncExecutor(this));
     }
     
