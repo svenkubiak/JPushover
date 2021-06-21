@@ -61,7 +61,6 @@ public class OpenClient {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(Url.LOGIN.toString()))
                 .timeout(TIMEOUT)
-                .header(CONTENT_TYPE, APPLICATION_JSON)
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
                 .build();
         
@@ -231,7 +230,7 @@ public class OpenClient {
                 .append("&os=O"); 
         
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(Url.DELETE.toString()))
+                .uri(URI.create(Url.DELETE.toString().replace("###DEVICE_ID###", deviceName)))
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
                 .build();
 
@@ -250,7 +249,7 @@ public class OpenClient {
     }
     
     /**
-     * Closes the existing WebSocket to the Pushover API
+     * Closes the existing WebSocket connection to the Pushover API
      * 
      * @return true if close was successful, false otherwise
      */
@@ -259,6 +258,7 @@ public class OpenClient {
         if (webSocket != null) {
             webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok");
             closed = webSocket.isInputClosed() && webSocket.isOutputClosed();
+            webSocket = null;
         }
         
         return closed;
