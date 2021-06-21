@@ -22,6 +22,11 @@ import de.svenkubiak.jpushover.listener.WebSocketListener;
  *
  */
 public class OpenClient {
+    private HttpClient client = HttpClient.newHttpClient();
+    private static final Duration TIMEOUT = Duration.ofSeconds(5);
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String CONTENT_TYPE = "Content-Type";
+    
     /**
      * Performs a Pushover login; required once for working with the Open Client API
      * 
@@ -53,14 +58,13 @@ public class OpenClient {
                 .append(twofa);
         }
         
-        HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(Url.LOGIN.toString()))
-                .timeout(Duration.ofSeconds(5))
-                .header("Content-Type", "application/json")
+                .timeout(TIMEOUT)
+                .header(CONTENT_TYPE, APPLICATION_JSON)
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
                 .build();
-
+        
         PushoverResponse pushoverResponse = PushoverResponse.create().isSuccessful(false);
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -110,11 +114,10 @@ public class OpenClient {
                 .append("=")
                 .append(deviceId); 
         
-        HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(Url.MESSAGES.toString() + params.toString()))
-                .timeout(Duration.ofSeconds(5))
-                .header("Content-Type", "application/json")
+                .timeout(TIMEOUT)
+                .header(CONTENT_TYPE, APPLICATION_JSON)
                 .build();
         
         String messages = null;
@@ -152,11 +155,10 @@ public class OpenClient {
                 .append("=")
                 .append(messageId); 
         
-        HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(Url.DELETE.toString().replace("###DEVICE_ID###", deviceId)))
-                .timeout(Duration.ofSeconds(5))
-                .header("Content-Type", "application/json")
+                .timeout(TIMEOUT)
+                .header(CONTENT_TYPE, APPLICATION_JSON)
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
                 .build();
 
@@ -188,8 +190,7 @@ public class OpenClient {
         Objects.requireNonNull(deviceId, "deviceId name can not be null");
         Objects.requireNonNull(messageListener, "messageListener can not be null");
         
-        HttpClient httpClient = HttpClient.newBuilder().build();
-        Builder webSocketBuilder = httpClient.newWebSocketBuilder();
+        Builder webSocketBuilder = client.newWebSocketBuilder();
         WebSocket webSocket = webSocketBuilder.buildAsync(URI.create(Url.WEBSOCKET.toString()), new WebSocketListener(messageListener)).join();
         
         StringBuilder params = new StringBuilder()
@@ -228,7 +229,6 @@ public class OpenClient {
                 .append(deviceName)
                 .append("&os=O"); 
         
-        HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(Url.DELETE.toString()))
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
