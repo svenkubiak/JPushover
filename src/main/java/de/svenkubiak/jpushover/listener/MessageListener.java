@@ -1,4 +1,4 @@
-package de.svenkubiak.jpushover.interfaces;
+package de.svenkubiak.jpushover.listener;
 
 /**
  * 

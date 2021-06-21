@@ -10,9 +10,10 @@ import java.net.http.WebSocket.Builder;
 import java.time.Duration;
 import java.util.Objects;
 
+import de.svenkubiak.jpushover.enums.Url;
 import de.svenkubiak.jpushover.exceptions.JPushoverException;
 import de.svenkubiak.jpushover.http.PushoverResponse;
-import de.svenkubiak.jpushover.interfaces.MessageListener;
+import de.svenkubiak.jpushover.listener.MessageListener;
 import de.svenkubiak.jpushover.listener.WebSocketListener;
 
 /**
@@ -21,12 +22,6 @@ import de.svenkubiak.jpushover.listener.WebSocketListener;
  *
  */
 public class OpenClient {
-    private static final String LOGIN_URL = "https://api.pushover.net/1/users/login.json";
-    private static final String DEVICE_URL = "https://api.pushover.net/1/devices.json";
-    private static final String MESSAGES_URL = "https://api.pushover.net/1/messages.json";
-    private static final String DELETE_URL = "https://api.pushover.net/1/devices/###DEVICE_ID###/update_highest_message.json";
-    private static final String WEBSOCKET_URL = "wss://client.pushover.net/push";
-
     /**
      * Performs a Pushover login; required once for working with the Open Client API
      * 
@@ -60,7 +55,7 @@ public class OpenClient {
         
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(LOGIN_URL))
+                .uri(URI.create(Url.LOGIN.toString()))
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
@@ -117,7 +112,7 @@ public class OpenClient {
         
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(MESSAGES_URL + params.toString()))
+                .uri(URI.create(Url.MESSAGES.toString() + params.toString()))
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .build();
@@ -159,7 +154,7 @@ public class OpenClient {
         
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(DELETE_URL.replace("###DEVICE_ID###", deviceId)))
+                .uri(URI.create(Url.DELETE.toString().replace("###DEVICE_ID###", deviceId)))
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
@@ -195,7 +190,7 @@ public class OpenClient {
         
         HttpClient httpClient = HttpClient.newBuilder().build();
         Builder webSocketBuilder = httpClient.newWebSocketBuilder();
-        WebSocket webSocket = webSocketBuilder.buildAsync(URI.create(WEBSOCKET_URL), new WebSocketListener(messageListener)).join();
+        WebSocket webSocket = webSocketBuilder.buildAsync(URI.create(Url.WEBSOCKET.toString()), new WebSocketListener(messageListener)).join();
         
         StringBuilder params = new StringBuilder()
                 .append("login")
@@ -235,7 +230,7 @@ public class OpenClient {
         
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(DEVICE_URL))
+                .uri(URI.create(Url.DELETE.toString()))
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
                 .build();
 

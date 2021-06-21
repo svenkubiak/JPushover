@@ -7,8 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.concurrent.CompletionStage;
 
-import de.svenkubiak.jpushover.interfaces.MessageListener;
-
 /**
  * 
  * @author svenkubiak
