@@ -230,7 +230,7 @@ public class OpenClient {
                 .append("&os=O"); 
         
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(Url.DELETE.toString().replace("###DEVICE_ID###", deviceName)))
+                .uri(URI.create(Url.DEVICE.toString()))
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
                 .build();
 
