@@ -6,7 +6,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.WebSocket;
-import java.net.http.WebSocket.Builder;
 import java.time.Duration;
 import java.util.Objects;
 
@@ -26,18 +25,19 @@ public class OpenClient {
     private static final Duration TIMEOUT = Duration.ofSeconds(5);
     private static final String APPLICATION_JSON = "application/json";
     private static final String CONTENT_TYPE = "Content-Type";
+    private WebSocket webSocket;
     
     /**
      * Performs a Pushover login; required once for working with the Open Client API
      * 
      * @param email Your Pushover email address
      * @param password Your Pushover password
-     * @param twofa Your current Pushover two-factor code (if enabled)
+     * @param twoFactor Your current Pushover two-factor code (if enabled)
      * 
      * @return A PushoverResponse
      * @throws JPushoverException if something went wrong with the HTTP request
      */
-    public PushoverResponse login(String email, String password, String twofa) throws JPushoverException {
+    public PushoverResponse login(String email, String password, String twoFactor) throws JPushoverException {
         Objects.requireNonNull(email, "email can not be null");
         Objects.requireNonNull(password, "password can not be null");
         
@@ -50,12 +50,12 @@ public class OpenClient {
                 .append("=")
                 .append(password);
         
-        if (twofa != null) {
+        if (twoFactor != null) {
             params
                 .append("&")
                 .append("twofa")
                 .append("=")
-                .append(twofa);
+                .append(twoFactor);
         }
         
         HttpRequest request = HttpRequest.newBuilder()
@@ -185,13 +185,14 @@ public class OpenClient {
      * 
      * @return True if the connection was established successfully
      */
-    public boolean listen(String secret, String deviceId, MessageListener messageListener) {
+    public boolean open(String secret, String deviceId, MessageListener messageListener) {
         Objects.requireNonNull(secret, "secret can not be null");
         Objects.requireNonNull(deviceId, "deviceId name can not be null");
         Objects.requireNonNull(messageListener, "messageListener can not be null");
         
-        Builder webSocketBuilder = client.newWebSocketBuilder();
-        WebSocket webSocket = webSocketBuilder.buildAsync(URI.create(Url.WEBSOCKET.toString()), new WebSocketListener(messageListener)).join();
+        webSocket = client.newWebSocketBuilder()
+                .buildAsync(URI.create(Url.WEBSOCKET.toString()), new WebSocketListener(messageListener))
+                .join();
         
         StringBuilder params = new StringBuilder()
                 .append("login")
@@ -207,7 +208,7 @@ public class OpenClient {
     }
     
     /**
-     * Registers a new device
+     * Registers a new device at Pushover
      * 
      * @param secret Your Pushover secret retrieved after login
      * @param deviceName The name of the device to register
@@ -246,5 +247,20 @@ public class OpenClient {
         }
         
         return pushoverResponse;
+    }
+    
+    /**
+     * Closes the existing WebSocket to the Pushover API
+     * 
+     * @return true if close was successful, false otherwise
+     */
+    public boolean close() {
+        boolean closed = false;
+        if (webSocket != null) {
+            webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok");
+            closed = webSocket.isInputClosed() && webSocket.isOutputClosed();
+        }
+        
+        return closed;
     }
 }
