@@ -135,11 +135,15 @@ PushoverResponse pushoverResponse = JPushover
 //4 - Parse deviceId from JSON response and store it
 String deviceId = MyJsonParser(pushoverResponse.getResponse());
 
-//5 - Create a new class
-String deviceId = MyJsonParser(pushoverResponse.getResponse());
+//5 - Create a new listener class which implements de.svenkubiak.jpushover.listener.MessageListener
+MyMessageListener listener = new MyMessageListener();
 
 //6 - Open a new WebSocket connection passing an instance of your message listener
-JPushover.openClientAPI().open(secret, deviceId, new MyMessageListener())
+JPushover.openClientAPI().open(secret, deviceId, listener)
+
+//7 - Handle messages and errors via your listener
+listener.onMessage();
+lsitener.onError();
 
 ```
 
