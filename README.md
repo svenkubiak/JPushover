@@ -145,6 +145,11 @@ JPushover.openClientAPI().open(secret, deviceId, listener)
 listener.onMessage();
 lsitener.onError();
 
+//Fetch existing messages via message()
+JPushover
+	.openClientAPI()
+     .messages(secret, deviceId);
+
 ```
 
 Once new messages are pushed to your device the onMessage method of your message listener is called. If an error occurs, the onError message of your message listener is called.
