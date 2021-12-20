@@ -7,7 +7,7 @@ A simple, minimal (18 KB), zero-dependency convenient class for sending messages
 
 Supports [Messages API][3], [Glances API][4] and [OpenClient API][5]. Send synchronous or asynchronous.
 
-Requires Java 11.
+Requires Java 17.
 
 Usage
 ------------------
@@ -165,15 +165,6 @@ JPushover.openClientAPI().close();
 JPushover.openClientAPI().open(secret, deviceId, new MyMessageListener())
 
 ```
-
-
-Changelog
-------------------
-
-6.0.0. - 2021-06-21
-
-* Partial API rewrite (breaks backward compatibility)
-* Added support for Open Client API
 
 
 [1]: https://pushover.net
