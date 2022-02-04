@@ -64,13 +64,13 @@ public class OpenClient {
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
                 .build();
         
-        PushoverResponse pushoverResponse = PushoverResponse.create().isSuccessful(false);
+        var pushoverResponse = PushoverResponse.create().isSuccessful(false);
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             pushoverResponse
                 .httpStatus(response.statusCode())
                 .response(response.body())
-                .isSuccessful((response.statusCode() == 200) ? true : false);
+                .isSuccessful(response.statusCode() == 200);
         } catch (IOException | InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new JPushoverException("Pushover Login failed", e);
@@ -163,13 +163,13 @@ public class OpenClient {
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
                 .build();
 
-        PushoverResponse pushoverResponse = PushoverResponse.create().isSuccessful(false);
+        var pushoverResponse = PushoverResponse.create().isSuccessful(false);
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             pushoverResponse
                 .httpStatus(response.statusCode())
                 .response(response.body())
-                .isSuccessful((response.statusCode() == 200) ? true : false);
+                .isSuccessful(response.statusCode() == 200);
         } catch (IOException | InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new JPushoverException("Failed to delete messages", e);
@@ -237,7 +237,7 @@ public class OpenClient {
                 .POST(HttpRequest.BodyPublishers.ofString(params.toString()))
                 .build();
 
-        PushoverResponse pushoverResponse = PushoverResponse.create().isSuccessful(false);
+        var pushoverResponse = PushoverResponse.create().isSuccessful(false);
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             pushoverResponse
@@ -258,7 +258,7 @@ public class OpenClient {
      * @return true if close was successful, false otherwise
      */
     public boolean close() {
-        boolean closed = false;
+        var closed = false;
         if (webSocket != null) {
             webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok");
             closed = webSocket.isInputClosed() && webSocket.isOutputClosed();
