@@ -59,6 +59,7 @@ public class PushoverRequest {
         try {
             return httpClientBuilder.build().send(httpRequest, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new JPushoverException("Failed to execute HTTP request", e);
         }
     }

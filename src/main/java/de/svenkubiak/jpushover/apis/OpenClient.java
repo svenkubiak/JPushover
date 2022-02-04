@@ -43,18 +43,18 @@ public class OpenClient {
         
         StringBuilder params = new StringBuilder()
                 .append("email")
-                .append("=")
+                .append('=')
                 .append(email)
-                .append("&")
+                .append('&')
                 .append("password")
-                .append("=")
+                .append('=')
                 .append(password);
         
         if (twoFactor != null) {
             params
-                .append("&")
+                .append('&')
                 .append("twofa")
-                .append("=")
+                .append('=')
                 .append(twoFactor);
         }
         
@@ -72,6 +72,7 @@ public class OpenClient {
                 .response(response.body())
                 .isSuccessful((response.statusCode() == 200) ? true : false);
         } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new JPushoverException("Pushover Login failed", e);
         }
         
@@ -124,6 +125,7 @@ public class OpenClient {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             messages = response.body();
         } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new JPushoverException("Failed to get messages", e);
         }
         
@@ -169,6 +171,7 @@ public class OpenClient {
                 .response(response.body())
                 .isSuccessful((response.statusCode() == 200) ? true : false);
         } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new JPushoverException("Failed to delete messages", e);
         }
         
@@ -242,6 +245,7 @@ public class OpenClient {
                 .response(response.body())
                 .isSuccessful(true);
         } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new JPushoverException("Failed to register new device", e);
         }
         
