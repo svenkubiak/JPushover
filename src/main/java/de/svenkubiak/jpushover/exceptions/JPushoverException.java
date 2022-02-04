@@ -6,8 +6,8 @@ package de.svenkubiak.jpushover.exceptions;
  *
  */
 public class JPushoverException extends Exception{
-    private static final long serialVersionUID = -5719174030861964503L;
-    
+    private static final long serialVersionUID = 7468682477047138171L;
+
     public JPushoverException(String message, Exception e) {
         super(message, e);
     }

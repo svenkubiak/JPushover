@@ -29,7 +29,7 @@ public class WebSocketListener implements Listener {
     @Override
     public CompletionStage<?> onBinary(WebSocket webSocket, ByteBuffer data, boolean last) {
         if (data != null) {
-            String frame = StandardCharsets.UTF_8.decode(data).toString();
+            var frame = StandardCharsets.UTF_8.decode(data).toString();
             switch (frame) {
                 case "!":
                     messageListener.onMessage();
