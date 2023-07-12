@@ -225,6 +225,17 @@ public class Message implements API {
     }
 
     /**
+     * 
+     * @param ttl Seconds until this message should be automatically removed from the device. Needs to be positive
+     * @see https://pushover.net/api#ttl
+     * @return Message instance
+     */
+    public Message withTTL(int ttl) {
+        body.put(Param.TTL.toString(), Integer.toString(ttl));
+        return this;
+    }
+
+    /**
      * Uses a given proxy for the HTTP requests to Pushover
      *
      * @param proxyHost The host that should be used for the Proxy
