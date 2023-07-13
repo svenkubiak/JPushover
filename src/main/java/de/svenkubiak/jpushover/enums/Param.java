@@ -24,7 +24,8 @@ public enum Param {
     TOKEN("token"),
     URL("url"),
     URL_TITLE("url_title"),
-    USER("user");
+    USER("user"),
+    TTL("ttl");
 
     private final String value;
 
