@@ -59,6 +59,18 @@ public class MessageTests {
     }
     
     @Test
+    void testWithTTL() {
+        //given
+        int ttl = 5;
+        
+        //when
+        Message message = JPushover.messageAPI().withTTL(5);
+        
+        //then
+        assertTrue(message.getValue(Param.TTL.toString()).equals(String.valueOf(ttl)));
+    }
+    
+    @Test
     void testWithRetry() {
         //given
         int value = 3;

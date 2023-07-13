@@ -225,13 +225,15 @@ public class Message implements API {
     }
 
     /**
+     * Adds a ttl to the Pushover message
      * 
      * @param ttl Seconds until this message should be automatically removed from the device. Needs to be positive
-     * @see https://pushover.net/api#ttl
      * @return Message instance
      */
     public Message withTTL(int ttl) {
-        body.put(Param.TTL.toString(), Integer.toString(ttl));
+        Validate.checkArgument(ttl > 0, "TTL must be a positive value");
+        
+        body.put(Param.TTL.toString(), String.valueOf(ttl));
         return this;
     }
 
