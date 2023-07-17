@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.svenkubiak</groupId>
 	<artifactId>jpushover</artifactId>
@@ -28,7 +30,8 @@
 		<tag>HEAD</tag>
 	</scm>
 	<name>JPushover</name>
-	<description>Zero-dependency convenient class for sending messages to Pushover in Java project</description>
+	<description>Zero-dependency convenient class for sending messages to
+		Pushover in Java project</description>
 	<url>https://github.com/svenkubiak/JPushover</url>
 	<build>
 		<plugins>
@@ -109,25 +112,25 @@
 				</dependencies>
 			</plugin>
 			<plugin>
-					<groupId>org.owasp</groupId>
-					<artifactId>dependency-check-maven</artifactId>
-					<version>8.3.1</version>
-					<configuration>
-						<cveValidForHours>12</cveValidForHours>
-						<failBuildOnCVSS>1</failBuildOnCVSS>
-						<!--
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>8.3.1</version>
+				<configuration>
+					<cveValidForHours>12</cveValidForHours>
+					<failBuildOnCVSS>1</failBuildOnCVSS>
+					<!--
 						<suppressionFiles>
-							<suppressionFile>${maven.multiModuleProjectDirectory}/owasp-suppression.xml</suppressionFile>
+					<suppressionFile>${maven.multiModuleProjectDirectory}/owasp-suppression.xml</suppressionFile>
 						</suppressionFiles>
 						-->
-						<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
-						<composerAnalyzerEnabled>false</composerAnalyzerEnabled>
-						<nodeAuditAnalyzerEnabled>false</nodeAuditAnalyzerEnabled>
-						<nuspecAnalyzerEnabled>false</nuspecAnalyzerEnabled>
-						<cocoapodsAnalyzerEnabled>false</cocoapodsAnalyzerEnabled>
-						<golangDepEnabled>false</golangDepEnabled>
-					</configuration>
-				</plugin>
+					<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+					<composerAnalyzerEnabled>false</composerAnalyzerEnabled>
+					<nodeAuditAnalyzerEnabled>false</nodeAuditAnalyzerEnabled>
+					<nuspecAnalyzerEnabled>false</nuspecAnalyzerEnabled>
+					<cocoapodsAnalyzerEnabled>false</cocoapodsAnalyzerEnabled>
+					<golangDepEnabled>false</golangDepEnabled>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -149,7 +152,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
+				<version>3.0.1</version>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 					<goals>deploy</goals>
@@ -195,6 +198,17 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.3.1</version>
 			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -208,11 +222,11 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
 	<profiles>
