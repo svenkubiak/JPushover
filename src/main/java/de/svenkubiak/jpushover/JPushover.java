@@ -7,7 +7,7 @@ import de.svenkubiak.jpushover.apis.OpenClient;
 /**
  *
  * Zero-dependency convenient class for working with the Pushover API
- * See https://pushover.net/api for API details
+ * See <a href="https://pushover.net/api">Pushover API</a> for API details
  *
  * @author svenkubiak
  *

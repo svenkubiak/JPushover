@@ -9,7 +9,7 @@ public enum Sound {
     ALIEN("alien"),
     BIKE("bike"),
     BUGLE("bugle"),
-    CASHREGISTET("cashregister"),
+    CASHREGISTER("cashregister"),
     CLASSICAL("classical"),
     CLIMB("climb"),
     COSMIC("cosmic"),

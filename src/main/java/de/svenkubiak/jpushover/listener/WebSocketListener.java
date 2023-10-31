@@ -34,15 +34,9 @@ public class WebSocketListener implements Listener {
                 case "!":
                     messageListener.onMessage();
                 break;
-                case "E":
+                case "E", "R", "A":
                     messageListener.onError();
-                break; 
-                case "R":
-                    messageListener.onError();
-                break;     
-                case "A":
-                    messageListener.onError();
-                break;          
+                break;
                 default:
             }   
         }

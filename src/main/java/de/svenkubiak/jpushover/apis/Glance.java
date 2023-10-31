@@ -140,7 +140,7 @@ public class Glance implements API {
      *
      * @return PushoverResponse instance
      * 
-     * @throws JPushoverException 
+     * @throws JPushoverException on failure
      */
     @Override
     public PushoverResponse push() throws JPushoverException {

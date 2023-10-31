@@ -260,7 +260,7 @@ public class Message implements API {
      *
      * @return true if token and user are valid and at least on device is on the account, false otherwise
      *
-     * @throws JPushoverException 
+     * @throws JPushoverException on failure
      */
     public boolean validate() throws JPushoverException {
         Objects.requireNonNull(body.get(Param.TOKEN.toString()), "Token is required for validation");
@@ -284,7 +284,7 @@ public class Message implements API {
      *
      * @return PushoverResponse instance
      *
-     * @throws JPushoverException 
+     * @throws JPushoverException on failure
      */
     @Override
     public PushoverResponse push() throws JPushoverException {
@@ -294,13 +294,8 @@ public class Message implements API {
         Validate.checkArgument(body.get(Param.MESSAGE.toString()).length() <= 1024, "Message can not exceed more than 1024 characters");
         
         if (Priority.EMERGENCY.toString().equals(body.get(Param.PRIORITY.toString()))) {
-            if (body.get(Param.RETRY.toString()) == null) {
-                body.put(Param.RETRY.toString(), "60");
-            }
-            
-            if (body.get(Param.EXPIRE.toString()) == null) {
-                body.put(Param.EXPIRE.toString(), "3600");
-            }
+            body.putIfAbsent(Param.RETRY.toString(), "60");
+            body.putIfAbsent(Param.EXPIRE.toString(), "3600");
         }
         
         if (body.get(Param.TITLE.toString()) != null) {

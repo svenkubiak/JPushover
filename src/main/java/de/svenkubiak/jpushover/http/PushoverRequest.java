@@ -33,7 +33,7 @@ public class PushoverRequest {
         jPushoverResponse
             .httpStatus(httpResponse.statusCode())
             .response(httpResponse.body())
-            .isSuccessful((httpResponse.statusCode() == 200) ? true : false)
+            .isSuccessful(httpResponse.statusCode() == 200)
             .limit(getHeaderValue(httpResponse, "X-Limit-App-Limit").orElse(0))
             .remaining(getHeaderValue(httpResponse, "X-Limit-App-Remaining").orElse(0))
             .reset(getHeaderValue(httpResponse, "X-Limit-App-Reset").orElse(0));
