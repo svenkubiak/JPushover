@@ -134,6 +134,24 @@ public class Glance implements API {
         body.put(Param.PERCENT.toString(), String.valueOf(percent));
         return this;
     }
+
+    /**
+     * Sets the host and port for a proxy connection if needed
+     *
+     * @param proxyHost the host for the proxy
+     * @param proxyPort the port for the proxy
+     *
+     * @return GLance instance
+     */
+    public Glance withProxy(String proxyHost, int proxyPort) {
+        Objects.requireNonNull(proxyHost, "proxyHost can not be null");
+        Validate.checkArgument(proxyPort > 0, "proxyPort must be greater than null");
+
+        this.proxyHost = proxyHost;
+        this.proxyPort = proxyPort;
+
+        return this;
+    }
     
     /**
      * Sends a glance to pushover

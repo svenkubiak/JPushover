@@ -238,15 +238,20 @@ public class Message implements API {
     }
 
     /**
-     * Uses a given proxy for the HTTP requests to Pushover
+     * Sets the host and port for a proxy connection if needed
      *
-     * @param proxyHost The host that should be used for the Proxy
-     * @param proxyPort The port that should be used for the Proxy
-     * @return Message instance
+     * @param proxyHost the host for the proxy
+     * @param proxyPort the port for the proxy
+     *
+     * @return GLance instance
      */
     public Message withProxy(String proxyHost, int proxyPort) {
+        Objects.requireNonNull(proxyHost, "proxyHost can not be null");
+        Validate.checkArgument(proxyPort > 0, "proxyPort must be greater than null");
+
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
+
         return this;
     }
 
