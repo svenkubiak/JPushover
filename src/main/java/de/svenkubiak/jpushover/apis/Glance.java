@@ -20,7 +20,7 @@ import de.svenkubiak.jpushover.utils.Validate;
  *
  */
 public class Glance implements API {
-    private NavigableMap<String, String> body = new TreeMap<>();
+    private final NavigableMap<String, String> body = new TreeMap<>();
     private String proxyHost;
     private int proxyPort;
     

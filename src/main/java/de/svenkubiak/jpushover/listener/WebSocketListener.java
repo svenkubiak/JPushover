@@ -13,7 +13,7 @@ import java.util.concurrent.CompletionStage;
  *
  */
 public class WebSocketListener implements Listener {
-    private MessageListener messageListener;
+    private final MessageListener messageListener;
     
     public WebSocketListener (MessageListener messageListener) {
         Objects.requireNonNull(messageListener, "messageListener can not be null");

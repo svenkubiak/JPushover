@@ -9,25 +9,25 @@ public enum Sound {
     ALIEN("alien"),
     BIKE("bike"),
     BUGLE("bugle"),
-    CASHREGISTER("cashregister"),
+    CASH_REGISTER("cashregister"),
     CLASSICAL("classical"),
     CLIMB("climb"),
     COSMIC("cosmic"),
     ECHO("echo"),
     FALLING("falling"),
-    GAMELAN("gamelan"),
+    GAME_LAN("gamelan"),
     INCOMING("incoming"),
     INTERMISSION("intermission"),
     MAGIC("magic"),
     MECHANICAL("mechanical"),
     NONE("none"),
     PERSISTENT("persistent"),
-    PIANOBAR("pianobar"),
+    PIANO_BAR("pianobar"),
     PUSHOVER("pushover"),
     SIREN("siren"),
-    SPACEALARM("spacealarm"),
+    SPACE_ALARM("spacealarm"),
     TUGBOAT("tugboat"),
-    UPDOWN("updown");
+    UP_DOWN("updown");
     
     private final String value;
 

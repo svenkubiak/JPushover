@@ -13,7 +13,7 @@ import de.svenkubiak.jpushover.http.PushoverResponse;
  */
 public class AsyncService<T> {
     private static AsyncService<?> INSTANCE;
-    private final ExecutorService executorService = Executors.newFixedThreadPool(1);
+    private final ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
     
     @SuppressWarnings("rawtypes")
     public static AsyncService<?> getInstance() {
@@ -29,8 +29,6 @@ public class AsyncService<T> {
     }
     
     public void shutdown() {
-        if (executorService != null) {
-            executorService.shutdown();            
-        }
+        executorService.shutdown();
     }
 }

@@ -21,7 +21,7 @@ import de.svenkubiak.jpushover.listener.WebSocketListener;
  *
  */
 public class OpenClient {
-    private HttpClient client = HttpClient.newHttpClient();
+    private final HttpClient client = HttpClient.newHttpClient();
     private static final Duration TIMEOUT = Duration.ofSeconds(5);
     private static final String APPLICATION_JSON = "application/json";
     private static final String CONTENT_TYPE = "Content-Type";

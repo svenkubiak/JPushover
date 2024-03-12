@@ -11,7 +11,7 @@ import de.svenkubiak.jpushover.http.PushoverResponse;
  *
  */
 public class AsyncExecutor<T> implements Callable<PushoverResponse> {
-    private API api;
+    private final API api;
     
     public AsyncExecutor(API api) {
         this.api = api;
