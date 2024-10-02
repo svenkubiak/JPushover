@@ -1,5 +1,7 @@
 package de.svenkubiak.jpushover.http;
 
+import de.svenkubiak.jpushover.exceptions.JPushoverException;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
@@ -14,13 +16,6 @@ import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.OptionalLong;
 
-import de.svenkubiak.jpushover.exceptions.JPushoverException;
-
-/**
- * 
- * @author svenkubiak
- *
- */
 public class PushoverRequest {
     
     public PushoverResponse push(String url, NavigableMap<String, String> body, String proxyHost, int proxyPort) throws JPushoverException {

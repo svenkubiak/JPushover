@@ -7,11 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.concurrent.CompletionStage;
 
-/**
- * 
- * @author svenkubiak
- *
- */
 public class WebSocketListener implements Listener {
     private final MessageListener messageListener;
     

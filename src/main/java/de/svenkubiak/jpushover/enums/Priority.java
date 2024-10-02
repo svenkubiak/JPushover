@@ -1,10 +1,5 @@
 package de.svenkubiak.jpushover.enums;
 
-/**
- * 
- * @author svenkubiak
- *
- */
 public enum Priority {
     EMERGENCY("2"),
     HIGH("1"),

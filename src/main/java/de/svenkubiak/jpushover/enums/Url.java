@@ -1,10 +1,5 @@
 package de.svenkubiak.jpushover.enums;
 
-/**
- *
- * @author svenkubiak
- *
- */
 public enum Url {
     DELETE("https://api.pushover.net/1/devices/###DEVICE_ID###/update_highest_message.json"),
     DEVICE("https://api.pushover.net/1/devices.json"),

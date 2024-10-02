@@ -1,10 +1,5 @@
 package de.svenkubiak.jpushover.http;
 
-/**
- *
- * @author svenkubiak
- *
- */
 public class PushoverResponse {
     private String pushoverResponse;
     private long pushoverLimit;

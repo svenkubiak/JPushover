@@ -1,5 +1,11 @@
 package de.svenkubiak.jpushover.apis;
 
+import de.svenkubiak.jpushover.enums.Url;
+import de.svenkubiak.jpushover.exceptions.JPushoverException;
+import de.svenkubiak.jpushover.http.PushoverResponse;
+import de.svenkubiak.jpushover.listener.MessageListener;
+import de.svenkubiak.jpushover.listener.WebSocketListener;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -9,17 +15,6 @@ import java.net.http.WebSocket;
 import java.time.Duration;
 import java.util.Objects;
 
-import de.svenkubiak.jpushover.enums.Url;
-import de.svenkubiak.jpushover.exceptions.JPushoverException;
-import de.svenkubiak.jpushover.http.PushoverResponse;
-import de.svenkubiak.jpushover.listener.MessageListener;
-import de.svenkubiak.jpushover.listener.WebSocketListener;
-
-/**
- * 
- * @author svenkubiak
- *
- */
 public class OpenClient {
     private final HttpClient client = HttpClient.newHttpClient();
     private static final Duration TIMEOUT = Duration.ofSeconds(5);

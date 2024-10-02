@@ -1,10 +1,5 @@
 package de.svenkubiak.jpushover.enums;
 
-/**
- *
- * @author svenkubiak
- *
- */
 public enum Param {
     CALLBACK("callback"),
     COUNT("count"),

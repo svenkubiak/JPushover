@@ -1,10 +1,5 @@
 package de.svenkubiak.jpushover.listener;
 
-/**
- * 
- * @author svenkubiak
- *
- */
 public interface MessageListener {
     /**
      * Called when a new message is available/new messages are available

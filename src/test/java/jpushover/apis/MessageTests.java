@@ -1,17 +1,16 @@
 package jpushover.apis;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.IOException;
-
-import org.junit.jupiter.api.Test;
-
 import de.svenkubiak.jpushover.JPushover;
 import de.svenkubiak.jpushover.apis.Message;
 import de.svenkubiak.jpushover.enums.Param;
 import de.svenkubiak.jpushover.enums.Priority;
 import de.svenkubiak.jpushover.enums.Sound;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MessageTests {
     

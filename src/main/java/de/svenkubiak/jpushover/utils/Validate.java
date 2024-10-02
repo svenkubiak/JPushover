@@ -1,10 +1,5 @@
 package de.svenkubiak.jpushover.utils;
 
-/**
- * 
- * @author svenkubiak
- *
- */
 public final class Validate {
     /**
      * Ensures the truth of an expression involving one or more parameters to the calling method.

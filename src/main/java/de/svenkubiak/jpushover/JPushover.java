@@ -9,8 +9,6 @@ import de.svenkubiak.jpushover.apis.OpenClient;
  * Zero-dependency convenient class for working with the Pushover API
  * See <a href="https://pushover.net/api">Pushover API</a> for API details
  *
- * @author svenkubiak
- *
  */
 public class JPushover {
     /**

@@ -1,10 +1,5 @@
 package de.svenkubiak.jpushover.apis;
 
-import java.util.NavigableMap;
-import java.util.Objects;
-import java.util.TreeMap;
-import java.util.concurrent.Future;
-
 import de.svenkubiak.jpushover.enums.Param;
 import de.svenkubiak.jpushover.enums.Url;
 import de.svenkubiak.jpushover.exceptions.JPushoverException;
@@ -14,11 +9,11 @@ import de.svenkubiak.jpushover.services.AsyncExecutor;
 import de.svenkubiak.jpushover.services.AsyncService;
 import de.svenkubiak.jpushover.utils.Validate;
 
-/**
- * 
- * @author svenkubiak
- *
- */
+import java.util.NavigableMap;
+import java.util.Objects;
+import java.util.TreeMap;
+import java.util.concurrent.Future;
+
 public class Glance implements API {
     private final NavigableMap<String, String> body = new TreeMap<>();
     private String proxyHost;

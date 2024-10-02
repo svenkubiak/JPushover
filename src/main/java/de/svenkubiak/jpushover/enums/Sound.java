@@ -1,10 +1,5 @@
 package de.svenkubiak.jpushover.enums;
 
-/**
- * 
- * @author svenkubiak
- *
- */
 public enum Sound {
     ALIEN("alien"),
     BIKE("bike"),
