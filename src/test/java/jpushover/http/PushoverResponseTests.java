@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PushoverResponseTests {
+class PushoverResponseTests {
 
     @Test
     void testConstruct() {

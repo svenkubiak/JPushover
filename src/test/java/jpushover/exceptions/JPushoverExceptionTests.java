@@ -8,7 +8,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class JPushoverExceptionTests {
+class JPushoverExceptionTests {
 
     @Test
     void testValidateTrue() {
