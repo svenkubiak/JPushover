@@ -1,4 +1,5 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.svenkubiak/jpushover/badge.svg)](https://mvnrepository.com/artifact/de.svenkubiak/jpushover)
+[![Coverage](https://sonar.svenkubiak.de/badges/jpushover)](https://sonar.svenkubiak.de/badges/jpushover)
 
 JPushover
 ================
