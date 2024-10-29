@@ -61,14 +61,14 @@ public class PushoverRequest {
     
     private String toJson(NavigableMap<String, String> body) {
         var buffer = new StringBuilder();
-        buffer.append("{");
+        buffer.append('{');
         for (Map.Entry<String, String> entry : body.entrySet()) {
-            buffer.append("\"").append(entry.getKey()).append("\"");
-            buffer.append(":");
-            buffer.append("\"").append(entry.getValue()).append("\"");
-            buffer.append(",");
+            buffer.append('\'').append(entry.getKey()).append('\'');
+            buffer.append(':');
+            buffer.append('\'').append(entry.getValue()).append('\'');
+            buffer.append(',');
         }
-        buffer.append("}");
+        buffer.append('}');
 
         return buffer.toString().replace(",}", "}");
     }
