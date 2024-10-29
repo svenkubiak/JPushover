@@ -11,6 +11,10 @@ import de.svenkubiak.jpushover.apis.OpenClient;
  *
  */
 public class JPushover {
+
+    private JPushover() {
+    }
+
     /**
      * Creates a new Glance instance for the Glances API
      * 
