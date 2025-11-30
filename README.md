@@ -9,7 +9,9 @@ A simple, minimal (18 KB), zero-dependency convenient class for sending messages
 
 Supports [Messages API][3], [Glances API][4] and [OpenClient API][5]. Send synchronous or asynchronous.
 
-Requires Java 21.
+7.x requires Java 21.
+
+8.x requires Java 25.
 
 Usage
 ------------------
