@@ -1,5 +1,6 @@
 [![Maven Central](https://img.shields.io/maven-central/v/de.svenkubiak/jpushover)](https://mvnrepository.com/artifact/de.svenkubiak/jpushover)
 [![Coverage](https://sonar.svenkubiak.de/badges/jpushover)](https://sonar.svenkubiak.de/badges/jpushover)
+![SemVer](https://img.shields.io/badge/SemVer-2.0.0-green)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-%F0%9F%8D%BA-yellow)](https://buymeacoffee.com/svenkubiak)
 
 JPushover
