@@ -5,3 +5,4 @@
 /target
 /*.versionsBackup
 /bin
+.claude/settings.local.json
